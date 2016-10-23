@@ -1,0 +1,23 @@
+{
+  "name": "fms-recipes-api",
+  "version": "0.0.1",
+  "description": "API code for Follow My Stomach's recipe management and sharing system.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/caltemose/fms-recipes-api.git"
+  },
+  "keywords": [
+    "recipes",
+    "api"
+  ],
+  "author": "Chad L. Altemose",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/caltemose/fms-recipes-api/issues"
+  },
+  "homepage": "https://github.com/caltemose/fms-recipes-api#readme"
+}
