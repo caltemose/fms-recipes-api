@@ -4,7 +4,7 @@
   "description": "API code for Follow My Stomach's recipe management and sharing system.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -19,5 +19,16 @@
   "bugs": {
     "url": "https://github.com/caltemose/fms-recipes-api/issues"
   },
-  "homepage": "https://github.com/caltemose/fms-recipes-api#readme"
+  "homepage": "https://github.com/caltemose/fms-recipes-api#readme",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "cookie-parser": "^1.4.3",
+    "cors": "^2.8.1",
+    "express": "^4.14.0",
+    "mongoose": "^4.6.5",
+    "passport": "^0.3.2"
+  },
+  "devDependencies": {
+    "morgan": "^1.7.0"
+  }
 }
