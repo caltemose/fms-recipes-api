@@ -1,14 +1,14 @@
 const express = require('express')
 const router = express.Router()
-const recipes = require('../../../helpers/db/recipes')
+const recipes = require('../../helpers/db/recipes')
 
 router.get('/', (req, res) => {
     recipes.getRecipes(req.query.filter)
         .then(docs => {
-            res.json({ recipes: docs })
+            res.render('recipes', { recipes: docs })
         })
         .catch(err => {
-            res.json({ err: err })
+            res.render('recipes', { err: err })
         })
 })
 
@@ -19,10 +19,10 @@ router.get('/:id', (req, res) => {
 
     recipes.getRecipeById(id)
         .then(doc => {
-            res.json({ recipe: doc })
+            res.render('recipe', { recipe: doc })
         })
         .catch(err => {
-            res.json({ err: err })
+            res.json('recipe', { err: err })
         })
 })
 

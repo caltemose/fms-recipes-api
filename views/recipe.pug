@@ -1,0 +1,50 @@
+extends _layout.pug
+
+block content
+    article.Recipe
+        h1= recipe.label
+
+        .Recipe-Status
+            if recipe.core
+                span core
+            if !recipe.active
+                span inactive
+
+        h2 Ingredients
+
+        ul.Ingredients
+            each ingredient in recipe.ingredients
+                li
+                    span.Ingredient-Measurement #{ingredient.amount.value} #{ingredient.amount.unit}
+                    |
+                    |
+                    span.Ingredient-Name #{ingredient.label}
+                    |
+                    |
+                    span.Ingredient-Notes #{ingredient.notes}
+
+
+        h2 Directions
+
+        .Directions= recipe.directions
+
+        if typeof(recipe.yield.amount) !== 'undefined'
+            h3 Yield
+
+            .Yeild #{recipe.yield.amount} #{recipe.yield.label}
+
+
+        if (typeof(recipe.source.url) !== 'undefined' || typeof(recipe.source.name) !== 'undefined' || typeof(recipe.source.author) !== 'undefined')
+            h3 Source
+
+            if recipe.source.url
+                a(href=recipe.source.url).Source-Url #{recipe.source.url}
+
+            if recipe.source.name
+                .Source-Name #{recipe.source.name}
+
+            if recipe.source.author
+                .Source-Author #{recipe.source.author}
+
+block scripts
+    script(src="/js/recipe.js")

@@ -1,0 +1,10 @@
+extends _layout.pug
+
+block content
+    article
+        h1 Recipes
+        
+        ul.RecipeList
+            each recipe in recipes
+                li
+                    a(href=`/recipes/${recipe._id}`)= recipe.label

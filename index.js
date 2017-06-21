@@ -8,9 +8,10 @@ const port = process.env.PORT || config.port
 
 const models = require('./models/')
 
-// app.use(express.static('public'))
 // app.use(bodyParser.urlencoded({extended: false}))
 // app.use(bodyParser.json())
+app.set('view engine', 'pug')
+app.use(express.static('public'))
 app.listen(port)
 
 mongoose.connect(config.dbHost + config.db, function (err) {

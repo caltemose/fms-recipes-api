@@ -4,7 +4,8 @@
   "description": "Recipe management system.",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "nodemon index.js",
+    "webpack": "webpack"
   },
   "repository": {
     "type": "git",
@@ -23,7 +24,14 @@
   "dependencies": {
     "express": "^4.15.3",
     "mongoose": "^4.10.7",
-    "nodemon": "^1.11.0"
+    "nodemon": "^1.11.0",
+    "pug": "^2.0.0-rc.2",
+    "slugg": "^1.2.1"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "babel-core": "^6.25.0",
+    "babel-loader": "^7.1.0",
+    "babel-preset-env": "^1.5.2",
+    "webpack": "^3.0.0"
+  }
 }
