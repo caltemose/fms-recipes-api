@@ -1,4 +1,5 @@
 import EditableTextInput from './EditableTextInput'
+import EditableUrlInput from './EditableUrlInput'
 
 export default class EditableRecipe {
     constructor (element) {
@@ -6,13 +7,19 @@ export default class EditableRecipe {
         this.recipe = {
             _id: element.dataset.recipeId
         }
-        console.log('EditableRecipe :: constructor :: ', this.recipe._id)
 
-        const editableTextInputs = this.element.querySelectorAll('.EditableInputText')
-        this.editableTextInputs = []
+        // const editableTextInputs = this.element.querySelectorAll('.EditableInputText')
+        // for(let i=0; i<editableTextInputs.length; i++) {
+        //     new EditableTextInput(editableTextInputs[i])
+        // }
 
-        for(let i=0; i<editableTextInputs.length; i++) {
-            this.editableTextInputs.push(new EditableTextInput(editableTextInputs[i]))
+        // recipe.label (title) editable input
+        const titleInput = this.element.querySelector('.Recipe-Title').querySelector('input')
+        new EditableTextInput(titleInput)
+
+        const editableUrlInputs = this.element.querySelectorAll('.EditableUrlInput')
+        for(let i=0; i<editableUrlInputs.length; i++) {
+            new EditableUrlInput(editableUrlInputs[i])
         }
     }
 }

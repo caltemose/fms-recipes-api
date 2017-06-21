@@ -1,9 +1,10 @@
 extends _layout.pug
 include components/editable-input-text.pug
+include components/editable-url-input.pug
 
 block content
     article.Recipe(data-recipe-id=recipe._id)
-        h1
+        h1.Recipe-Title
             +editableInputText(recipe.label, `/api/recipes/${recipe._id}/label`)
 
         .Recipe-Status
@@ -40,7 +41,7 @@ block content
             h3 Source
 
             if recipe.source.url
-                a(href=recipe.source.url).Source-Url #{recipe.source.url}
+                +editableUrlInput(recipe.source.url, `/api/recipes/${recipe._id}/source.url`)
 
             if recipe.source.name
                 .Source-Name #{recipe.source.name}

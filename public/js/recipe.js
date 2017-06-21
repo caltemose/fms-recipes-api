@@ -964,6 +964,10 @@ var _EditableTextInput = __webpack_require__(10);
 
 var _EditableTextInput2 = _interopRequireDefault(_EditableTextInput);
 
+var _EditableUrlInput = __webpack_require__(30);
+
+var _EditableUrlInput2 = _interopRequireDefault(_EditableUrlInput);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -974,14 +978,19 @@ var EditableRecipe = function EditableRecipe(element) {
     this.element = element;
     this.recipe = {
         _id: element.dataset.recipeId
-    };
-    console.log('EditableRecipe :: constructor :: ', this.recipe._id);
 
-    var editableTextInputs = this.element.querySelectorAll('.EditableInputText');
-    this.editableTextInputs = [];
+        // const editableTextInputs = this.element.querySelectorAll('.EditableInputText')
+        // for(let i=0; i<editableTextInputs.length; i++) {
+        //     new EditableTextInput(editableTextInputs[i])
+        // }
 
-    for (var i = 0; i < editableTextInputs.length; i++) {
-        this.editableTextInputs.push(new _EditableTextInput2.default(editableTextInputs[i]));
+        // recipe.label (title) editable input
+    };var titleInput = this.element.querySelector('.Recipe-Title').querySelector('input');
+    new _EditableTextInput2.default(titleInput);
+
+    var editableUrlInputs = this.element.querySelectorAll('.EditableUrlInput');
+    for (var i = 0; i < editableUrlInputs.length; i++) {
+        new _EditableUrlInput2.default(editableUrlInputs[i]);
     }
 };
 
@@ -1040,7 +1049,7 @@ var EditableTextInput = function () {
                 value: this.element.value
             };
             _axios2.default.post(this.endpoint, data).then(function (response) {
-                console.log(response);
+                // console.log(response)
             }).catch(function (err) {
                 console.error(err);
                 alert(err);
@@ -1926,6 +1935,75 @@ module.exports = function spread(callback) {
   };
 };
 
+
+/***/ }),
+/* 30 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _axios = __webpack_require__(11);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var EditableUrlInput = function () {
+    function EditableUrlInput(element) {
+        _classCallCheck(this, EditableUrlInput);
+
+        this.element = element;
+        this.endpoint = this.element.dataset.endpoint;
+        this.url = this.element.dataset.url;
+        // this.input = this.element.querySelector('input')
+        this.anchor = this.element.querySelector('a');
+        console.log(this);
+        // this.element.addEventListener('focus', this.onFocus.bind(this))
+        // this.element.addEventListener('blur', this.onBlur.bind(this))
+    }
+
+    _createClass(EditableUrlInput, [{
+        key: 'onFocus',
+        value: function onFocus(event) {
+            this.value = this.element.value;
+            this.element.removeAttribute('readonly');
+        }
+    }, {
+        key: 'onBlur',
+        value: function onBlur(event) {
+            if (this.value !== this.element.value) {
+                this.save();
+            }
+            this.element.setAttribute('readonly', true);
+        }
+    }, {
+        key: 'save',
+        value: function save() {
+            var data = {
+                value: this.element.value
+            };
+            _axios2.default.post(this.endpoint, data).then(function (response) {
+                // console.log(response)
+            }).catch(function (err) {
+                console.error(err);
+                alert(err);
+            });
+        }
+    }]);
+
+    return EditableUrlInput;
+}();
+
+exports.default = EditableUrlInput;
 
 /***/ })
 /******/ ]);

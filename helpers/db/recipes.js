@@ -38,6 +38,11 @@ module.exports = {
             const update = {}
             update[property] = value
 
+            // TODO is the recipe.name property necessary? a slug would be more useful
+            if (property === 'label') {
+                update.name = value.toLowerCase()
+            }
+
             Recipe.findByIdAndUpdate(id, { $set: update }, (err, recipe) => {
                 if (err) reject(err)
                 else resolve({ success: true })
