@@ -6,12 +6,14 @@ const express = require('express'),
 const app = express()
 const port = process.env.PORT || config.port
 
+const models = require('./models/')
+
 // app.use(express.static('public'))
 // app.use(bodyParser.urlencoded({extended: false}))
 // app.use(bodyParser.json())
 app.listen(port)
 
-mongoose.connect(config.dbHost, function (err) {
+mongoose.connect(config.dbHost + config.db, function (err) {
     if (err) {
         console.log('fms-recipes running in NO_DATABASE mode on port:', port)
         // use no-mongo routing to catch all routes and display appropriate content
