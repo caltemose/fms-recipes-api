@@ -3,7 +3,7 @@ const path = require('path')
 
 module.exports = {
     entry: {
-        recipe: './src/js/recipe.js'
+        recipe: './src/js/pages/recipe.js'
     },
     module: {
         rules: [

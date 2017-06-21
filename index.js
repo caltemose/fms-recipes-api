@@ -1,15 +1,17 @@
-const express = require('express'),
-    // bodyParser = require('body-parser'),
-    mongoose = require('mongoose'),
-    config = require('./config/config.js')
+const path = require('path')
+const express = require('express')
+const logger = require('morgan')
+const bodyParser = require('body-parser')
+const mongoose = require('mongoose')
+const config = require('./config/config.js')
 
 const app = express()
 const port = process.env.PORT || config.port
 
 const models = require('./models/')
 
-// app.use(bodyParser.urlencoded({extended: false}))
-// app.use(bodyParser.json())
+app.use(logger('tiny'))
+app.use(bodyParser.json())
 app.set('view engine', 'pug')
 app.use(express.static('public'))
 app.listen(port)

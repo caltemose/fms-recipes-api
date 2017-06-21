@@ -21,10 +21,26 @@ module.exports = {
     getRecipeById: function getRecipeById (id) {
         if (!id)
             throw new Error('Recipe ID not supplied.')
+
         return new Promise((resolve, reject) => {
             Recipe.findById(id, (err, doc) => {
                 if (err) reject(err)
                 else resolve(doc)
+            })
+        })
+    },
+
+    updateRecipeProperty: function updateRecipeProperty (id, property, value) {
+        if (!id || !property || !value)
+            throw new Error('Insufficient recipe data provided.')
+
+        return new Promise((resolve, reject) => {
+            const update = {}
+            update[property] = value
+
+            Recipe.findByIdAndUpdate(id, { $set: update }, (err, recipe) => {
+                if (err) reject(err)
+                else resolve({ success: true })
             })
         })
     }

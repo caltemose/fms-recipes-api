@@ -1,8 +1,10 @@
 extends _layout.pug
+include components/editable-input-text.pug
 
 block content
-    article.Recipe
-        h1= recipe.label
+    article.Recipe(data-recipe-id=recipe._id)
+        h1
+            +editableInputText(recipe.label, `/api/recipes/${recipe._id}/label`)
 
         .Recipe-Status
             if recipe.core

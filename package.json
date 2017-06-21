@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js",
-    "webpack": "webpack"
+    "webpack": "webpack -w",
+    "sass": "node-sass src/sass/main.sass public/styles/main.css -w",
+    "dev": "npm run webpack & npm run sass"
   },
   "repository": {
     "type": "git",
@@ -22,6 +24,7 @@
   },
   "homepage": "https://github.com/caltemose/fms-recipes-api#readme",
   "dependencies": {
+    "body-parser": "^1.17.2",
     "express": "^4.15.3",
     "mongoose": "^4.10.7",
     "nodemon": "^1.11.0",
@@ -29,9 +32,12 @@
     "slugg": "^1.2.1"
   },
   "devDependencies": {
+    "axios": "^0.16.2",
     "babel-core": "^6.25.0",
     "babel-loader": "^7.1.0",
     "babel-preset-env": "^1.5.2",
+    "morgan": "^1.8.2",
+    "node-sass": "^4.5.3",
     "webpack": "^3.0.0"
   }
 }

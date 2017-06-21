@@ -26,4 +26,17 @@ router.get('/:id', (req, res) => {
         })
 })
 
+router.post('/:id/:property', (req, res) => {
+    const id = req.params.id
+    const property = req.params.property
+    const value = req.body.value
+    recipes.updateRecipeProperty(id, property, value)
+        .then(result => {
+            res.json({ success: true })
+        })
+        .catch(err => {
+            res.json({ err: err })
+        })
+})
+
 module.exports = router
