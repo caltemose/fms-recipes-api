@@ -29,7 +29,8 @@ var schema = mongoose.Schema({
         total: Number
     },
     ingredients: Array,
-    directions: String,
+    directions: Array,
+    dir: String,
     images: Array,
     tags: Array
 });

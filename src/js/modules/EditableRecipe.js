@@ -1,6 +1,7 @@
 import EditableTextInput from './EditableTextInput'
 import EditableUrlInput from './EditableUrlInput'
 import EditableCheckbox from './EditableCheckbox'
+import EditableRecipeDirections from './EditableRecipeDirections'
 
 export default class EditableRecipe {
     constructor (element) {
@@ -24,5 +25,8 @@ export default class EditableRecipe {
         for(let i=0; i<editableCheckboxes.length; i++) {
             new EditableCheckbox(editableCheckboxes[i])
         }
+
+        const directions = this.element.querySelector('.RecipeDirections')
+        new EditableRecipeDirections(directions)
     }
 }

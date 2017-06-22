@@ -1,0 +1,9 @@
+mixin editableRecipeDirections(directions, endpoint)
+    .RecipeDirections(data-endpoint=endpoint)
+        ul.RecipeDirections-List
+        if recipe.directions
+            each direction in recipe.directions
+                li
+                    textarea.EditableTextArea(data-endpoint=endpoint)= direction
+
+        button.RecipeDirections-Add Add Step

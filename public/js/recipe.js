@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 9);
+/******/ 	return __webpack_require__(__webpack_require__.s = 10);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -70,7 +70,7 @@
 "use strict";
 
 
-var bind = __webpack_require__(3);
+var bind = __webpack_require__(4);
 var isBuffer = __webpack_require__(13);
 
 /*global toString:true*/
@@ -377,6 +377,12 @@ module.exports = {
 /* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
+module.exports = __webpack_require__(12);
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {
 
@@ -397,10 +403,10 @@ function getDefaultAdapter() {
   var adapter;
   if (typeof XMLHttpRequest !== 'undefined') {
     // For browsers use XHR adapter
-    adapter = __webpack_require__(5);
+    adapter = __webpack_require__(6);
   } else if (typeof process !== 'undefined') {
     // For node use HTTP adapter
-    adapter = __webpack_require__(5);
+    adapter = __webpack_require__(6);
   }
   return adapter;
 }
@@ -471,16 +477,94 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 
 module.exports = defaults;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
-
-/***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(12);
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ }),
 /* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _axios = __webpack_require__(1);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var EditableTextInput = function () {
+    function EditableTextInput(element) {
+        _classCallCheck(this, EditableTextInput);
+
+        this.element = element;
+        this.endpoint = this.element.dataset.endpoint;
+        this.value = this.element.value;
+        this.element.addEventListener('focus', this.onFocus.bind(this));
+        this.element.addEventListener('blur', this.onBlur.bind(this));
+        this.subscribers = [];
+
+        return this;
+    }
+
+    _createClass(EditableTextInput, [{
+        key: 'onFocus',
+        value: function onFocus(event) {
+            this.value = this.element.value;
+            this.element.removeAttribute('readonly');
+        }
+    }, {
+        key: 'onBlur',
+        value: function onBlur(event) {
+            if (this.value !== this.element.value) {
+                this.save();
+            }
+            this.element.setAttribute('readonly', true);
+        }
+    }, {
+        key: 'save',
+        value: function save() {
+            var _this = this;
+
+            var data = {
+                value: this.element.value
+            };
+            _axios2.default.post(this.endpoint, data).then(function (response) {
+                _this.value = _this.element.value;
+                _this.subscribers.forEach(function (subscriber) {
+                    return subscriber();
+                });
+            }).catch(function (err) {
+                console.error(err);
+                alert(err);
+            });
+        }
+    }, {
+        key: 'subscribeToSaved',
+        value: function subscribeToSaved(callback) {
+            this.subscribers.push(callback);
+        }
+    }, {
+        key: 'getValue',
+        value: function getValue() {
+            return this.value;
+        }
+    }]);
+
+    return EditableTextInput;
+}();
+
+exports.default = EditableTextInput;
+
+/***/ }),
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -498,7 +582,7 @@ module.exports = function bind(fn, thisArg) {
 
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -688,7 +772,7 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -699,7 +783,7 @@ var settle = __webpack_require__(16);
 var buildURL = __webpack_require__(18);
 var parseHeaders = __webpack_require__(19);
 var isURLSameOrigin = __webpack_require__(20);
-var createError = __webpack_require__(6);
+var createError = __webpack_require__(7);
 var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(21);
 
 module.exports = function xhrAdapter(config) {
@@ -873,10 +957,10 @@ module.exports = function xhrAdapter(config) {
   });
 };
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -901,7 +985,7 @@ module.exports = function createError(message, config, code, request, response) 
 
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -913,7 +997,7 @@ module.exports = function isCancel(value) {
 
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -939,13 +1023,13 @@ module.exports = Cancel;
 
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _EditableRecipe = __webpack_require__(10);
+var _EditableRecipe = __webpack_require__(11);
 
 var _EditableRecipe2 = _interopRequireDefault(_EditableRecipe);
 
@@ -956,7 +1040,7 @@ var recipeEl = document.getElementsByClassName('Recipe')[0];
 var recipe = new _EditableRecipe2.default(recipeEl);
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -966,7 +1050,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _EditableTextInput = __webpack_require__(11);
+var _EditableTextInput = __webpack_require__(3);
 
 var _EditableTextInput2 = _interopRequireDefault(_EditableTextInput);
 
@@ -977,6 +1061,10 @@ var _EditableUrlInput2 = _interopRequireDefault(_EditableUrlInput);
 var _EditableCheckbox = __webpack_require__(31);
 
 var _EditableCheckbox2 = _interopRequireDefault(_EditableCheckbox);
+
+var _EditableRecipeDirections = __webpack_require__(32);
+
+var _EditableRecipeDirections2 = _interopRequireDefault(_EditableRecipeDirections);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1004,93 +1092,12 @@ var EditableRecipe = function EditableRecipe(element) {
     for (var _i = 0; _i < editableCheckboxes.length; _i++) {
         new _EditableCheckbox2.default(editableCheckboxes[_i]);
     }
+
+    var directions = this.element.querySelector('.RecipeDirections');
+    new _EditableRecipeDirections2.default(directions);
 };
 
 exports.default = EditableRecipe;
-
-/***/ }),
-/* 11 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _axios = __webpack_require__(2);
-
-var _axios2 = _interopRequireDefault(_axios);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var EditableTextInput = function () {
-    function EditableTextInput(element) {
-        _classCallCheck(this, EditableTextInput);
-
-        this.element = element;
-        this.endpoint = this.element.dataset.endpoint;
-        this.value = this.element.value;
-        this.element.addEventListener('focus', this.onFocus.bind(this));
-        this.element.addEventListener('blur', this.onBlur.bind(this));
-        this.subscribers = [];
-
-        return this;
-    }
-
-    _createClass(EditableTextInput, [{
-        key: 'onFocus',
-        value: function onFocus(event) {
-            this.value = this.element.value;
-            this.element.removeAttribute('readonly');
-        }
-    }, {
-        key: 'onBlur',
-        value: function onBlur(event) {
-            if (this.value !== this.element.value) {
-                this.save();
-            }
-            this.element.setAttribute('readonly', true);
-        }
-    }, {
-        key: 'save',
-        value: function save() {
-            var _this = this;
-
-            var data = {
-                value: this.element.value
-            };
-            _axios2.default.post(this.endpoint, data).then(function (response) {
-                _this.value = _this.element.value;
-                _this.subscribers.forEach(function (subscriber) {
-                    return subscriber();
-                });
-            }).catch(function (err) {
-                console.error(err);
-                alert(err);
-            });
-        }
-    }, {
-        key: 'subscribeToSaved',
-        value: function subscribeToSaved(callback) {
-            this.subscribers.push(callback);
-        }
-    }, {
-        key: 'getValue',
-        value: function getValue() {
-            return this.value;
-        }
-    }]);
-
-    return EditableTextInput;
-}();
-
-exports.default = EditableTextInput;
 
 /***/ }),
 /* 12 */
@@ -1100,9 +1107,9 @@ exports.default = EditableTextInput;
 
 
 var utils = __webpack_require__(0);
-var bind = __webpack_require__(3);
+var bind = __webpack_require__(4);
 var Axios = __webpack_require__(14);
-var defaults = __webpack_require__(1);
+var defaults = __webpack_require__(2);
 
 /**
  * Create an instance of Axios
@@ -1135,9 +1142,9 @@ axios.create = function create(instanceConfig) {
 };
 
 // Expose Cancel & CancelToken
-axios.Cancel = __webpack_require__(8);
+axios.Cancel = __webpack_require__(9);
 axios.CancelToken = __webpack_require__(28);
-axios.isCancel = __webpack_require__(7);
+axios.isCancel = __webpack_require__(8);
 
 // Expose all/spread
 axios.all = function all(promises) {
@@ -1185,7 +1192,7 @@ function isSlowBuffer (obj) {
 "use strict";
 
 
-var defaults = __webpack_require__(1);
+var defaults = __webpack_require__(2);
 var utils = __webpack_require__(0);
 var InterceptorManager = __webpack_require__(23);
 var dispatchRequest = __webpack_require__(24);
@@ -1297,7 +1304,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 "use strict";
 
 
-var createError = __webpack_require__(6);
+var createError = __webpack_require__(7);
 
 /**
  * Resolve or reject a Promise based on response status.
@@ -1716,8 +1723,8 @@ module.exports = InterceptorManager;
 
 var utils = __webpack_require__(0);
 var transformData = __webpack_require__(25);
-var isCancel = __webpack_require__(7);
-var defaults = __webpack_require__(1);
+var isCancel = __webpack_require__(8);
+var defaults = __webpack_require__(2);
 
 /**
  * Throws a `Cancel` if cancellation has been requested.
@@ -1869,7 +1876,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 "use strict";
 
 
-var Cancel = __webpack_require__(8);
+var Cancel = __webpack_require__(9);
 
 /**
  * A `CancelToken` is an object that can be used to request cancellation of an operation.
@@ -1973,11 +1980,11 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _axios = __webpack_require__(2);
+var _axios = __webpack_require__(1);
 
 var _axios2 = _interopRequireDefault(_axios);
 
-var _EditableTextInput = __webpack_require__(11);
+var _EditableTextInput = __webpack_require__(3);
 
 var _EditableTextInput2 = _interopRequireDefault(_EditableTextInput);
 
@@ -2043,7 +2050,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _axios = __webpack_require__(2);
+var _axios = __webpack_require__(1);
 
 var _axios2 = _interopRequireDefault(_axios);
 
@@ -2080,6 +2087,70 @@ var EditableCheckbox = function () {
 }();
 
 exports.default = EditableCheckbox;
+
+/***/ }),
+/* 32 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _axios = __webpack_require__(1);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var EditableRecipeDirections = function () {
+    function EditableRecipeDirections(element) {
+        _classCallCheck(this, EditableRecipeDirections);
+
+        this.element = element;
+        this.endpoint = element.dataset.endpoint;
+        this.list = this.element.querySelector('.RecipeDirections-List');
+        this.addStep = this.element.querySelector('.RecipeDirections-Add');
+        console.log(this.element, this.addStep);
+        this.addStep.addEventListener('click', this.onAddStep.bind(this));
+
+        // Editable Direction Steps (list items)
+        // const steps = this.list.querySelectorAll('.EditableTextArea')
+        // for(let i=0; i<steps.length; i++) {
+        //     new EditableTextArea(steps[i])
+        // }
+
+        return this;
+    }
+
+    _createClass(EditableRecipeDirections, [{
+        key: 'onAddStep',
+        value: function onAddStep(event) {
+            var li = document.createElement('li');
+            var textarea = document.createElement('textarea');
+            textarea.setAttribute('data-endpoint', this.endpoint);
+            textarea.classList.add('.EditableTextArea');
+            li.appendChild(textarea);
+            this.list.appendChild(li);
+            // new EditableTextArea(textarea)
+        }
+    }]);
+
+    return EditableRecipeDirections;
+}();
+/*
+li
+    textarea.EditableTextArea(data-endpoint=endpoint)= direction
+*/
+
+
+exports.default = EditableRecipeDirections;
 
 /***/ })
 /******/ ]);

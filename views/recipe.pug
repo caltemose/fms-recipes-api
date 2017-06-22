@@ -2,6 +2,7 @@ extends _layout.pug
 include components/editable-input-text.pug
 include components/editable-url-input.pug
 include components/editable-checkbox.pug
+include components/editable-recipe-directions.pug
 
 block content
     article.Recipe(data-recipe-id=recipe._id)
@@ -28,7 +29,9 @@ block content
 
         h2 Directions
 
-        .RecipeDirections= recipe.directions
+        .RecipeDirectionsText #{recipe.dir}
+
+        +editableRecipeDirections(recipe.directions, `/api/recipes/${recipe._id}/ingredients`)
 
         if typeof(recipe.yield.amount) !== 'undefined'
             h3 Yield
