@@ -1,0 +1,4 @@
+mixin editableCheckbox(checked, endpoint, label)
+    label(data-endpoint=endpoint).EditableCheckbox
+        input(type="checkbox" checked=checked) 
+        | #{label}

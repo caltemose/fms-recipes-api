@@ -1,40 +1,39 @@
 extends _layout.pug
 include components/editable-input-text.pug
 include components/editable-url-input.pug
+include components/editable-checkbox.pug
 
 block content
     article.Recipe(data-recipe-id=recipe._id)
-        h1.Recipe-Title
+        h1.RecipeTitle
             +editableInputText(recipe.label, `/api/recipes/${recipe._id}/label`)
 
-        .Recipe-Status
-            if recipe.core
-                span core
-            if !recipe.active
-                span inactive
+        .RecipeStatus
+            +editableCheckbox(recipe.core, `/api/recipes/${recipe._id}/core`, 'core recipe')
+            +editableCheckbox(recipe.active, `/api/recipes/${recipe._id}/active`, 'recipe active')
 
         h2 Ingredients
 
-        ul.Ingredients
+        ul.RecipeIngredients
             each ingredient in recipe.ingredients
                 li
-                    span.Ingredient-Measurement #{ingredient.amount.value} #{ingredient.amount.unit}
+                    span.RecipeIngredient-Measurement #{ingredient.amount.value} #{ingredient.amount.unit}
                     |
                     |
-                    span.Ingredient-Name #{ingredient.label}
+                    span.RecipeIngredient-Name #{ingredient.label}
                     |
                     |
-                    span.Ingredient-Notes #{ingredient.notes}
+                    span.RecipeIngredient-Notes #{ingredient.notes}
 
 
         h2 Directions
 
-        .Directions= recipe.directions
+        .RecipeDirections= recipe.directions
 
         if typeof(recipe.yield.amount) !== 'undefined'
             h3 Yield
 
-            .Yeild #{recipe.yield.amount} #{recipe.yield.label}
+            .RecipeYeild #{recipe.yield.amount} #{recipe.yield.label}
 
 
         if (typeof(recipe.source.url) !== 'undefined' || typeof(recipe.source.name) !== 'undefined' || typeof(recipe.source.author) !== 'undefined')
@@ -44,10 +43,10 @@ block content
                 +editableUrlInput(recipe.source.url, `/api/recipes/${recipe._id}/source.url`)
 
             if recipe.source.name
-                .Source-Name #{recipe.source.name}
+                .RecipeSource-Name #{recipe.source.name}
 
             if recipe.source.author
-                .Source-Author #{recipe.source.author}
+                .RecipeSource-Author #{recipe.source.author}
 
 block scripts
     script(src="/js/recipe.js")

@@ -31,7 +31,7 @@ module.exports = {
     },
 
     updateRecipeProperty: function updateRecipeProperty (id, property, value) {
-        if (!id || !property || !value)
+        if (!id || !property || value === 'undefined' || value === null)
             throw new Error('Insufficient recipe data provided.')
 
         return new Promise((resolve, reject) => {

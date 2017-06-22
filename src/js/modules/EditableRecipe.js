@@ -1,5 +1,6 @@
 import EditableTextInput from './EditableTextInput'
 import EditableUrlInput from './EditableUrlInput'
+import EditableCheckbox from './EditableCheckbox'
 
 export default class EditableRecipe {
     constructor (element) {
@@ -8,18 +9,20 @@ export default class EditableRecipe {
             _id: element.dataset.recipeId
         }
 
-        // const editableTextInputs = this.element.querySelectorAll('.EditableInputText')
-        // for(let i=0; i<editableTextInputs.length; i++) {
-        //     new EditableTextInput(editableTextInputs[i])
-        // }
-
-        // recipe.label (title) editable input
-        const titleInput = this.element.querySelector('.Recipe-Title').querySelector('input')
+        // Editable Recipe Title
+        const titleInput = this.element.querySelector('.RecipeTitle').querySelector('input')
         new EditableTextInput(titleInput)
 
+        // Editable URL Inputs (Source Link)
         const editableUrlInputs = this.element.querySelectorAll('.EditableUrlInput')
         for(let i=0; i<editableUrlInputs.length; i++) {
             new EditableUrlInput(editableUrlInputs[i])
+        }
+
+        // Editable Checkboxes (core, active)
+        const editableCheckboxes = this.element.querySelectorAll('.EditableCheckbox')
+        for(let i=0; i<editableCheckboxes.length; i++) {
+            new EditableCheckbox(editableCheckboxes[i])
         }
     }
 }

@@ -7,7 +7,7 @@
     "start": "nodemon index.js",
     "webpack": "webpack -w",
     "sass": "node-sass src/sass/main.sass public/styles/main.css -w",
-    "dev": "npm run webpack & npm run sass"
+    "dev": "npm run webpack & npm run sass & npm start"
   },
   "repository": {
     "type": "git",

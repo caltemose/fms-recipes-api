@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 8);
+/******/ 	return __webpack_require__(__webpack_require__.s = 9);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -70,7 +70,7 @@
 "use strict";
 
 
-var bind = __webpack_require__(2);
+var bind = __webpack_require__(3);
 var isBuffer = __webpack_require__(13);
 
 /*global toString:true*/
@@ -397,10 +397,10 @@ function getDefaultAdapter() {
   var adapter;
   if (typeof XMLHttpRequest !== 'undefined') {
     // For browsers use XHR adapter
-    adapter = __webpack_require__(4);
+    adapter = __webpack_require__(5);
   } else if (typeof process !== 'undefined') {
     // For node use HTTP adapter
-    adapter = __webpack_require__(4);
+    adapter = __webpack_require__(5);
   }
   return adapter;
 }
@@ -471,10 +471,16 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 
 module.exports = defaults;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ }),
 /* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(12);
+
+/***/ }),
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -492,7 +498,7 @@ module.exports = function bind(fn, thisArg) {
 
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -682,7 +688,7 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -693,7 +699,7 @@ var settle = __webpack_require__(16);
 var buildURL = __webpack_require__(18);
 var parseHeaders = __webpack_require__(19);
 var isURLSameOrigin = __webpack_require__(20);
-var createError = __webpack_require__(5);
+var createError = __webpack_require__(6);
 var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(21);
 
 module.exports = function xhrAdapter(config) {
@@ -867,10 +873,10 @@ module.exports = function xhrAdapter(config) {
   });
 };
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -895,7 +901,7 @@ module.exports = function createError(message, config, code, request, response) 
 
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -907,7 +913,7 @@ module.exports = function isCancel(value) {
 
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -933,13 +939,13 @@ module.exports = Cancel;
 
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _EditableRecipe = __webpack_require__(9);
+var _EditableRecipe = __webpack_require__(10);
 
 var _EditableRecipe2 = _interopRequireDefault(_EditableRecipe);
 
@@ -948,53 +954,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var recipeEl = document.getElementsByClassName('Recipe')[0];
 
 var recipe = new _EditableRecipe2.default(recipeEl);
-
-/***/ }),
-/* 9 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _EditableTextInput = __webpack_require__(10);
-
-var _EditableTextInput2 = _interopRequireDefault(_EditableTextInput);
-
-var _EditableUrlInput = __webpack_require__(30);
-
-var _EditableUrlInput2 = _interopRequireDefault(_EditableUrlInput);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var EditableRecipe = function EditableRecipe(element) {
-    _classCallCheck(this, EditableRecipe);
-
-    this.element = element;
-    this.recipe = {
-        _id: element.dataset.recipeId
-
-        // const editableTextInputs = this.element.querySelectorAll('.EditableInputText')
-        // for(let i=0; i<editableTextInputs.length; i++) {
-        //     new EditableTextInput(editableTextInputs[i])
-        // }
-
-        // recipe.label (title) editable input
-    };var titleInput = this.element.querySelector('.Recipe-Title').querySelector('input');
-    new _EditableTextInput2.default(titleInput);
-
-    var editableUrlInputs = this.element.querySelectorAll('.EditableUrlInput');
-    for (var i = 0; i < editableUrlInputs.length; i++) {
-        new _EditableUrlInput2.default(editableUrlInputs[i]);
-    }
-};
-
-exports.default = EditableRecipe;
 
 /***/ }),
 /* 10 */
@@ -1007,9 +966,62 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
+var _EditableTextInput = __webpack_require__(11);
+
+var _EditableTextInput2 = _interopRequireDefault(_EditableTextInput);
+
+var _EditableUrlInput = __webpack_require__(30);
+
+var _EditableUrlInput2 = _interopRequireDefault(_EditableUrlInput);
+
+var _EditableCheckbox = __webpack_require__(31);
+
+var _EditableCheckbox2 = _interopRequireDefault(_EditableCheckbox);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var EditableRecipe = function EditableRecipe(element) {
+    _classCallCheck(this, EditableRecipe);
+
+    this.element = element;
+    this.recipe = {
+        _id: element.dataset.recipeId
+
+        // Editable Recipe Title
+    };var titleInput = this.element.querySelector('.RecipeTitle').querySelector('input');
+    new _EditableTextInput2.default(titleInput);
+
+    // Editable URL Inputs (Source Link)
+    var editableUrlInputs = this.element.querySelectorAll('.EditableUrlInput');
+    for (var i = 0; i < editableUrlInputs.length; i++) {
+        new _EditableUrlInput2.default(editableUrlInputs[i]);
+    }
+
+    // Editable Checkboxes (core, active)
+    var editableCheckboxes = this.element.querySelectorAll('.EditableCheckbox');
+    for (var _i = 0; _i < editableCheckboxes.length; _i++) {
+        new _EditableCheckbox2.default(editableCheckboxes[_i]);
+    }
+};
+
+exports.default = EditableRecipe;
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _axios = __webpack_require__(11);
+var _axios = __webpack_require__(2);
 
 var _axios2 = _interopRequireDefault(_axios);
 
@@ -1026,6 +1038,9 @@ var EditableTextInput = function () {
         this.value = this.element.value;
         this.element.addEventListener('focus', this.onFocus.bind(this));
         this.element.addEventListener('blur', this.onBlur.bind(this));
+        this.subscribers = [];
+
+        return this;
     }
 
     _createClass(EditableTextInput, [{
@@ -1045,15 +1060,30 @@ var EditableTextInput = function () {
     }, {
         key: 'save',
         value: function save() {
+            var _this = this;
+
             var data = {
                 value: this.element.value
             };
             _axios2.default.post(this.endpoint, data).then(function (response) {
-                // console.log(response)
+                _this.value = _this.element.value;
+                _this.subscribers.forEach(function (subscriber) {
+                    return subscriber();
+                });
             }).catch(function (err) {
                 console.error(err);
                 alert(err);
             });
+        }
+    }, {
+        key: 'subscribeToSaved',
+        value: function subscribeToSaved(callback) {
+            this.subscribers.push(callback);
+        }
+    }, {
+        key: 'getValue',
+        value: function getValue() {
+            return this.value;
         }
     }]);
 
@@ -1063,12 +1093,6 @@ var EditableTextInput = function () {
 exports.default = EditableTextInput;
 
 /***/ }),
-/* 11 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(12);
-
-/***/ }),
 /* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1076,7 +1100,7 @@ module.exports = __webpack_require__(12);
 
 
 var utils = __webpack_require__(0);
-var bind = __webpack_require__(2);
+var bind = __webpack_require__(3);
 var Axios = __webpack_require__(14);
 var defaults = __webpack_require__(1);
 
@@ -1111,9 +1135,9 @@ axios.create = function create(instanceConfig) {
 };
 
 // Expose Cancel & CancelToken
-axios.Cancel = __webpack_require__(7);
+axios.Cancel = __webpack_require__(8);
 axios.CancelToken = __webpack_require__(28);
-axios.isCancel = __webpack_require__(6);
+axios.isCancel = __webpack_require__(7);
 
 // Expose all/spread
 axios.all = function all(promises) {
@@ -1273,7 +1297,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 "use strict";
 
 
-var createError = __webpack_require__(5);
+var createError = __webpack_require__(6);
 
 /**
  * Resolve or reject a Promise based on response status.
@@ -1692,7 +1716,7 @@ module.exports = InterceptorManager;
 
 var utils = __webpack_require__(0);
 var transformData = __webpack_require__(25);
-var isCancel = __webpack_require__(6);
+var isCancel = __webpack_require__(7);
 var defaults = __webpack_require__(1);
 
 /**
@@ -1845,7 +1869,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 "use strict";
 
 
-var Cancel = __webpack_require__(7);
+var Cancel = __webpack_require__(8);
 
 /**
  * A `CancelToken` is an object that can be used to request cancellation of an operation.
@@ -1949,9 +1973,13 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _axios = __webpack_require__(11);
+var _axios = __webpack_require__(2);
 
 var _axios2 = _interopRequireDefault(_axios);
+
+var _EditableTextInput = __webpack_require__(11);
+
+var _EditableTextInput2 = _interopRequireDefault(_EditableTextInput);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1964,11 +1992,13 @@ var EditableUrlInput = function () {
         this.element = element;
         this.endpoint = this.element.dataset.endpoint;
         this.url = this.element.dataset.url;
-        // this.input = this.element.querySelector('input')
         this.anchor = this.element.querySelector('a');
-        console.log(this);
-        // this.element.addEventListener('focus', this.onFocus.bind(this))
-        // this.element.addEventListener('blur', this.onBlur.bind(this))
+        var urlInput = this.element.querySelector('input');
+
+        this.urlInput = new _EditableTextInput2.default(urlInput);
+        this.urlInput.subscribeToSaved(this.onInputSave.bind(this));
+
+        return this;
     }
 
     _createClass(EditableUrlInput, [{
@@ -1986,17 +2016,12 @@ var EditableUrlInput = function () {
             this.element.setAttribute('readonly', true);
         }
     }, {
-        key: 'save',
-        value: function save() {
-            var data = {
-                value: this.element.value
-            };
-            _axios2.default.post(this.endpoint, data).then(function (response) {
-                // console.log(response)
-            }).catch(function (err) {
-                console.error(err);
-                alert(err);
-            });
+        key: 'onInputSave',
+        value: function onInputSave(err) {
+            if (err) console.error(err);else {
+                console.log('url saved', this.urlInput.getValue());
+                this.anchor.setAttribute('href', this.urlInput.getValue());
+            }
         }
     }]);
 
@@ -2004,6 +2029,57 @@ var EditableUrlInput = function () {
 }();
 
 exports.default = EditableUrlInput;
+
+/***/ }),
+/* 31 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _axios = __webpack_require__(2);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var EditableCheckbox = function () {
+    function EditableCheckbox(element) {
+        _classCallCheck(this, EditableCheckbox);
+
+        this.element = element;
+        this.endpoint = this.element.dataset.endpoint;
+        this.checkbox = this.element.querySelector('input[type="checkbox"]');
+        this.checkbox.addEventListener('change', this.onChange.bind(this));
+        return this;
+    }
+
+    _createClass(EditableCheckbox, [{
+        key: 'onChange',
+        value: function onChange(event) {
+            var data = {
+                value: this.checkbox.checked
+            };
+
+            _axios2.default.post(this.endpoint, data).then(function (response) {}).catch(function (err) {
+                console.error(err);
+                alert(err);
+            });
+        }
+    }]);
+
+    return EditableCheckbox;
+}();
+
+exports.default = EditableCheckbox;
 
 /***/ })
 /******/ ]);

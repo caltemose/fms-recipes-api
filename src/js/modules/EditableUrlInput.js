@@ -1,15 +1,18 @@
 import axios from 'axios'
+import EditableTextInput from './EditableTextInput'
 
 export default class EditableUrlInput {
     constructor (element) {
         this.element = element
         this.endpoint = this.element.dataset.endpoint
         this.url = this.element.dataset.url
-        // this.input = this.element.querySelector('input')
         this.anchor = this.element.querySelector('a')
-        console.log(this)
-        // this.element.addEventListener('focus', this.onFocus.bind(this))
-        // this.element.addEventListener('blur', this.onBlur.bind(this))
+        const urlInput = this.element.querySelector('input')
+        
+        this.urlInput = new EditableTextInput(urlInput)
+        this.urlInput.subscribeToSaved(this.onInputSave.bind(this))
+
+        return this
     }
 
     onFocus (event) {
@@ -24,17 +27,11 @@ export default class EditableUrlInput {
         this.element.setAttribute('readonly', true)
     }
 
-    save () {
-        const data = {
-            value: this.element.value
+    onInputSave (err) {
+        if (err) console.error(err)
+        else {
+            console.log('url saved', this.urlInput.getValue())
+            this.anchor.setAttribute('href', this.urlInput.getValue())
         }
-        axios.post(this.endpoint, data)
-            .then(response => {
-                // console.log(response)
-            })
-            .catch(err => {
-                console.error(err)
-                alert(err)
-            })
     }
 }

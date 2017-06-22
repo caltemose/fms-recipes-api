@@ -7,6 +7,9 @@ export default class EditableTextInput {
         this.value = this.element.value
         this.element.addEventListener('focus', this.onFocus.bind(this))
         this.element.addEventListener('blur', this.onBlur.bind(this))
+        this.subscribers = []
+
+        return this
     }
 
     onFocus (event) {
@@ -27,11 +30,20 @@ export default class EditableTextInput {
         }
         axios.post(this.endpoint, data)
             .then(response => {
-                // console.log(response)
+                this.value = this.element.value
+                this.subscribers.forEach(subscriber => subscriber())
             })
             .catch(err => {
                 console.error(err)
                 alert(err)
             })
+    }
+
+    subscribeToSaved (callback) {
+        this.subscribers.push(callback)
+    }
+
+    getValue () {
+        return this.value
     }
 }
