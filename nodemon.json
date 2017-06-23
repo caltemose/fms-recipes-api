@@ -1,0 +1,13 @@
+{
+    "watch": [
+        "index.js",
+        "config/",
+        "helpers/",
+        "routes/",
+        "views/"
+    ],
+    "ignore": [
+        "src/",
+        "node_modules/"
+    ]
+}

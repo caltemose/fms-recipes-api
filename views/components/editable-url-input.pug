@@ -2,5 +2,5 @@ include editable-input-text.pug
 
 mixin editableUrlInput(url, endpoint)
     .EditableUrlInput(data-endpoint=endpoint data-url=url)
-        +editableInputText(url, endpoint)
         a(href=url).Source-Url [visit]
+        +editableInputText(url, endpoint)

@@ -16,22 +16,23 @@ block content
         h2 Ingredients
 
         ul.RecipeIngredients
-            each ingredient in recipe.ingredients
-                li
-                    span.RecipeIngredient-Measurement #{ingredient.amount.value} #{ingredient.amount.unit}
-                    |
-                    |
-                    span.RecipeIngredient-Name #{ingredient.label}
-                    |
-                    |
-                    span.RecipeIngredient-Notes #{ingredient.notes}
+            if typeof(recipe.ingredients) === 'object'
+                each ingredient in recipe.ingredients
+                    li
+                        span.RecipeIngredient-Measurement #{ingredient.amount.value} #{ingredient.amount.unit}
+                        |
+                        |
+                        span.RecipeIngredient-Name #{ingredient.label}
+                        |
+                        |
+                        span.RecipeIngredient-Notes #{ingredient.notes}
 
 
         h2 Directions
 
         .RecipeDirectionsText #{recipe.dir}
 
-        +editableRecipeDirections(recipe.directions, `/api/recipes/${recipe._id}/ingredients`)
+        +editableRecipeDirections(recipe.directions, `/api/recipes/${recipe._id}/directions`)
 
         if typeof(recipe.yield.amount) !== 'undefined'
             h3 Yield

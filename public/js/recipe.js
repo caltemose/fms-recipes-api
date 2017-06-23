@@ -2105,6 +2105,10 @@ var _axios = __webpack_require__(1);
 
 var _axios2 = _interopRequireDefault(_axios);
 
+var _EditableTextArea = __webpack_require__(33);
+
+var _EditableTextArea2 = _interopRequireDefault(_EditableTextArea);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -2138,19 +2142,98 @@ var EditableRecipeDirections = function () {
             textarea.classList.add('.EditableTextArea');
             li.appendChild(textarea);
             this.list.appendChild(li);
-            // new EditableTextArea(textarea)
+            new _EditableTextArea2.default(textarea);
         }
     }]);
 
     return EditableRecipeDirections;
 }();
-/*
-li
-    textarea.EditableTextArea(data-endpoint=endpoint)= direction
-*/
-
 
 exports.default = EditableRecipeDirections;
+
+/***/ }),
+/* 33 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _axios = __webpack_require__(1);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var EditableTextArea = function () {
+    function EditableTextArea(element) {
+        _classCallCheck(this, EditableTextArea);
+
+        this.element = element;
+        this.endpoint = this.element.dataset.endpoint;
+        this.value = this.element.value;
+        this.element.addEventListener('focus', this.onFocus.bind(this));
+        this.element.addEventListener('blur', this.onBlur.bind(this));
+        this.subscribers = [];
+
+        return this;
+    }
+
+    _createClass(EditableTextArea, [{
+        key: 'onFocus',
+        value: function onFocus(event) {
+            this.value = this.element.value;
+            this.element.removeAttribute('readonly');
+        }
+    }, {
+        key: 'onBlur',
+        value: function onBlur(event) {
+            if (this.value !== this.element.value) {
+                this.save();
+            }
+            this.element.setAttribute('readonly', true);
+        }
+    }, {
+        key: 'save',
+        value: function save() {
+            var _this = this;
+
+            var data = {
+                value: this.element.value
+            };
+            _axios2.default.post(this.endpoint, data).then(function (response) {
+                _this.value = _this.element.value;
+                _this.subscribers.forEach(function (subscriber) {
+                    return subscriber();
+                });
+            }).catch(function (err) {
+                console.error(err);
+                alert(err);
+            });
+        }
+    }, {
+        key: 'subscribeToSaved',
+        value: function subscribeToSaved(callback) {
+            this.subscribers.push(callback);
+        }
+    }, {
+        key: 'getValue',
+        value: function getValue() {
+            return this.value;
+        }
+    }]);
+
+    return EditableTextArea;
+}();
+
+exports.default = EditableTextArea;
 
 /***/ })
 /******/ ]);

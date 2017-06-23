@@ -1,4 +1,5 @@
 import axios from 'axios'
+import EditableTextArea from './EditableTextArea'
 
 export default class EditableRecipeDirections {
     constructor (element) {
@@ -25,10 +26,6 @@ export default class EditableRecipeDirections {
         textarea.classList.add('.EditableTextArea')
         li.appendChild(textarea)
         this.list.appendChild(li)
-        // new EditableTextArea(textarea)
+        new EditableTextArea(textarea)
     }
 }
-/*
-li
-    textarea.EditableTextArea(data-endpoint=endpoint)= direction
-*/

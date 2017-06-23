@@ -4,10 +4,10 @@
   "description": "Recipe management system.",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
+    "nodemon": "nodemon index.js",
     "webpack": "webpack -w",
     "sass": "node-sass src/sass/main.sass public/styles/main.css -w",
-    "dev": "npm run webpack & npm run sass & npm start"
+    "start": "npm run webpack & npm run sass & npm run nodemon"
   },
   "repository": {
     "type": "git",
