@@ -26,6 +26,7 @@ export default class EditableRecipe {
             new EditableCheckbox(editableCheckboxes[i])
         }
 
+        // Editable Direction Steps
         const directions = this.element.querySelector('.RecipeDirections')
         new EditableRecipeDirections(directions)
     }

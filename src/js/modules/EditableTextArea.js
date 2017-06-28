@@ -1,9 +1,9 @@
 import axios from 'axios'
 
 export default class EditableTextArea {
-    constructor (element) {
+    constructor (element, endpoint) {
         this.element = element
-        this.endpoint = this.element.dataset.endpoint
+        this.endpoint = endpoint ? endpoint : this.element.dataset.endpoint
         this.value = this.element.value
         this.element.addEventListener('focus', this.onFocus.bind(this))
         this.element.addEventListener('blur', this.onBlur.bind(this))
@@ -25,6 +25,10 @@ export default class EditableTextArea {
     }
 
     save () {
+        if (!this.endpoint || this.endpoint === '') {
+            return
+        }
+
         const data = {
             value: this.element.value
         }

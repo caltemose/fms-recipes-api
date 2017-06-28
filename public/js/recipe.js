@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 10);
+/******/ 	return __webpack_require__(__webpack_require__.s = 11);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -71,7 +71,7 @@
 
 
 var bind = __webpack_require__(4);
-var isBuffer = __webpack_require__(13);
+var isBuffer = __webpack_require__(14);
 
 /*global toString:true*/
 
@@ -377,7 +377,7 @@ module.exports = {
 /* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(12);
+module.exports = __webpack_require__(13);
 
 /***/ }),
 /* 2 */
@@ -387,7 +387,7 @@ module.exports = __webpack_require__(12);
 /* WEBPACK VAR INJECTION */(function(process) {
 
 var utils = __webpack_require__(0);
-var normalizeHeaderName = __webpack_require__(15);
+var normalizeHeaderName = __webpack_require__(16);
 
 var DEFAULT_CONTENT_TYPE = {
   'Content-Type': 'application/x-www-form-urlencoded'
@@ -779,12 +779,12 @@ process.umask = function() { return 0; };
 /* WEBPACK VAR INJECTION */(function(process) {
 
 var utils = __webpack_require__(0);
-var settle = __webpack_require__(16);
-var buildURL = __webpack_require__(18);
-var parseHeaders = __webpack_require__(19);
-var isURLSameOrigin = __webpack_require__(20);
+var settle = __webpack_require__(17);
+var buildURL = __webpack_require__(19);
+var parseHeaders = __webpack_require__(20);
+var isURLSameOrigin = __webpack_require__(21);
 var createError = __webpack_require__(7);
-var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(21);
+var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(22);
 
 module.exports = function xhrAdapter(config) {
   return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -881,7 +881,7 @@ module.exports = function xhrAdapter(config) {
     // This is only done if running in a standard browser environment.
     // Specifically not if we're in a web worker, or react-native.
     if (utils.isStandardBrowserEnv()) {
-      var cookies = __webpack_require__(22);
+      var cookies = __webpack_require__(23);
 
       // Add xsrf header
       var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
@@ -966,7 +966,7 @@ module.exports = function xhrAdapter(config) {
 "use strict";
 
 
-var enhanceError = __webpack_require__(17);
+var enhanceError = __webpack_require__(18);
 
 /**
  * Create an Error with the specified message, config, error code, request and response.
@@ -1029,7 +1029,95 @@ module.exports = Cancel;
 "use strict";
 
 
-var _EditableRecipe = __webpack_require__(11);
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _axios = __webpack_require__(1);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var EditableTextArea = function () {
+    function EditableTextArea(element, endpoint) {
+        _classCallCheck(this, EditableTextArea);
+
+        this.element = element;
+        this.endpoint = endpoint ? endpoint : this.element.dataset.endpoint;
+        this.value = this.element.value;
+        this.element.addEventListener('focus', this.onFocus.bind(this));
+        this.element.addEventListener('blur', this.onBlur.bind(this));
+        this.subscribers = [];
+
+        return this;
+    }
+
+    _createClass(EditableTextArea, [{
+        key: 'onFocus',
+        value: function onFocus(event) {
+            this.value = this.element.value;
+            this.element.removeAttribute('readonly');
+        }
+    }, {
+        key: 'onBlur',
+        value: function onBlur(event) {
+            if (this.value !== this.element.value) {
+                this.save();
+            }
+            this.element.setAttribute('readonly', true);
+        }
+    }, {
+        key: 'save',
+        value: function save() {
+            var _this = this;
+
+            if (!this.endpoint || this.endpoint === '') {
+                return;
+            }
+
+            var data = {
+                value: this.element.value
+            };
+            _axios2.default.post(this.endpoint, data).then(function (response) {
+                _this.value = _this.element.value;
+                _this.subscribers.forEach(function (subscriber) {
+                    return subscriber();
+                });
+            }).catch(function (err) {
+                console.error(err);
+                alert(err);
+            });
+        }
+    }, {
+        key: 'subscribeToSaved',
+        value: function subscribeToSaved(callback) {
+            this.subscribers.push(callback);
+        }
+    }, {
+        key: 'getValue',
+        value: function getValue() {
+            return this.value;
+        }
+    }]);
+
+    return EditableTextArea;
+}();
+
+exports.default = EditableTextArea;
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _EditableRecipe = __webpack_require__(12);
 
 var _EditableRecipe2 = _interopRequireDefault(_EditableRecipe);
 
@@ -1040,7 +1128,7 @@ var recipeEl = document.getElementsByClassName('Recipe')[0];
 var recipe = new _EditableRecipe2.default(recipeEl);
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1054,15 +1142,15 @@ var _EditableTextInput = __webpack_require__(3);
 
 var _EditableTextInput2 = _interopRequireDefault(_EditableTextInput);
 
-var _EditableUrlInput = __webpack_require__(30);
+var _EditableUrlInput = __webpack_require__(31);
 
 var _EditableUrlInput2 = _interopRequireDefault(_EditableUrlInput);
 
-var _EditableCheckbox = __webpack_require__(31);
+var _EditableCheckbox = __webpack_require__(32);
 
 var _EditableCheckbox2 = _interopRequireDefault(_EditableCheckbox);
 
-var _EditableRecipeDirections = __webpack_require__(32);
+var _EditableRecipeDirections = __webpack_require__(33);
 
 var _EditableRecipeDirections2 = _interopRequireDefault(_EditableRecipeDirections);
 
@@ -1093,6 +1181,7 @@ var EditableRecipe = function EditableRecipe(element) {
         new _EditableCheckbox2.default(editableCheckboxes[_i]);
     }
 
+    // Editable Direction Steps
     var directions = this.element.querySelector('.RecipeDirections');
     new _EditableRecipeDirections2.default(directions);
 };
@@ -1100,7 +1189,7 @@ var EditableRecipe = function EditableRecipe(element) {
 exports.default = EditableRecipe;
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1108,7 +1197,7 @@ exports.default = EditableRecipe;
 
 var utils = __webpack_require__(0);
 var bind = __webpack_require__(4);
-var Axios = __webpack_require__(14);
+var Axios = __webpack_require__(15);
 var defaults = __webpack_require__(2);
 
 /**
@@ -1143,14 +1232,14 @@ axios.create = function create(instanceConfig) {
 
 // Expose Cancel & CancelToken
 axios.Cancel = __webpack_require__(9);
-axios.CancelToken = __webpack_require__(28);
+axios.CancelToken = __webpack_require__(29);
 axios.isCancel = __webpack_require__(8);
 
 // Expose all/spread
 axios.all = function all(promises) {
   return Promise.all(promises);
 };
-axios.spread = __webpack_require__(29);
+axios.spread = __webpack_require__(30);
 
 module.exports = axios;
 
@@ -1159,7 +1248,7 @@ module.exports.default = axios;
 
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports) {
 
 /*!
@@ -1186,7 +1275,7 @@ function isSlowBuffer (obj) {
 
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1194,10 +1283,10 @@ function isSlowBuffer (obj) {
 
 var defaults = __webpack_require__(2);
 var utils = __webpack_require__(0);
-var InterceptorManager = __webpack_require__(23);
-var dispatchRequest = __webpack_require__(24);
-var isAbsoluteURL = __webpack_require__(26);
-var combineURLs = __webpack_require__(27);
+var InterceptorManager = __webpack_require__(24);
+var dispatchRequest = __webpack_require__(25);
+var isAbsoluteURL = __webpack_require__(27);
+var combineURLs = __webpack_require__(28);
 
 /**
  * Create a new instance of Axios
@@ -1279,7 +1368,7 @@ module.exports = Axios;
 
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1298,7 +1387,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1331,7 +1420,7 @@ module.exports = function settle(resolve, reject, response) {
 
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1359,7 +1448,7 @@ module.exports = function enhanceError(error, config, code, request, response) {
 
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1434,7 +1523,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1478,7 +1567,7 @@ module.exports = function parseHeaders(headers) {
 
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1553,7 +1642,7 @@ module.exports = (
 
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1596,7 +1685,7 @@ module.exports = btoa;
 
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1656,7 +1745,7 @@ module.exports = (
 
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1715,14 +1804,14 @@ module.exports = InterceptorManager;
 
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(0);
-var transformData = __webpack_require__(25);
+var transformData = __webpack_require__(26);
 var isCancel = __webpack_require__(8);
 var defaults = __webpack_require__(2);
 
@@ -1801,7 +1890,7 @@ module.exports = function dispatchRequest(config) {
 
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1828,7 +1917,7 @@ module.exports = function transformData(data, headers, fns) {
 
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1849,7 +1938,7 @@ module.exports = function isAbsoluteURL(url) {
 
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1870,7 +1959,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1934,7 +2023,7 @@ module.exports = CancelToken;
 
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1968,7 +2057,7 @@ module.exports = function spread(callback) {
 
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2038,7 +2127,7 @@ var EditableUrlInput = function () {
 exports.default = EditableUrlInput;
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2089,69 +2178,6 @@ var EditableCheckbox = function () {
 exports.default = EditableCheckbox;
 
 /***/ }),
-/* 32 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _axios = __webpack_require__(1);
-
-var _axios2 = _interopRequireDefault(_axios);
-
-var _EditableTextArea = __webpack_require__(33);
-
-var _EditableTextArea2 = _interopRequireDefault(_EditableTextArea);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var EditableRecipeDirections = function () {
-    function EditableRecipeDirections(element) {
-        _classCallCheck(this, EditableRecipeDirections);
-
-        this.element = element;
-        this.endpoint = element.dataset.endpoint;
-        this.list = this.element.querySelector('.RecipeDirections-List');
-        this.addStep = this.element.querySelector('.RecipeDirections-Add');
-        console.log(this.element, this.addStep);
-        this.addStep.addEventListener('click', this.onAddStep.bind(this));
-
-        // Editable Direction Steps (list items)
-        // const steps = this.list.querySelectorAll('.EditableTextArea')
-        // for(let i=0; i<steps.length; i++) {
-        //     new EditableTextArea(steps[i])
-        // }
-
-        return this;
-    }
-
-    _createClass(EditableRecipeDirections, [{
-        key: 'onAddStep',
-        value: function onAddStep(event) {
-            var li = document.createElement('li');
-            var textarea = document.createElement('textarea');
-            textarea.setAttribute('data-endpoint', this.endpoint);
-            textarea.classList.add('.EditableTextArea');
-            li.appendChild(textarea);
-            this.list.appendChild(li);
-            new _EditableTextArea2.default(textarea);
-        }
-    }]);
-
-    return EditableRecipeDirections;
-}();
-
-exports.default = EditableRecipeDirections;
-
-/***/ }),
 /* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2168,72 +2194,95 @@ var _axios = __webpack_require__(1);
 
 var _axios2 = _interopRequireDefault(_axios);
 
+var _EditableTextArea = __webpack_require__(10);
+
+var _EditableTextArea2 = _interopRequireDefault(_EditableTextArea);
+
+var _EditableRecipeDirectionsStep = __webpack_require__(34);
+
+var _EditableRecipeDirectionsStep2 = _interopRequireDefault(_EditableRecipeDirectionsStep);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var EditableTextArea = function () {
-    function EditableTextArea(element) {
-        _classCallCheck(this, EditableTextArea);
+var EditableRecipeDirections = function () {
+    function EditableRecipeDirections(element) {
+        _classCallCheck(this, EditableRecipeDirections);
 
         this.element = element;
-        this.endpoint = this.element.dataset.endpoint;
-        this.value = this.element.value;
-        this.element.addEventListener('focus', this.onFocus.bind(this));
-        this.element.addEventListener('blur', this.onBlur.bind(this));
-        this.subscribers = [];
+        this.endpoint = element.dataset.endpoint;
+        this.list = this.element.querySelector('.RecipeDirections-List');
+        this.addStep = this.element.querySelector('.RecipeDirections-Add');
+
+        this.addStep.addEventListener('click', this.onAddStep.bind(this));
+
+        // Editable Direction Steps (list items)
+        this.steps = [].slice.call(this.list.querySelectorAll('.RecipeDirections-Step'));
+        if (this.steps.length < 1) {
+            this.steps = [];
+        }
+        for (var i = 0; i < this.steps.length; i++) {
+            new _EditableRecipeDirectionsStep2.default(this.steps[i], this.endpoint + '/' + i);
+        }
 
         return this;
     }
 
-    _createClass(EditableTextArea, [{
-        key: 'onFocus',
-        value: function onFocus(event) {
-            this.value = this.element.value;
-            this.element.removeAttribute('readonly');
-        }
-    }, {
-        key: 'onBlur',
-        value: function onBlur(event) {
-            if (this.value !== this.element.value) {
-                this.save();
-            }
-            this.element.setAttribute('readonly', true);
-        }
-    }, {
-        key: 'save',
-        value: function save() {
-            var _this = this;
-
-            var data = {
-                value: this.element.value
-            };
-            _axios2.default.post(this.endpoint, data).then(function (response) {
-                _this.value = _this.element.value;
-                _this.subscribers.forEach(function (subscriber) {
-                    return subscriber();
-                });
-            }).catch(function (err) {
-                console.error(err);
-                alert(err);
-            });
-        }
-    }, {
-        key: 'subscribeToSaved',
-        value: function subscribeToSaved(callback) {
-            this.subscribers.push(callback);
-        }
-    }, {
-        key: 'getValue',
-        value: function getValue() {
-            return this.value;
+    _createClass(EditableRecipeDirections, [{
+        key: 'onAddStep',
+        value: function onAddStep(event) {
+            var li = document.createElement('li');
+            li.classList.add('RecipeDirections-Step');
+            var textarea = document.createElement('textarea');
+            textarea.classList.add('EditableTextArea');
+            li.appendChild(textarea);
+            this.list.appendChild(li);
+            var numSteps = this.steps.push(li);
+            new _EditableRecipeDirectionsStep2.default(li, this.endpoint + '/' + (numSteps - 1));
         }
     }]);
 
-    return EditableTextArea;
+    return EditableRecipeDirections;
 }();
 
-exports.default = EditableTextArea;
+exports.default = EditableRecipeDirections;
+
+/***/ }),
+/* 34 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _axios = __webpack_require__(1);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+var _EditableTextArea = __webpack_require__(10);
+
+var _EditableTextArea2 = _interopRequireDefault(_EditableTextArea);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var EditableRecipeDirectionsStep = function EditableRecipeDirectionsStep(element, endpoint) {
+    _classCallCheck(this, EditableRecipeDirectionsStep);
+
+    this.element = element;
+    this.endpoint = endpoint;
+    var textarea = this.element.querySelector('.EditableTextArea');
+    if (textarea) {
+        new _EditableTextArea2.default(textarea, this.endpoint);
+    }
+};
+
+exports.default = EditableRecipeDirectionsStep;
 
 /***/ })
 /******/ ]);

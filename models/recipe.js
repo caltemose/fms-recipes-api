@@ -29,7 +29,7 @@ var schema = mongoose.Schema({
         total: Number
     },
     ingredients: Array,
-    directions: Array,
+    directions: Object,
     dir: String,
     images: Array,
     tags: Array

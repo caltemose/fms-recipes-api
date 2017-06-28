@@ -30,7 +30,24 @@ router.post('/:id/:property', (req, res) => {
     const id = req.params.id
     const property = req.params.property
     const value = req.body.value
+
     recipes.updateRecipeProperty(id, property, value)
+        .then(result => {
+            res.json({ success: true })
+        })
+        .catch(err => {
+            res.json({ err: err })
+        })
+})
+
+router.post('/:id/:property/:option', (req, res) => {
+    const id = req.params.id
+    const property = req.params.property
+    const option = req.params.option
+    const value = req.body.value
+    
+
+    recipes.updateRecipeProperty(id, property, value, option)
         .then(result => {
             res.json({ success: true })
         })

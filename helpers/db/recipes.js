@@ -30,17 +30,22 @@ module.exports = {
         })
     },
 
-    updateRecipeProperty: function updateRecipeProperty (id, property, value) {
+    updateRecipeProperty: function updateRecipeProperty (id, property, value, option) {
         if (!id || !property || value === 'undefined' || value === null)
             throw new Error('Insufficient recipe data provided.')
 
         return new Promise((resolve, reject) => {
-            const update = {}
-            update[property] = value
+            let update = {}
+            
+            if (property === 'directions') {
+                update[property + '.' + option] = value
+            } else {
+                update[property] = value
 
-            // TODO is the recipe.name property necessary? a slug would be more useful
-            if (property === 'label') {
-                update.name = value.toLowerCase()
+                // TODO is the recipe.name property necessary? a slug would be more useful
+                if (property === 'label') {
+                    update.name = value.toLowerCase()
+                }
             }
 
             Recipe.findByIdAndUpdate(id, { $set: update }, (err, recipe) => {
