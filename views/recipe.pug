@@ -30,21 +30,26 @@ block content
 
         h2 Directions
 
-        .RecipeDirectionsText #{recipe.dir}
-
         +editableRecipeDirections(recipe.directions, `/api/recipes/${recipe._id}/directions`)
 
-        if typeof(recipe.yield.amount) !== 'undefined'
-            h3 Yield
 
-            .RecipeYeild #{recipe.yield.amount} #{recipe.yield.label}
+        h2 Notes
+
+        .RecipeNotes.EditableDiv(contenteditable data-endpoint=`/api/recipes/${recipe._id}/notes`)= recipe.notes
+
+
+        if typeof(recipe.yield.amount) !== 'undefined'
+            h2 Yield
+
+            .RecipeYield #{recipe.yield.amount} #{recipe.yield.label}
 
 
         if (typeof(recipe.source.url) !== 'undefined' || typeof(recipe.source.name) !== 'undefined' || typeof(recipe.source.author) !== 'undefined')
-            h3 Source
+            h2 Source
 
             if recipe.source.url
-                +editableUrlInput(recipe.source.url, `/api/recipes/${recipe._id}/source.url`)
+                .RecipeSource
+                    +editableUrlInput(recipe.source.url, `/api/recipes/${recipe._id}/source.url`)
 
             if recipe.source.name
                 .RecipeSource-Name #{recipe.source.name}

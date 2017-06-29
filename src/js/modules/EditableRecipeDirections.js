@@ -26,9 +26,7 @@ export default class EditableRecipeDirections {
     onAddStep (event) {
         const li = document.createElement('li')
         li.classList.add('RecipeDirections-Step')
-        const textarea = document.createElement('textarea')
-        textarea.classList.add('EditableTextArea')
-        li.appendChild(textarea)
+        li.contentEditable = true
         this.list.appendChild(li)
         const numSteps = this.steps.push(li)
         new EditableRecipeDirectionsStep(li, this.endpoint + '/' + (numSteps -1))

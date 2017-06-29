@@ -2,6 +2,7 @@ import EditableTextInput from './EditableTextInput'
 import EditableUrlInput from './EditableUrlInput'
 import EditableCheckbox from './EditableCheckbox'
 import EditableRecipeDirections from './EditableRecipeDirections'
+import EditableDiv from './EditableDiv'
 
 export default class EditableRecipe {
     constructor (element) {
@@ -29,5 +30,9 @@ export default class EditableRecipe {
         // Editable Direction Steps
         const directions = this.element.querySelector('.RecipeDirections')
         new EditableRecipeDirections(directions)
+
+        // Editable Notes (EditableDiv)
+        const notes = this.element.querySelector('.EditableDiv')
+        new EditableDiv(notes)
     }
 }

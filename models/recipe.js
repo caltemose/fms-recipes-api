@@ -30,7 +30,7 @@ var schema = mongoose.Schema({
     },
     ingredients: Array,
     directions: Object,
-    dir: String,
+    notes: String,
     images: Array,
     tags: Array
 });

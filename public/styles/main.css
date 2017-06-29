@@ -10,3 +10,14 @@
 
 .RecipeDirections-Step .EditableTextArea {
   width: 100%; }
+
+.Recipe ol, .Recipe ul {
+  padding-left: 1.2em; }
+
+.Source-Url {
+  margin-right: 0.5em;
+  text-decoration: none; }
+
+.RecipeSource input {
+  padding: 0;
+  width: 40em; }

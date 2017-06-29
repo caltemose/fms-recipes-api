@@ -3,7 +3,6 @@ mixin editableRecipeDirections(directions, endpoint)
         ol.RecipeDirections-List
             if directions
                 each direction in directions
-                    li.RecipeDirections-Step
-                        textarea.EditableTextArea= direction
+                    li.RecipeDirections-Step(contenteditable)= direction
 
         button.RecipeDirections-Add Add Step

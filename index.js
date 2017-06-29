@@ -12,6 +12,7 @@ const models = require('./models/')
 
 app.use(logger('tiny'))
 app.use(bodyParser.json())
+app.locals.doctype = 'html'
 app.set('view engine', 'pug')
 app.use(express.static('public'))
 app.listen(port)
