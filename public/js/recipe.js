@@ -1070,6 +1070,10 @@ var _EditableDiv = __webpack_require__(35);
 
 var _EditableDiv2 = _interopRequireDefault(_EditableDiv);
 
+var _EditableNumber = __webpack_require__(36);
+
+var _EditableNumber2 = _interopRequireDefault(_EditableNumber);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1081,29 +1085,39 @@ var EditableRecipe = function EditableRecipe(element) {
     this.recipe = {
         _id: element.dataset.recipeId
 
-        // Editable Recipe Title
-    };var titleInput = this.element.querySelector('.RecipeTitle').querySelector('input');
-    new _EditableTextInput2.default(titleInput);
-
-    // Editable URL Inputs (Source Link)
-    var editableUrlInputs = this.element.querySelectorAll('.EditableUrlInput');
-    for (var i = 0; i < editableUrlInputs.length; i++) {
-        new _EditableUrlInput2.default(editableUrlInputs[i]);
+        // Recipe Title, Source Name
+    };var editableTextInputs = this.element.querySelectorAll('.EditableInputText');
+    for (var i = 0; i < editableTextInputs.length; i++) {
+        new _EditableTextInput2.default(editableTextInputs[i]);
     }
 
-    // Editable Checkboxes (core, active)
+    // Core, Active
     var editableCheckboxes = this.element.querySelectorAll('.EditableCheckbox');
     for (var _i = 0; _i < editableCheckboxes.length; _i++) {
         new _EditableCheckbox2.default(editableCheckboxes[_i]);
     }
 
-    // Editable Direction Steps
+    // Directions
     var directions = this.element.querySelector('.RecipeDirections');
     new _EditableRecipeDirections2.default(directions);
 
-    // Editable Notes (EditableDiv)
-    var notes = this.element.querySelector('.EditableDiv');
-    new _EditableDiv2.default(notes);
+    // Notes, Yield Label
+    var editableDivs = this.element.querySelectorAll('.EditableDiv');
+    for (var _i2 = 0; _i2 < editableDivs.length; _i2++) {
+        new _EditableDiv2.default(editableDivs[_i2]);
+    }
+
+    // Yield Amount
+    var numbers = this.element.querySelectorAll('.EditableNumber');
+    for (var _i3 = 0; _i3 < numbers.length; _i3++) {
+        new _EditableNumber2.default(numbers[_i3]);
+    }
+
+    // Source URL
+    var editableUrlInputs = this.element.querySelectorAll('.EditableUrlInput');
+    for (var _i4 = 0; _i4 < editableUrlInputs.length; _i4++) {
+        new _EditableUrlInput2.default(editableUrlInputs[_i4]);
+    }
 };
 
 exports.default = EditableRecipe;
@@ -2385,6 +2399,71 @@ var EditableDiv = function () {
 }();
 
 exports.default = EditableDiv;
+
+/***/ }),
+/* 36 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _axios = __webpack_require__(1);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var EditableNumber = function () {
+    function EditableNumber(element) {
+        _classCallCheck(this, EditableNumber);
+
+        this.element = element;
+        this.endpoint = this.element.dataset.endpoint;
+        this.value = this.element.innerHTML;
+        this.element.addEventListener('blur', this.onBlur.bind(this));
+        return this;
+    }
+
+    _createClass(EditableNumber, [{
+        key: 'onBlur',
+        value: function onBlur(event) {
+            if (this.value !== this.element.innerHTML) {
+                this.save();
+            }
+        }
+    }, {
+        key: 'save',
+        value: function save() {
+            var _this = this;
+
+            if (!this.endpoint || this.endpoint === '') {
+                return;
+            }
+
+            var data = {
+                value: Number(this.element.innerHTML)
+            };
+            _axios2.default.post(this.endpoint, data).then(function (response) {
+                _this.value = _this.element.innerHTML;
+            }).catch(function (err) {
+                console.error(err);
+                alert(err);
+            });
+        }
+    }]);
+
+    return EditableNumber;
+}();
+
+exports.default = EditableNumber;
 
 /***/ })
 /******/ ]);

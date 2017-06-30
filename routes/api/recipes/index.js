@@ -56,4 +56,26 @@ router.post('/:id/:property/:option', (req, res) => {
         })
 })
 
+router.post('/:id/ingredient/:index/:property', (req, res) => {
+    const id = req.params.id
+    const index = req.params.index
+    const property = req.params.property
+    const value = req.body.value
+
+    res.json({ 
+        id: id,
+        index: index,
+        property: property,
+        value: value,
+        stub: true })
+
+    // recipes.updateRecipeProperty(id, property, value, option)
+    //     .then(result => {
+    //         res.json({ success: true })
+    //     })
+    //     .catch(err => {
+    //         res.json({ err: err })
+    //     })
+})
+
 module.exports = router

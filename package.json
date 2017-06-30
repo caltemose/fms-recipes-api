@@ -36,6 +36,7 @@
     "babel-core": "^6.25.0",
     "babel-loader": "^7.1.0",
     "babel-preset-env": "^1.5.2",
+    "camelcase": "^4.1.0",
     "morgan": "^1.8.2",
     "node-sass": "^4.5.3",
     "webpack": "^3.0.0"

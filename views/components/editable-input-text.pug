@@ -1,2 +1,2 @@
-mixin editableInputText(label, endpoint)
-    input(type="text" value=label data-endpoint=endpoint readonly).EditableInputText
+mixin editableInputText(label, endpoint, placeholder = 'click to add')
+    input(type="text" value=label data-endpoint=endpoint readonly placeholder=placeholder).EditableInputText

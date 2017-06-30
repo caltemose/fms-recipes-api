@@ -5,57 +5,64 @@ include components/editable-checkbox.pug
 include components/editable-recipe-directions.pug
 
 block content
+    - var apiRoot = `/api/recipes/${recipe._id}`
+
     article.Recipe(data-recipe-id=recipe._id)
         h1.RecipeTitle
-            +editableInputText(recipe.label, `/api/recipes/${recipe._id}/label`)
+            +editableInputText(recipe.label, `${apiRoot}/label`)
 
         .RecipeStatus
-            +editableCheckbox(recipe.core, `/api/recipes/${recipe._id}/core`, 'core recipe')
-            +editableCheckbox(recipe.active, `/api/recipes/${recipe._id}/active`, 'recipe active')
+            +editableCheckbox(recipe.core, `${apiRoot}/core`, 'core recipe')
+            +editableCheckbox(recipe.active, `${apiRoot}/active`, 'recipe active')
 
         h2 Ingredients
 
         ul.RecipeIngredients
             if typeof(recipe.ingredients) === 'object'
-                each ingredient in recipe.ingredients
-                    li
-                        span.RecipeIngredient-Measurement #{ingredient.amount.value} #{ingredient.amount.unit}
-                        |
-                        |
-                        span.RecipeIngredient-Name #{ingredient.label}
-                        |
-                        |
-                        span.RecipeIngredient-Notes #{ingredient.notes}
+                each ingredient, index in recipe.ingredients
+                    - var endpoint = `${apiRoot}/ingredient/${index}`
+                    include shared/editable-ingredient-row.pug
+
+                    //- li
+                    //-     span.RecipeIngredient-Measurement #{ingredient.amount.value} #{ingredient.amount.unit}
+                    //-     |
+                    //-     |
+                    //-     span.RecipeIngredient-Name #{ingredient.label}
+                    //-     |
+                    //-     |
+                    //-     span.RecipeIngredient-Notes #{ingredient.notes}
 
 
         h2 Directions
 
-        +editableRecipeDirections(recipe.directions, `/api/recipes/${recipe._id}/directions`)
+        +editableRecipeDirections(recipe.directions, `${apiRoot}/directions`)
 
 
         h2 Notes
 
-        .RecipeNotes.EditableDiv(contenteditable data-endpoint=`/api/recipes/${recipe._id}/notes`)= recipe.notes
+        .RecipeNotes.EditableDiv(contenteditable data-endpoint=`${apiRoot}/notes`)= recipe.notes
 
 
         if typeof(recipe.yield.amount) !== 'undefined'
             h2 Yield
 
-            .RecipeYield #{recipe.yield.amount} #{recipe.yield.label}
+            .RecipeYield 
+                .RecipeYield-Amount.EditableNumber(contenteditable data-endpoint=`${apiRoot}/yield.amount`) #{recipe.yield.amount} 
+
+                .RecipeYield-Label.EditableDiv(contenteditable data-endpoint=`${apiRoot}/yield.label`)= recipe.yield.label
 
 
-        if (typeof(recipe.source.url) !== 'undefined' || typeof(recipe.source.name) !== 'undefined' || typeof(recipe.source.author) !== 'undefined')
-            h2 Source
+        //- if (typeof(recipe.source.url) !== 'undefined' || typeof(recipe.source.name) !== 'undefined' || typeof(recipe.source.author) !== 'undefined')
+        h2 Source
 
-            if recipe.source.url
-                .RecipeSource
-                    +editableUrlInput(recipe.source.url, `/api/recipes/${recipe._id}/source.url`)
+        .RecipeSource
+            +editableUrlInput(recipe.source.url, `${apiRoot}/source.url`)
 
-            if recipe.source.name
-                .RecipeSource-Name #{recipe.source.name}
+        .RecipeSource-Name
+            +editableInputText(recipe.source.name, `${apiRoot}/source.name`, 'add source name')
 
-            if recipe.source.author
-                .RecipeSource-Author #{recipe.source.author}
+        .RecipeSource-Author
+            +editableInputText(recipe.source.author, `${apiRoot}/source.author`, 'add source author')
 
 block scripts
     script(src="/js/recipe.js")

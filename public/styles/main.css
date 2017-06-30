@@ -1,5 +1,9 @@
+h2 {
+  margin-bottom: 0.5em; }
+
 .EditableInputText:read-only {
   padding-left: 0;
+  padding-bottom: 0;
   border: 0;
   background-color: transparent; }
 
@@ -13,6 +17,38 @@
 
 .Recipe ol, .Recipe ul {
   padding-left: 1.2em; }
+
+.RecipeIngredientRow input {
+  margin-right: 0.1em;
+  font-size: 0.8em; }
+
+.RecipeIngredientRow .EditableInputText:read-only {
+  padding-left: 0.3em;
+  padding-bottom: 0.3em;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: transparent; }
+
+.RecipeIngredientRow-Amount {
+  width: 4em; }
+
+.RecipeIngredientRow-Unit {
+  width: 8em; }
+
+.RecipeIngredientRow-Type {
+  width: 6em; }
+
+.RecipeIngredientRow-Label {
+  width: 10em; }
+
+.RecipeIngredientRow-Notes {
+  width: 16em; }
+
+.RecipeYield-Amount,
+.RecipeYield-Label {
+  display: inline-block; }
+
+.RecipeYield-Label {
+  margin-left: 0.25em; }
 
 .Source-Url {
   margin-right: 0.5em;
