@@ -18,6 +18,9 @@ h2 {
 .Recipe ol, .Recipe ul {
   padding-left: 1.2em; }
 
+.RecipeTitle input {
+  width: 100%; }
+
 .RecipeIngredientRow input {
   margin-right: 0.1em;
   font-size: 0.8em; }
