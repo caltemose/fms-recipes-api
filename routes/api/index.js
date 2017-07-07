@@ -6,5 +6,6 @@ router.get('/', (req, res) => {
 })
 
 router.use('/recipes', require('./recipes/'))
+router.use('/ingredients', require('./ingredients/'))
 
 module.exports = router

@@ -5,6 +5,9 @@ module.exports = {
     entry: {
         recipe: './src/js/pages/recipe.js'
     },
+    externals: {
+        awesomplete: 'Awesomplete'
+    },
     module: {
         rules: [
             {

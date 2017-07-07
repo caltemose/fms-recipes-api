@@ -1,5 +1,16 @@
 const mongoose = require('mongoose')
-const createdDate = require('../helpers/createdDate');
+const createdDate = require('../helpers/createdDate')
+
+var ingredientSchema = mongoose.Schema({
+    id: mongoose.Schema.Types.ObjectId,
+    type: { type:String, enum: ['recipe', 'ingredient'], required:true, trim:true },
+    label: { type:String, required:true, trim:true },
+    notes: { type:String, trim:true },
+    amount: {
+        unit: { type:String, required: true },
+        value: { type:Number, required: true }
+    }
+})
 
 var schema = mongoose.Schema({
     created: { type:Date },
@@ -28,14 +39,14 @@ var schema = mongoose.Schema({
         rest: Number,
         total: Number
     },
-    ingredients: Array,
+    ingredients: [ingredientSchema],
     directions: Object,
     notes: String,
     images: Array,
     tags: Array
-});
+})
 
 // add created date property
-schema.plugin(createdDate);
+schema.plugin(createdDate)
 
-module.exports = mongoose.model('Recipe', schema);
+module.exports = mongoose.model('Recipe', schema)

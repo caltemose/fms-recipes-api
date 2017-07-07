@@ -1,9 +1,11 @@
+import axios from 'axios'
 import EditableTextInput from './EditableTextInput'
 import EditableUrlInput from './EditableUrlInput'
 import EditableCheckbox from './EditableCheckbox'
 import EditableRecipeDirections from './EditableRecipeDirections'
 import EditableDiv from './EditableDiv'
 import EditableNumber from './EditableNumber'
+import EditableIngredientRow from './EditableIngredientRow'
 
 export default class EditableRecipe {
     constructor (element) {
@@ -45,5 +47,53 @@ export default class EditableRecipe {
         for(let i=0; i<editableUrlInputs.length; i++) {
             new EditableUrlInput(editableUrlInputs[i])
         }
+
+        // Ingredient rows
+        const ingredientRows = this.element.querySelectorAll('.RecipeIngredientRow')
+        this.ingredientRows = []
+        for(let i=0; i<ingredientRows.length; i++) {
+            this.ingredientRows.push(new EditableIngredientRow(ingredientRows[i]))
+        }
+
+        this.data = {}
+        this.getIngredients()
+    }
+
+    getIngredients () {
+        axios.get('/api/ingredients')
+            .then(response => {
+                this.onIngredientsReceived(response.data.ingredients)
+            })
+            .catch(err => {
+                console.error(err)
+                alert(err)
+            })
+    }
+
+    onIngredientsReceived (ingredients) {
+        this.data.ingredients = ingredients
+        this.data.ingredientList = this.data.ingredients.map(ingredient => ingredient.label)
+        this.getRecipes()
+    }
+
+    getRecipes () {
+        axios.get('/api/recipes')
+            .then(response => {
+                this.onRecipesReceived(response.data.recipes)
+            })
+            .catch(err => {
+                console.error(err)
+                alert(err)
+            })
+    }
+
+    onRecipesReceived (recipes) {
+        this.data.recipes = recipes
+        this.data.recipeList = this.data.recipes.map(recipe => recipe.label)
+        // console.log(this.data)
+        // console.log(this.ingredientRows)
+        this.ingredientRows.forEach(row => {
+            row.setData(this.data)
+        })
     }
 }

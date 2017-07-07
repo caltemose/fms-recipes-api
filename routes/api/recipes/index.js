@@ -45,7 +45,6 @@ router.post('/:id/:property/:option', (req, res) => {
     const property = req.params.property
     const option = req.params.option
     const value = req.body.value
-    
 
     recipes.updateRecipeProperty(id, property, value, option)
         .then(result => {
@@ -54,6 +53,22 @@ router.post('/:id/:property/:option', (req, res) => {
         .catch(err => {
             res.json({ err: err })
         })
+})
+
+router.post('/:id/ingredient/:index/label', (req, res) => {
+    const id = req.params.id
+    const index = req.params.index
+    const label = req.body.label
+    const itemId = req.body.id
+
+    recipes.updateRecipeIngredientLabel(id, index, itemId, label)
+        .then(result => {
+            res.json({ success: true })
+        })
+        .catch(err => {
+            res.json({ err })
+        })
+
 })
 
 router.post('/:id/ingredient/:index/:property', (req, res) => {

@@ -15,11 +15,13 @@ h2 {
 .RecipeDirections-Step .EditableTextArea {
   width: 100%; }
 
-.Recipe ol, .Recipe ul {
-  padding-left: 1.2em; }
-
 .RecipeTitle input {
   width: 100%; }
+
+.RecipeIngredients {
+  list-style: none;
+  margin-left: 0;
+  padding-left: 0; }
 
 .RecipeIngredientRow input {
   margin-right: 0.1em;
@@ -38,13 +40,20 @@ h2 {
   width: 8em; }
 
 .RecipeIngredientRow-Type {
-  width: 6em; }
+  width: 7em;
+  font-size: 0.8em;
+  margin-left: 0.3em; }
 
 .RecipeIngredientRow-Label {
-  width: 10em; }
+  display: inline-block; }
+  .RecipeIngredientRow-Label input {
+    width: 10em; }
 
 .RecipeIngredientRow-Notes {
   width: 16em; }
+
+.RecipeDirections-List {
+  padding-left: 1.2em; }
 
 .RecipeYield-Amount,
 .RecipeYield-Label {
