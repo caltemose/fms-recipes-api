@@ -15,6 +15,23 @@ block content
             +editableCheckbox(recipe.core, `${apiRoot}/core`, 'core recipe')
             +editableCheckbox(recipe.active, `${apiRoot}/active`, 'recipe active')
 
+        h2 Time
+
+        .RecipeTimes
+            label
+                | Prep: 
+                +editableInputText(recipe.time.prep, `${apiRoot}/time.prep`, 'add')
+            label
+                | Cook: 
+                +editableInputText(recipe.time.cook, `${apiRoot}/time.cook`, 'add')
+            label
+                | Rest: 
+                +editableInputText(recipe.time.rest, `${apiRoot}/time.rest`, 'add')
+            label
+                | Total: 
+                +editableInputText(recipe.time.total, `${apiRoot}/time.total`, 'add')
+
+
         h2 Ingredients
 
         ul.RecipeIngredients
@@ -22,15 +39,6 @@ block content
                 each ingredient, index in recipe.ingredients
                     - var endpoint = `${apiRoot}/ingredient/${index}`
                     include shared/editable-ingredient-row.pug
-
-                    //- li
-                    //-     span.RecipeIngredient-Measurement #{ingredient.amount.value} #{ingredient.amount.unit}
-                    //-     |
-                    //-     |
-                    //-     span.RecipeIngredient-Name #{ingredient.label}
-                    //-     |
-                    //-     |
-                    //-     span.RecipeIngredient-Notes #{ingredient.notes}
 
 
         h2 Directions

@@ -18,6 +18,12 @@ h2 {
 .RecipeTitle input {
   width: 100%; }
 
+.RecipeTimes label {
+  display: inline-block;
+  width: 8em; }
+  .RecipeTimes label input {
+    width: 3em; }
+
 .RecipeIngredients {
   list-style: none;
   margin-left: 0;
