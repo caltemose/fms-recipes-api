@@ -2,6 +2,8 @@ const Promise = require('bluebird')
 const mongoose = require('mongoose')
 const Recipe = mongoose.model('Recipe')
 
+const SUCCESS_RESULT = { success: true }
+
 module.exports = {
     getRecipes: function getRecipes (filter) {
         return new Promise((resolve, reject) => {
@@ -47,10 +49,27 @@ module.exports = {
                     update.name = value.toLowerCase()
                 }
             }
-            console.log(update)
+
             Recipe.findByIdAndUpdate(id, { $set: update }, (err, recipe) => {
                 if (err) reject(err)
-                else resolve({ success: true })
+                else resolve(SUCCESS_RESULT)
+            })
+        })
+    },
+
+    updateRecipeIngredientProperty: function updateRecipeIngredientProperty (recipeId, index, property, value) {
+        if (!recipeId || !index || !property || value === null)
+            throw new Error('Insufficient recipe ingredient data provided.')
+        
+        return new Promise((resolve, reject) => {
+            Recipe.findById(recipeId, (err, doc) => {
+                if (err) reject(err)
+                if (!doc) reject('No recipe found with given id')
+                doc.ingredients[index][property] = value
+                doc.save((err, updated) => {
+                    if (err) reject(err)
+                    resolve({recipe: updated})
+                })
             })
         })
     },
@@ -60,13 +79,15 @@ module.exports = {
             throw new Error('Insufficient recipe ingredient data provided.')
 
         return new Promise((resolve, reject) => {
-            let update = {}
-            update[`ingredients[${index}].label`] = label
-            update[`ingredients[${index}].id`] = mongoose.Types.ObjectId(id)
-            console.log(update)
-            Recipe.findByIdAndUpdate(recipeId, { $set: update }, (err, recipe) => {
+            Recipe.findById(recipeId, (err, doc) => {
                 if (err) reject(err)
-                else resolve({ success: true })
+                if (!doc) reject('No document found with given id')
+                doc.ingredients[index].id = mongoose.Types.ObjectId(id)
+                doc.ingredients[index].label = label
+                doc.save((err, updated) => {
+                    if (err) reject(err)
+                    resolve({recipe: updated})
+                })
             })
         })
     }

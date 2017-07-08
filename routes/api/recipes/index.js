@@ -63,12 +63,11 @@ router.post('/:id/ingredient/:index/label', (req, res) => {
 
     recipes.updateRecipeIngredientLabel(id, index, itemId, label)
         .then(result => {
-            res.json({ success: true })
+            res.json(result)
         })
         .catch(err => {
             res.json({ err })
         })
-
 })
 
 router.post('/:id/ingredient/:index/:property', (req, res) => {
@@ -77,20 +76,13 @@ router.post('/:id/ingredient/:index/:property', (req, res) => {
     const property = req.params.property
     const value = req.body.value
 
-    res.json({ 
-        id: id,
-        index: index,
-        property: property,
-        value: value,
-        stub: true })
-
-    // recipes.updateRecipeProperty(id, property, value, option)
-    //     .then(result => {
-    //         res.json({ success: true })
-    //     })
-    //     .catch(err => {
-    //         res.json({ err: err })
-    //     })
+    recipes.updateRecipeIngredientProperty(id, index, property, value)
+        .then(result => {
+            res.json({ success: true })
+        })
+        .catch(err => {
+            res.json({ err: err })
+        })
 })
 
 module.exports = router

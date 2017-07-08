@@ -44,8 +44,7 @@ export default class EditableIngredientLabel {
 
         const data = {
             label: this.labelElement.value,
-            id: this.idElement.value,
-            type: this.ingredientType
+            id: this.idElement.value
         }
         axios.post(this.endpoint, data)
             .then(response => {

@@ -32,6 +32,7 @@ export default class EditableIngredientRow {
 
     onTypeSave () {
         this.ingredientLabel.setIngredientType(this.ingredientType.getValue())
+        this.updateIngredientDataList()
     }
 
     setData (data) {

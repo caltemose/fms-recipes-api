@@ -22,18 +22,15 @@ export default class EditableSelect {
             value: this.element.value
         }
 
-        this.value = this.element.value
-        this.subscribers.forEach(subscriber => subscriber())
-
-        // axios.post(this.endpoint, data)
-        //     .then(response => {
-        //         this.value = this.element.value
-        //         this.subscribers.forEach(subscriber => subscriber())
-        //     })
-        //     .catch(err => {
-        //         console.error(err)
-        //         alert(err)
-        //     })
+        axios.post(this.endpoint, data)
+            .then(response => {
+                this.value = this.element.value
+                this.subscribers.forEach(subscriber => subscriber())
+            })
+            .catch(err => {
+                console.error(err)
+                alert(err)
+            })
     }
 
     subscribeToSaved (callback) {
