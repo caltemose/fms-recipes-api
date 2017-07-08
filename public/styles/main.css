@@ -1,3 +1,13 @@
+body {
+  width: 100%; }
+
+article {
+  width: 100%;
+  max-width: inherit; }
+  @media (min-width: 768px) {
+    article {
+      max-width: 46em; } }
+
 h2 {
   margin-bottom: 0.5em; }
 
