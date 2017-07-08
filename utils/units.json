@@ -1,0 +1,28 @@
+{
+  "units": [
+   "ounce(s)",
+   "pound(s)",
+   "cup(s)",
+   "teaspoon(s)",
+   "tablespoon(s)",
+   "pinch",
+   "gram(s)",
+   "kilogram(s)",
+   "liter(s)",
+   "milliliter(s)",
+   "unit(s)",
+   "piece(s)",
+   "stick(s)",
+   "seeds",
+   "clove(s)",
+   "stalk(s)",
+   "quart(s)",
+   "leave(s)",
+   "slice(s)",
+   "fistfull",
+   "bunch",
+   "sprig(s)",
+   "pint(s)",
+   "packet(s)"
+  ]
+}

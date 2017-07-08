@@ -37,6 +37,8 @@
     "babel-loader": "^7.1.0",
     "babel-preset-env": "^1.5.2",
     "camelcase": "^4.1.0",
+    "load-json-file": "^2.0.0",
+    "mongodb": "^2.2.30",
     "morgan": "^1.8.2",
     "node-sass": "^4.5.3",
     "webpack": "^3.0.0"
