@@ -25,6 +25,15 @@ h2 {
 .RecipeDirections-Step .EditableTextArea {
   width: 100%; }
 
+.RecipeIngredientRow {
+  margin-bottom: 0.5em; }
+  @media (min-width: 768px) {
+    .RecipeIngredientRow {
+      margin-bottom: 0.25em; } }
+
+.Recipe h2 {
+  margin-top: 0.75em; }
+
 .RecipeTitle input {
   width: 100%; }
 
