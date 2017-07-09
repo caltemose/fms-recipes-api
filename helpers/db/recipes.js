@@ -60,12 +60,20 @@ module.exports = {
     updateRecipeIngredientProperty: function updateRecipeIngredientProperty (recipeId, index, property, value) {
         if (!recipeId || !index || !property || value === null)
             throw new Error('Insufficient recipe ingredient data provided.')
-        
+
         return new Promise((resolve, reject) => {
             Recipe.findById(recipeId, (err, doc) => {
                 if (err) reject(err)
                 if (!doc) reject('No recipe found with given id')
-                doc.ingredients[index][property] = value
+
+                if (property === "amount.unit") {
+                    doc.ingredients[index].amount.unit = value
+                } else if (property === "amount.value") {
+                    doc.ingredients[index].amount.value = value
+                } else {
+                    doc.ingredients[index][property] = value
+                }
+
                 doc.save((err, updated) => {
                     if (err) reject(err)
                     resolve({recipe: updated})
