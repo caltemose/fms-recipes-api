@@ -78,7 +78,7 @@ router.post('/:id/ingredient/:index/:property', (req, res) => {
 
     recipes.updateRecipeIngredientProperty(id, index, property, value)
         .then(result => {
-            res.json(result)
+            res.json({ success: true })
         })
         .catch(err => {
             res.json({ err: err })

@@ -56,21 +56,6 @@ export default class EditableRecipe {
         }
 
         this.data = {}
-        this.getUnits()
-    }
-
-    getUnits () {
-        axios.get('/api/units')
-            .then(response => {
-                this.onUnitsReceived(response.data.units)
-            })
-            .catch(err => {
-                console.error(err)
-            })
-    }
-
-    onUnitsReceived (units) {
-        this.data.units = units
         this.getIngredients()
     }
 
@@ -105,6 +90,8 @@ export default class EditableRecipe {
     onRecipesReceived (recipes) {
         this.data.recipes = recipes
         this.data.recipeList = this.data.recipes.map(recipe => recipe.label)
+        // console.log(this.data)
+        // console.log(this.ingredientRows)
         this.ingredientRows.forEach(row => {
             row.setData(this.data)
         })

@@ -1203,33 +1203,16 @@ var EditableRecipe = function () {
         }
 
         this.data = {};
-        this.getUnits();
+        this.getIngredients();
     }
 
     _createClass(EditableRecipe, [{
-        key: 'getUnits',
-        value: function getUnits() {
-            var _this = this;
-
-            _axios2.default.get('/api/units').then(function (response) {
-                _this.onUnitsReceived(response.data.units);
-            }).catch(function (err) {
-                console.error(err);
-            });
-        }
-    }, {
-        key: 'onUnitsReceived',
-        value: function onUnitsReceived(units) {
-            this.data.units = units;
-            this.getIngredients();
-        }
-    }, {
         key: 'getIngredients',
         value: function getIngredients() {
-            var _this2 = this;
+            var _this = this;
 
             _axios2.default.get('/api/ingredients').then(function (response) {
-                _this2.onIngredientsReceived(response.data.ingredients);
+                _this.onIngredientsReceived(response.data.ingredients);
             }).catch(function (err) {
                 console.error(err);
                 alert(err);
@@ -1247,10 +1230,10 @@ var EditableRecipe = function () {
     }, {
         key: 'getRecipes',
         value: function getRecipes() {
-            var _this3 = this;
+            var _this2 = this;
 
             _axios2.default.get('/api/recipes').then(function (response) {
-                _this3.onRecipesReceived(response.data.recipes);
+                _this2.onRecipesReceived(response.data.recipes);
             }).catch(function (err) {
                 console.error(err);
                 alert(err);
@@ -1259,14 +1242,16 @@ var EditableRecipe = function () {
     }, {
         key: 'onRecipesReceived',
         value: function onRecipesReceived(recipes) {
-            var _this4 = this;
+            var _this3 = this;
 
             this.data.recipes = recipes;
             this.data.recipeList = this.data.recipes.map(function (recipe) {
                 return recipe.label;
             });
+            // console.log(this.data)
+            // console.log(this.ingredientRows)
             this.ingredientRows.forEach(function (row) {
-                row.setData(_this4.data);
+                row.setData(_this3.data);
             });
         }
     }]);
@@ -2587,10 +2572,6 @@ var _EditableIngredientLabel = __webpack_require__(39);
 
 var _EditableIngredientLabel2 = _interopRequireDefault(_EditableIngredientLabel);
 
-var _EditableUnit = __webpack_require__(40);
-
-var _EditableUnit2 = _interopRequireDefault(_EditableUnit);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -2611,7 +2592,7 @@ var EditableIngredientRow = function () {
             new _EditableNumber2.default(this.element.querySelector('.RecipeIngredientRow-Amount'));
 
             // Amount Unit
-            this.ingredientUnit = new _EditableUnit2.default(this.element.querySelector('.RecipeIngredientRow-Unit'));
+            new _EditableTextInput2.default(this.element.querySelector('.RecipeIngredientRow-Unit'));
 
             // Ingredient Type
             this.ingredientType = new _EditableSelect2.default(this.element.querySelector('.RecipeIngredientRow-Type'));
@@ -2635,7 +2616,6 @@ var EditableIngredientRow = function () {
         value: function setData(data) {
             this.data = data;
             this.updateIngredientDataList();
-            this.updateUnitsList();
         }
     }, {
         key: 'updateIngredientDataList',
@@ -2653,11 +2633,6 @@ var EditableIngredientRow = function () {
                 }
             }
             return null;
-        }
-    }, {
-        key: 'updateUnitsList',
-        value: function updateUnitsList() {
-            this.ingredientUnit.updateDataList(this.data.units);
         }
     }]);
 
@@ -2834,91 +2809,6 @@ var EditableIngredientLabel = function () {
 }();
 
 exports.default = EditableIngredientLabel;
-
-/***/ }),
-/* 40 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _axios = __webpack_require__(0);
-
-var _axios2 = _interopRequireDefault(_axios);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var EditableUnit = function () {
-    function EditableUnit(element) {
-        _classCallCheck(this, EditableUnit);
-
-        this.element = element;
-        this.endpoint = this.element.dataset.endpoint;
-        this.value = this.element.value;
-        this.element.addEventListener('focus', this.onFocus.bind(this));
-        this.element.addEventListener('blur', this.onBlur.bind(this));
-        return this;
-    }
-
-    _createClass(EditableUnit, [{
-        key: 'updateDataList',
-        value: function updateDataList(list) {
-            list = list.map(function (item) {
-                return item.label;
-            });
-
-            if (!this.input) {
-                this.input = new Awesomplete(this.element, { list: list });
-            } else {
-                this.input.list = list;
-            }
-        }
-    }, {
-        key: 'onFocus',
-        value: function onFocus(event) {
-            this.element.removeAttribute('readonly');
-        }
-    }, {
-        key: 'onBlur',
-        value: function onBlur(event) {
-            this.element.setAttribute('readonly', true);
-            if (this.value !== this.element.innerHTML) {
-                this.save();
-            }
-        }
-    }, {
-        key: 'save',
-        value: function save() {
-            var _this = this;
-
-            if (!this.endpoint || this.endpoint === '') {
-                return;
-            }
-
-            var data = {
-                value: this.element.value
-            };
-            _axios2.default.post(this.endpoint, data).then(function (response) {
-                _this.value = _this.element.value;
-            }).catch(function (err) {
-                console.error(err);
-                alert(err);
-            });
-        }
-    }]);
-
-    return EditableUnit;
-}();
-
-exports.default = EditableUnit;
 
 /***/ })
 /******/ ]);

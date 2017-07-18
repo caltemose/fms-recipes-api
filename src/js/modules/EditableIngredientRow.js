@@ -3,7 +3,6 @@ import EditableNumber from './EditableNumber'
 import EditableTextInput from './EditableTextInput'
 import EditableSelect from './EditableSelect'
 import EditableIngredientLabel from './EditableIngredientLabel'
-import EditableUnit from './EditableUnit'
 
 export default class EditableIngredientRow {
     constructor (element) {
@@ -17,7 +16,7 @@ export default class EditableIngredientRow {
         new EditableNumber(this.element.querySelector('.RecipeIngredientRow-Amount'))
 
         // Amount Unit
-        this.ingredientUnit = new EditableUnit(this.element.querySelector('.RecipeIngredientRow-Unit'))
+        new EditableTextInput(this.element.querySelector('.RecipeIngredientRow-Unit'))
 
         // Ingredient Type
         this.ingredientType = new EditableSelect(this.element.querySelector('.RecipeIngredientRow-Type'))
@@ -39,7 +38,6 @@ export default class EditableIngredientRow {
     setData (data) {
         this.data = data
         this.updateIngredientDataList()
-        this.updateUnitsList()
     }
 
     updateIngredientDataList () {
@@ -55,10 +53,6 @@ export default class EditableIngredientRow {
             }
         }
         return null
-    }
-
-    updateUnitsList () {
-        this.ingredientUnit.updateDataList(this.data.units)
     }
 
 }
