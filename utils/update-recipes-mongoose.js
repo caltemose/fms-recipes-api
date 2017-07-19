@@ -73,6 +73,7 @@ const updateRecipes = () => {
         if (recipe.yield && recipe.yield.amount) {
             newRecipe.yield = {}
             newRecipe.yield.amount = Number(recipe.yield.amount)
+            newRecipe.yield.label = recipe.yield.label
         }
 
         let recipeIngredients = []
