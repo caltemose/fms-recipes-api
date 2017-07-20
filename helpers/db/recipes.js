@@ -1,6 +1,7 @@
 const Promise = require('bluebird')
 const mongoose = require('mongoose')
 const Recipe = mongoose.model('Recipe')
+const slug = require('slugg')
 
 const SUCCESS_RESULT = { success: true }
 
@@ -49,7 +50,7 @@ module.exports = {
 
                 // TODO is the recipe.name property necessary? a slug would be more useful
                 if (property === 'label') {
-                    update.name = value.toLowerCase()
+                    update.slug = slug(value)
                 }
             }
 
