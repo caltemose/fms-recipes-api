@@ -25,10 +25,13 @@ module.exports = {
             throw new Error('Recipe ID not supplied.')
 
         return new Promise((resolve, reject) => {
-            Recipe.findById(id, (err, doc) => {
-                if (err) reject(err)
-                else resolve(doc)
-            })
+            Recipe
+                .findOne({ _id: id})
+                .populate('ingredients.itemId ingredients.amount.unitId')
+                .exec((err, doc) => {
+                    if (err) reject(err)
+                    else resolve(doc)
+                })
         })
     },
 

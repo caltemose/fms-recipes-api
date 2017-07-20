@@ -49,6 +49,7 @@ const updateRecipes = () => {
         newRecipe.core = !!recipe.core
         newRecipe.slug = slug(recipe.label)
         newRecipe.label = recipe.label
+        newRecipe.notes = recipe.notes
 
         if (recipe.difficulty !== null && !isNaN(recipe.difficulty)) {
             newRecipe.difficulty = Number(recipe.difficulty)
@@ -82,10 +83,10 @@ const updateRecipes = () => {
             let ing = {}
             // create a new ObjectId for this subdocument
             ing._id = ObjectId()
-            ing.type = prev.type
+            ing.type = prev.type.charAt(0).toUpperCase() + prev.type.slice(1)
             let ingredientsArray
             switch(ing.type) {
-                case 'recipe':
+                case 'Recipe':
                     ingredientsArray = recipes
                     break
                 default:

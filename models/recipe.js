@@ -1,13 +1,13 @@
 const mongoose = require('mongoose')
+const ObjectId = mongoose.Schema.Types.ObjectId
 
 var ingredientSchema = mongoose.Schema({
-    itemId: mongoose.Schema.Types.ObjectId,
-    type: { type:String, enum: ['recipe', 'ingredient'], required:true, trim:true },
+    itemId: { type: ObjectId, refPath: 'ingredients.type' },
+    type: { type:String, enum: ['Recipe', 'Ingredient'], required:true },
     label: { type:String, trim:true },
     notes: { type:String, trim:true },
     amount: {
-        unit: String,
-        unitId: mongoose.Schema.Types.ObjectId,
+        unitId: { type: ObjectId, ref: 'Unit' },
         value: { type:Number, required: true }
     }
 })
