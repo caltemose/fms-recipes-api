@@ -12,6 +12,7 @@ let returnString = 'return {'
 function convertPugRefs (str) {
     let fixed = str.replace(/pug\.rethrow/gi, 'pug_rethrow')
     fixed = str.replace(/pug\.escape/gi, 'pug_escape')
+    fixed = str.replace(/\|\|require\("fs"\).readFileSync\(e,"utf8"\)/gi, '')
     return fixed
 }
 
@@ -19,7 +20,7 @@ templates.forEach((template, index) => {
     const templateName = camelcase( path.basename(template, '.pug') )
     const opts = {
         name: templateName,
-        inlineRuntimeFunctions: false
+        inlineRuntimeFunctions: true
     }
     compiled += convertPugRefs(pug.compileFileClient('views/shared/' + template, opts))
     returnString += templateName + ':' + templateName
@@ -28,7 +29,7 @@ templates.forEach((template, index) => {
     }
 })
 
-compiled += pug.compileClient('h1= ignore', {inlineRuntimeFunctions: true, name: "ignore"})
+// compiled += pug.compileClient('h1= ignore', {inlineRuntimeFunctions: true, name: "ignore"})
 
 returnString += '}'
 

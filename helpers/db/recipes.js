@@ -61,16 +61,23 @@ module.exports = {
         })
     },
 
-    updateRecipeIngredientProperty: function updateRecipeIngredientProperty (recipeId, index, property, value) {
-        if (!recipeId || !index || !property || value === null)
+    updateRecipeIngredientProperty: function updateRecipeIngredientProperty (recipeId, ingredientId, property, value) {
+        if (!recipeId || !ingredientId || !property || value === null)
             throw new Error('Insufficient recipe ingredient data provided.')
         
-        // TODO update ingredient property saving to use subdocuments properly
         return new Promise((resolve, reject) => {
             Recipe.findById(recipeId, (err, doc) => {
                 if (err) reject(err)
                 if (!doc) reject('No recipe found with given id')
-                doc.ingredients[index][property] = value
+                
+                const ing = doc.ingredients.id(ingredientId)
+                
+                if (property === 'itemId') {
+                    ing[property] = mongoose.Types.ObjectId(value)
+                } else {
+                    ing[property] = value
+                }
+
                 doc.save((err, updated) => {
                     if (err) reject(err)
                     resolve({recipe: updated})
@@ -79,7 +86,7 @@ module.exports = {
         })
     },
 
-    // TODO this function shouldn't be needed once recipe saving refactoring is updated
+    // TODO this function may not be needed once recipe saving refactoring is updated
     updateRecipeIngredientLabel: function updateRecipeIngredientLabel (recipeId, index, id, label) {
         if (!recipeId || !index || !id || !label)
             throw new Error('Insufficient recipe ingredient data provided.')
@@ -90,6 +97,30 @@ module.exports = {
                 if (!doc) reject('No document found with given id')
                 doc.ingredients[index].id = mongoose.Types.ObjectId(id)
                 doc.ingredients[index].label = label
+                doc.save((err, updated) => {
+                    if (err) reject(err)
+                    resolve({recipe: updated})
+                })
+            })
+        })
+    },
+
+    updateRecipeIngredientAmount: function updateRecipeIngredientAmount (recipeId, ingredientId, property, value) {
+        if (!recipeId || !ingredientId || !property || !value)
+            throw new Error('Insufficient recipe ingredient amount data provided.')
+        
+        return new Promise((resolve, reject) => {
+            Recipe.findById(recipeId, (err, doc) => {
+                if (err) reject(err)
+                if (!doc) reject('No document found with given id')
+
+                const ing = doc.ingredients.id(ingredientId)
+                if (property === "value") {
+                    ing.amount.value = Number(value)
+                } else {
+                    ing.amount.unitId = mongoose.Types.ObjectId(value)
+                }
+
                 doc.save((err, updated) => {
                     if (err) reject(err)
                     resolve({recipe: updated})

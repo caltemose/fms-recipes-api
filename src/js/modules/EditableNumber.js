@@ -4,13 +4,22 @@ export default class EditableNumber {
     constructor (element) {
         this.element = element
         this.endpoint = this.element.dataset.endpoint
-        this.value = this.element.innerHTML
+        this.value = this.getValue()
         this.element.addEventListener('blur', this.onBlur.bind(this))
         return this
     }
 
+    getValue () {
+        if (this.element.tagName === 'INPUT') {
+            return this.element.value
+        } else {
+            return this.element.innerHTML
+        }
+    }
+
+
     onBlur (event) {
-        if (this.value !== this.element.innerHTML) {
+        if (this.value !== this.getValue()) {
             this.save()
         }
     }
@@ -21,7 +30,7 @@ export default class EditableNumber {
         }
 
         const data = {
-            value: Number(this.element.innerHTML)
+            value: Number(this.getValue())
         }
         axios.post(this.endpoint, data)
             .then(response => {

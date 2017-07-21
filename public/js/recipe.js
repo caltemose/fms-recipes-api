@@ -1049,15 +1049,24 @@ var EditableNumber = function () {
 
         this.element = element;
         this.endpoint = this.element.dataset.endpoint;
-        this.value = this.element.innerHTML;
+        this.value = this.getValue();
         this.element.addEventListener('blur', this.onBlur.bind(this));
         return this;
     }
 
     _createClass(EditableNumber, [{
+        key: 'getValue',
+        value: function getValue() {
+            if (this.element.tagName === 'INPUT') {
+                return this.element.value;
+            } else {
+                return this.element.innerHTML;
+            }
+        }
+    }, {
         key: 'onBlur',
         value: function onBlur(event) {
-            if (this.value !== this.element.innerHTML) {
+            if (this.value !== this.getValue()) {
                 this.save();
             }
         }
@@ -1071,7 +1080,7 @@ var EditableNumber = function () {
             }
 
             var data = {
-                value: Number(this.element.innerHTML)
+                value: Number(this.getValue())
             };
             _axios2.default.post(this.endpoint, data).then(function (response) {
                 _this.value = _this.element.innerHTML;
@@ -1221,8 +1230,8 @@ var EditableRecipe = function () {
     }, {
         key: 'onIngredientsReceived',
         value: function onIngredientsReceived(ingredients) {
-            this.data.ingredients = ingredients;
-            this.data.ingredientList = this.data.ingredients.map(function (ingredient) {
+            this.data.Ingredients = ingredients;
+            this.data.IngredientList = this.data.Ingredients.map(function (ingredient) {
                 return ingredient.label;
             });
             this.getRecipes();
@@ -1244,12 +1253,10 @@ var EditableRecipe = function () {
         value: function onRecipesReceived(recipes) {
             var _this3 = this;
 
-            this.data.recipes = recipes;
-            this.data.recipeList = this.data.recipes.map(function (recipe) {
+            this.data.Recipes = recipes;
+            this.data.RecipeList = this.data.Recipes.map(function (recipe) {
                 return recipe.label;
             });
-            // console.log(this.data)
-            // console.log(this.ingredientRows)
             this.ingredientRows.forEach(function (row) {
                 row.setData(_this3.data);
             });
@@ -2746,24 +2753,26 @@ var EditableIngredientLabel = function () {
         this.element = element;
         this.endpoint = this.element.dataset.endpoint;
         this.getIngredientIdByLabel = getIngredientIdByLabel;
-        this.initialize();
+
+        this.labelElement = this.element.querySelector('input[name="ingredientLabel"');
+        this.idElement = this.element.querySelector('input[name="ingredientId"]');
+        this.labelElement.addEventListener('change', this.onLabelChange.bind(this));
+
+        this.label = this.getLabel();
         return this;
     }
 
     _createClass(EditableIngredientLabel, [{
-        key: 'initialize',
-        value: function initialize() {
-            this.labelElement = this.element.querySelector('input[name="ingredientLabel"');
-            this.idElement = this.element.querySelector('input[name="ingredientId"]');
-            this.labelElement.addEventListener('change', this.onLabelChange.bind(this));
-            this.value = this.labelElement.value;
+        key: 'getLabel',
+        value: function getLabel() {
+            return this.labelElement.value;
         }
     }, {
         key: 'onLabelChange',
         value: function onLabelChange(event) {
-            var newValue = this.labelElement.value;
-            if (this.value !== newValue) {
-                var newId = this.getIngredientIdByLabel(newValue);
+            var newLabel = this.getLabel();
+            if (this.label !== newLabel) {
+                var newId = this.getIngredientIdByLabel(newLabel);
                 this.idElement.value = newId;
                 this.save();
             }
@@ -2792,12 +2801,11 @@ var EditableIngredientLabel = function () {
             }
 
             var data = {
-                label: this.labelElement.value,
-                id: this.idElement.value
+                value: this.idElement.value
             };
+
             _axios2.default.post(this.endpoint, data).then(function (response) {
-                _this.value = _this.element.value;
-                // this.subscribers.forEach(subscriber => subscriber())
+                _this.label = _this.getLabel();
             }).catch(function (err) {
                 console.error(err);
                 alert(err);

@@ -55,13 +55,13 @@ router.post('/:id/:property/:option', (req, res) => {
         })
 })
 
-router.post('/:id/ingredient/:index/label', (req, res) => {
+router.post('/:id/ingredient/:ingredientId/amount/:property', (req, res) => {
     const id = req.params.id
-    const index = req.params.index
-    const label = req.body.label
-    const itemId = req.body.id
+    const ingredientId = req.params.ingredientId
+    const property = req.params.property // 'unitId' || 'value'
+    const value = req.body.value // ObjectId || Number
 
-    recipes.updateRecipeIngredientLabel(id, index, itemId, label)
+    recipes.updateRecipeIngredientAmount(id, ingredientId, property, value)
         .then(result => {
             res.json(result)
         })
@@ -70,13 +70,13 @@ router.post('/:id/ingredient/:index/label', (req, res) => {
         })
 })
 
-router.post('/:id/ingredient/:index/:property', (req, res) => {
+router.post('/:id/ingredient/:ingredientId/:property', (req, res) => {
     const id = req.params.id
-    const index = req.params.index
+    const ingredientId = req.params.ingredientId
     const property = req.params.property
     const value = req.body.value
 
-    recipes.updateRecipeIngredientProperty(id, index, property, value)
+    recipes.updateRecipeIngredientProperty(id, ingredientId, property, value)
         .then(result => {
             res.json({ success: true })
         })

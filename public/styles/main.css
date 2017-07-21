@@ -30,6 +30,45 @@ h2 {
   @media (min-width: 768px) {
     .RecipeIngredientRow {
       margin-bottom: 0.25em; } }
+  .RecipeIngredientRow input {
+    margin-right: 0.1em;
+    font-size: 0.8em; }
+  .RecipeIngredientRow .EditableInputText:read-only {
+    padding-left: 0.3em;
+    padding-bottom: 0.3em;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    background-color: transparent; }
+
+.RecipeIngredientRow-Amount {
+  width: 4em; }
+
+.RecipeIngredientRow-Unit {
+  display: inline-block; }
+  .RecipeIngredientRow-Unit input {
+    width: 8em; }
+
+.RecipeIngredientRow-Type {
+  width: 7em;
+  font-size: 0.8em;
+  margin-left: 0.3em; }
+
+.RecipeIngredientRow-Label {
+  display: inline-block; }
+  .RecipeIngredientRow-Label input {
+    width: 10em; }
+
+.RecipeIngredientRow-Notes {
+  width: 16em; }
+
+.RecipeIngredientRow-Delete {
+  margin-left: 0.5em;
+  padding: 0.1em 0.5em;
+  font-size: 0.8em;
+  background-color: red;
+  border-color: red; }
+  .RecipeIngredientRow-Delete:hover, .RecipeIngredientRow-Delete:focus {
+    background-color: #ff6666;
+    border-color: #ff6666; }
 
 .Recipe h2 {
   margin-top: 0.75em; }
@@ -47,35 +86,6 @@ h2 {
   list-style: none;
   margin-left: 0;
   padding-left: 0; }
-
-.RecipeIngredientRow input {
-  margin-right: 0.1em;
-  font-size: 0.8em; }
-
-.RecipeIngredientRow .EditableInputText:read-only {
-  padding-left: 0.3em;
-  padding-bottom: 0.3em;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  background-color: transparent; }
-
-.RecipeIngredientRow-Amount {
-  width: 4em; }
-
-.RecipeIngredientRow-Unit {
-  width: 8em; }
-
-.RecipeIngredientRow-Type {
-  width: 7em;
-  font-size: 0.8em;
-  margin-left: 0.3em; }
-
-.RecipeIngredientRow-Label {
-  display: inline-block; }
-  .RecipeIngredientRow-Label input {
-    width: 10em; }
-
-.RecipeIngredientRow-Notes {
-  width: 16em; }
 
 .RecipeDirections-List {
   padding-left: 1.2em; }

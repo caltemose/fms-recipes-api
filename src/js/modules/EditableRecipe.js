@@ -71,8 +71,8 @@ export default class EditableRecipe {
     }
 
     onIngredientsReceived (ingredients) {
-        this.data.ingredients = ingredients
-        this.data.ingredientList = this.data.ingredients.map(ingredient => ingredient.label)
+        this.data.Ingredients = ingredients
+        this.data.IngredientList = this.data.Ingredients.map(ingredient => ingredient.label)
         this.getRecipes()
     }
 
@@ -88,10 +88,8 @@ export default class EditableRecipe {
     }
 
     onRecipesReceived (recipes) {
-        this.data.recipes = recipes
-        this.data.recipeList = this.data.recipes.map(recipe => recipe.label)
-        // console.log(this.data)
-        // console.log(this.ingredientRows)
+        this.data.Recipes = recipes
+        this.data.RecipeList = this.data.Recipes.map(recipe => recipe.label)
         this.ingredientRows.forEach(row => {
             row.setData(this.data)
         })

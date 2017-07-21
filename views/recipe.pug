@@ -36,9 +36,11 @@ block content
 
         ul.RecipeIngredients
             if typeof(recipe.ingredients) === 'object'
-                each ingredient, index in recipe.ingredients
-                    - var endpoint = `${apiRoot}/ingredient/${index}`
+                each ingredient in recipe.ingredients
+                    - var endpoint = `${apiRoot}/ingredient/${ingredient._id}`
                     include shared/editable-ingredient-row.pug
+
+        button.RecipeIngredients-Add Add Ingredient
 
 
         h2 Directions

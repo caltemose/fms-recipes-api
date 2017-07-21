@@ -10,7 +10,9 @@ const port = process.env.PORT || config.port
 
 const models = require('./models/')
 
+mongoose.Promise = require('bluebird')
 mongoose.set('debug', true)
+
 app.use(logger('tiny'))
 app.use(bodyParser.json())
 app.locals.doctype = 'html'
