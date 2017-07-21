@@ -48,23 +48,4 @@ var schema = mongoose.Schema({
     tags: Array
 })
 
-schema.methods.report = function () {
-    let msg = this.label
-    if (this.active) msg += ' is active'
-    else msg += ' is NOT active'
-    if (this.core) msg += ' and is a core recipe'
-    else msg += ' and is NOT a core recipe'
-    msg += ' with ' + this.ingredients.length + ' ingredients.'
-    console.log(msg)
-}
-
-// schema.pre('save', function (next) {
-//     console.log('pre-save schema', this.label)
-//     next()
-// })
-
-// schema.post('save', function (doc) {
-//     console.log('post-save schema', this.label)
-// })
-
 module.exports = mongoose.model('Recipe', schema)

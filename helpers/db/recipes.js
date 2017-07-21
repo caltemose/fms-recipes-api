@@ -44,11 +44,11 @@ module.exports = {
             let update = {}
             
             if (property === 'directions') {
+                // TODO update directions saving to use subdocuments properly
                 update[property + '.' + option] = value
             } else {
                 update[property] = value
 
-                // TODO is the recipe.name property necessary? a slug would be more useful
                 if (property === 'label') {
                     update.slug = slug(value)
                 }
@@ -65,6 +65,7 @@ module.exports = {
         if (!recipeId || !index || !property || value === null)
             throw new Error('Insufficient recipe ingredient data provided.')
         
+        // TODO update ingredient property saving to use subdocuments properly
         return new Promise((resolve, reject) => {
             Recipe.findById(recipeId, (err, doc) => {
                 if (err) reject(err)
@@ -78,6 +79,7 @@ module.exports = {
         })
     },
 
+    // TODO this function shouldn't be needed once recipe saving refactoring is updated
     updateRecipeIngredientLabel: function updateRecipeIngredientLabel (recipeId, index, id, label) {
         if (!recipeId || !index || !id || !label)
             throw new Error('Insufficient recipe ingredient data provided.')
