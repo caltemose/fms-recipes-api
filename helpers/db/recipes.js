@@ -14,7 +14,7 @@ module.exports = {
             else if (filter === 'core') query = {core:1}
             else if (filter === '!core') query = {core:0}
 
-            Recipe.find(query, 'name label core', { sort: { name:1 }}, (err, docs) => {
+            Recipe.find(query, 'slug label core', { sort: { name:1 }}, (err, docs) => {
                 if (err) reject(err)
                 else resolve(docs)
             })
@@ -28,7 +28,7 @@ module.exports = {
         return new Promise((resolve, reject) => {
             Recipe
                 .findOne({ _id: id})
-                .populate('ingredients.itemId ingredients.amount.unitId')
+                .populate('ingredients.item ingredients.amount.unit')
                 .exec((err, doc) => {
                     if (err) reject(err)
                     else resolve(doc)
@@ -118,7 +118,7 @@ module.exports = {
                 if (property === "value") {
                     ing.amount.value = Number(value)
                 } else {
-                    ing.amount.unitId = mongoose.Types.ObjectId(value)
+                    ing.amount.unit = mongoose.Types.ObjectId(value)
                 }
 
                 doc.save((err, updated) => {

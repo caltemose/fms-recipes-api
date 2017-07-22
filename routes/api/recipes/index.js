@@ -58,7 +58,7 @@ router.post('/:id/:property/:option', (req, res) => {
 router.post('/:id/ingredient/:ingredientId/amount/:property', (req, res) => {
     const id = req.params.id
     const ingredientId = req.params.ingredientId
-    const property = req.params.property // 'unitId' || 'value'
+    const property = req.params.property // 'unit' || 'value'
     const value = req.body.value // ObjectId || Number
 
     recipes.updateRecipeIngredientAmount(id, ingredientId, property, value)
