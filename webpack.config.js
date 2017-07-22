@@ -3,7 +3,8 @@ const path = require('path')
 
 module.exports = {
     entry: {
-        recipe: './src/js/pages/recipe.js'
+        recipe: './src/js/pages/recipe.js',
+        home: './src/js/pages/home.js'
     },
     externals: {
         awesomplete: 'Awesomplete'

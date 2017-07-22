@@ -4,6 +4,12 @@ block content
     article
         h1 Home Page
 
+        h2 Create Recipe
+        
+        .CreateRecipeForm
+            input(type="text" id="addRecipeName" placeholder="New Recipe Name")
+            button(id="addRecipeButton") Add Recipe
+
         h2 Views
 
         ul
@@ -20,3 +26,6 @@ block content
                 a(href="/api/recipes") /api/recipes
             li
                 a(href="/api/recipes/53552cce85da3d10277f567a") /api/recipes/53552cce85da3d10277f567a (Baba Ghanouj)
+
+block scripts
+    script(src="/js/home.js")

@@ -11,6 +11,13 @@ article {
 h2 {
   margin-bottom: 0.5em; }
 
+.CreateRecipeForm input {
+  display: inline-block;
+  margin-right: 0.5em;
+  width: 20em;
+  padding-top: 0.4em;
+  padding-bottom: 0.4em; }
+
 .EditableInputText:read-only {
   padding-left: 0;
   padding-bottom: 0;

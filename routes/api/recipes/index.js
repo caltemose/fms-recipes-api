@@ -12,6 +12,18 @@ router.get('/', (req, res) => {
         })
 })
 
+router.put('/', (req, res) => {
+    const recipeName = req.body.recipeName
+
+    recipes.addRecipe(recipeName)
+        .then(recipe => {
+            res.json({ recipe })
+        })
+        .catch(err => {
+            res.json({ err })
+        })
+})
+
 router.get('/:id', (req, res) => {
     const id = req.params.id
     if (!id)

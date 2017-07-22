@@ -37,6 +37,22 @@ module.exports = {
         })
     },
 
+    addRecipe: function addRecipe (recipeName) {
+        if (!recipeName)
+            throw new Error('Must provide recipe name to create new recipe')
+        
+        return new Promise((resolve, reject) => {
+            const recipe = new Recipe({
+                label: recipeName,
+                slug: slug(recipeName)
+            })
+            recipe.save((err, doc) => {
+                if (err) reject(err)
+                else resolve(doc)
+            })
+        })
+    },
+
     addIngredientToRecipe: function addIngredientToRecipe (id) {
         if (!id)
             throw new Error('Recipe ID must be provided to add ingredient')
