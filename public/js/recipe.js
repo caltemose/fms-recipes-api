@@ -1251,14 +1251,35 @@ var EditableRecipe = function () {
     }, {
         key: 'onRecipesReceived',
         value: function onRecipesReceived(recipes) {
-            var _this3 = this;
-
             this.data.Recipes = recipes;
             this.data.RecipeList = this.data.Recipes.map(function (recipe) {
                 return recipe.label;
             });
+            this.getUnits();
+        }
+    }, {
+        key: 'getUnits',
+        value: function getUnits() {
+            var _this3 = this;
+
+            _axios2.default.get('/api/units').then(function (response) {
+                _this3.onUnitsReceived(response.data.units);
+            }).catch(function (err) {
+                console.error(err);
+                alert(err);
+            });
+        }
+    }, {
+        key: 'onUnitsReceived',
+        value: function onUnitsReceived(units) {
+            var _this4 = this;
+
+            this.data.Units = units;
+            this.data.UnitsList = units.map(function (unit) {
+                return unit.label;
+            });
             this.ingredientRows.forEach(function (row) {
-                row.setData(_this3.data);
+                row.setData(_this4.data);
             });
         }
     }]);
@@ -2579,6 +2600,10 @@ var _EditableIngredientLabel = __webpack_require__(39);
 
 var _EditableIngredientLabel2 = _interopRequireDefault(_EditableIngredientLabel);
 
+var _EditableIngredientAmountUnit = __webpack_require__(40);
+
+var _EditableIngredientAmountUnit2 = _interopRequireDefault(_EditableIngredientAmountUnit);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -2599,7 +2624,7 @@ var EditableIngredientRow = function () {
             new _EditableNumber2.default(this.element.querySelector('.RecipeIngredientRow-Amount'));
 
             // Amount Unit
-            new _EditableTextInput2.default(this.element.querySelector('.RecipeIngredientRow-Unit'));
+            this.ingredientAmountUnit = new _EditableIngredientAmountUnit2.default(this.element.querySelector('.RecipeIngredientRow-Unit'), this.getUnitIdByLabel.bind(this));
 
             // Ingredient Type
             this.ingredientType = new _EditableSelect2.default(this.element.querySelector('.RecipeIngredientRow-Type'));
@@ -2623,6 +2648,7 @@ var EditableIngredientRow = function () {
         value: function setData(data) {
             this.data = data;
             this.updateIngredientDataList();
+            this.updateUnitDataList();
         }
     }, {
         key: 'updateIngredientDataList',
@@ -2634,6 +2660,22 @@ var EditableIngredientRow = function () {
         key: 'getIngredientIdByLabel',
         value: function getIngredientIdByLabel(label) {
             var items = this.data[this.ingredientType.getValue() + 's'];
+            for (var i = 0; i < items.length; i++) {
+                if (items[i].label === label) {
+                    return items[i]._id;
+                }
+            }
+            return null;
+        }
+    }, {
+        key: 'updateUnitDataList',
+        value: function updateUnitDataList() {
+            this.ingredientAmountUnit.updateDataList(this.data.UnitsList);
+        }
+    }, {
+        key: 'getUnitIdByLabel',
+        value: function getUnitIdByLabel(label) {
+            var items = this.data.Units;
             for (var i = 0; i < items.length; i++) {
                 if (items[i].label === label) {
                     return items[i]._id;
@@ -2817,6 +2859,94 @@ var EditableIngredientLabel = function () {
 }();
 
 exports.default = EditableIngredientLabel;
+
+/***/ }),
+/* 40 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _axios = __webpack_require__(0);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var EditableIngredientAmountUnit = function () {
+    function EditableIngredientAmountUnit(element, getUnitIdByLabel) {
+        _classCallCheck(this, EditableIngredientAmountUnit);
+
+        this.element = element;
+        this.endpoint = this.element.dataset.endpoint;
+        this.getUnitIdByLabel = getUnitIdByLabel;
+
+        this.labelElement = this.element.querySelector('input[name="unitLabel"');
+        this.idElement = this.element.querySelector('input[name="unitId"]');
+        this.labelElement.addEventListener('change', this.onLabelChange.bind(this));
+
+        this.label = this.getLabel();
+        return this;
+    }
+
+    _createClass(EditableIngredientAmountUnit, [{
+        key: 'getLabel',
+        value: function getLabel() {
+            return this.labelElement.value;
+        }
+    }, {
+        key: 'onLabelChange',
+        value: function onLabelChange(event) {
+            var newLabel = this.getLabel();
+            if (this.label !== newLabel) {
+                var newId = this.getUnitIdByLabel(newLabel);
+                this.idElement.value = newId;
+                this.save();
+            }
+        }
+    }, {
+        key: 'updateDataList',
+        value: function updateDataList(list) {
+            if (!this.input) {
+                this.input = new Awesomplete(this.labelElement, { list: list });
+            } else {
+                this.input.list = list;
+            }
+        }
+    }, {
+        key: 'save',
+        value: function save() {
+            var _this = this;
+
+            if (!this.endpoint || this.endpoint === '') {
+                return;
+            }
+
+            var data = {
+                value: this.idElement.value
+            };
+
+            _axios2.default.post(this.endpoint, data).then(function (response) {
+                _this.label = _this.getLabel();
+            }).catch(function (err) {
+                console.error(err);
+                alert(err);
+            });
+        }
+    }]);
+
+    return EditableIngredientAmountUnit;
+}();
+
+exports.default = EditableIngredientAmountUnit;
 
 /***/ })
 /******/ ]);

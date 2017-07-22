@@ -3,6 +3,7 @@ import EditableNumber from './EditableNumber'
 import EditableTextInput from './EditableTextInput'
 import EditableSelect from './EditableSelect'
 import EditableIngredientLabel from './EditableIngredientLabel'
+import EditableIngredientAmountUnit from './EditableIngredientAmountUnit'
 
 export default class EditableIngredientRow {
     constructor (element) {
@@ -16,7 +17,7 @@ export default class EditableIngredientRow {
         new EditableNumber(this.element.querySelector('.RecipeIngredientRow-Amount'))
 
         // Amount Unit
-        new EditableTextInput(this.element.querySelector('.RecipeIngredientRow-Unit'))
+        this.ingredientAmountUnit = new EditableIngredientAmountUnit(this.element.querySelector('.RecipeIngredientRow-Unit'), this.getUnitIdByLabel.bind(this))
 
         // Ingredient Type
         this.ingredientType = new EditableSelect(this.element.querySelector('.RecipeIngredientRow-Type'))
@@ -38,6 +39,7 @@ export default class EditableIngredientRow {
     setData (data) {
         this.data = data
         this.updateIngredientDataList()
+        this.updateUnitDataList()
     }
 
     updateIngredientDataList () {
@@ -47,6 +49,20 @@ export default class EditableIngredientRow {
 
     getIngredientIdByLabel (label) {
         const items = this.data[this.ingredientType.getValue() + 's']
+        for(let i=0; i<items.length; i++) {
+            if (items[i].label === label) {
+                return items[i]._id
+            }
+        }
+        return null
+    }
+
+    updateUnitDataList () {
+        this.ingredientAmountUnit.updateDataList(this.data.UnitsList)
+    }
+
+    getUnitIdByLabel (label) {
+        const items = this.data.Units
         for(let i=0; i<items.length; i++) {
             if (items[i].label === label) {
                 return items[i]._id
