@@ -11,6 +11,23 @@ article {
 h2 {
   margin-bottom: 0.5em; }
 
+.MainNav {
+  padding: 0 1em;
+  background-color: #c9d8f2; }
+  .MainNav a {
+    display: inline-block;
+    margin-right: 1em;
+    padding: 0.5em; }
+
+header .MainNav {
+  margin-bottom: 1em;
+  padding: 0 1em; }
+
+footer .MainNav {
+  position: fixed;
+  bottom: 0;
+  width: 100%; }
+
 .CreateRecipeForm input {
   display: inline-block;
   margin-right: 0.5em;
@@ -111,3 +128,9 @@ h2 {
 .RecipeSource input {
   padding: 0;
   width: 40em; }
+
+main {
+  padding-bottom: 3em; }
+
+.Testing {
+  margin-top: 2em; }

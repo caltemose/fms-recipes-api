@@ -15,7 +15,7 @@ module.exports = {
             else if (filter === 'core') query = {core:1}
             else if (filter === '!core') query = {core:0}
 
-            Recipe.find(query, 'slug label core', { sort: { name:1 }}, (err, docs) => {
+            Recipe.find(query, 'slug label core', { sort: { label:1 }}, (err, docs) => {
                 if (err) reject(err)
                 else resolve(docs)
             })
@@ -138,7 +138,7 @@ module.exports = {
                 const ing = doc.ingredients.id(ingredientId)
                 
                 if (property === 'item') {
-                    ing[property] = mongoose.Types.ObjectId(value)
+                    ing[property] = ObjectId(value)
                 } else {
                     ing[property] = value
                 }
@@ -160,7 +160,7 @@ module.exports = {
             Recipe.findById(recipeId, (err, doc) => {
                 if (err) reject(err)
                 if (!doc) reject('No document found with given id')
-                doc.ingredients[index].id = mongoose.Types.ObjectId(id)
+                doc.ingredients[index].id = ObjectId(id)
                 doc.ingredients[index].label = label
                 doc.save((err, updated) => {
                     if (err) reject(err)
@@ -180,10 +180,10 @@ module.exports = {
                 if (!doc) reject('No document found with given id')
 
                 const ing = doc.ingredients.id(ingredientId)
-                if (property === "value") {
+                if (property === 'value') {
                     ing.amount.value = Number(value)
                 } else {
-                    ing.amount.unit = mongoose.Types.ObjectId(value)
+                    ing.amount.unit = ObjectId(value)
                 }
 
                 doc.save((err, updated) => {
