@@ -72,7 +72,7 @@ module.exports = {
                 
                 const ing = doc.ingredients.id(ingredientId)
                 
-                if (property === 'itemId') {
+                if (property === 'item') {
                     ing[property] = mongoose.Types.ObjectId(value)
                 } else {
                     ing[property] = value
