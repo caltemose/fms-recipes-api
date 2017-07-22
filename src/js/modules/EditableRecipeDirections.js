@@ -1,5 +1,5 @@
-import axios from 'axios'
-import EditableTextArea from './EditableTextArea'
+// import axios from 'axios'
+// import EditableTextArea from './EditableTextArea'
 import EditableRecipeDirectionsStep from './EditableRecipeDirectionsStep'
 
 export default class EditableRecipeDirections {
@@ -23,7 +23,7 @@ export default class EditableRecipeDirections {
         return this
     }
 
-    onAddStep (event) {
+    onAddStep () {
         const li = document.createElement('li')
         li.classList.add('RecipeDirections-Step')
         li.contentEditable = true

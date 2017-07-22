@@ -62,6 +62,29 @@ module.exports = {
         })
     },
 
+    deleteIngredientFromRecipe: function deleteIngredientFromRecipe (id, ingredientId) {
+        if (!id || !ingredientId)
+            throw new Error('Recipe ID and Ingredient ID must be provided to remove a recipe ingredient')
+
+        return new Promise((resolve, reject) => {
+            Recipe
+                .findOne({ _id: id})
+                .exec((err, doc) => {
+                    if (err) reject(err)
+                    else {
+                        doc.ingredients.id(ingredientId).remove()
+                        doc.save((err, updatedDoc) => {
+                            if (err) reject(err)
+                            else {
+                                resolve({ doc: updatedDoc })
+                            }
+                        })
+                    }
+                })
+
+        })
+    },
+
     updateRecipeProperty: function updateRecipeProperty (id, property, value, option) {
         if (!id || !property || value === 'undefined' || value === null)
             throw new Error('Insufficient recipe data provided.')

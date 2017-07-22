@@ -67,12 +67,6 @@
 /* 0 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(13);
-
-/***/ }),
-/* 1 */
-/***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
 
 
@@ -380,13 +374,19 @@ module.exports = {
 
 
 /***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(13);
+
+/***/ }),
 /* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(0);
 var normalizeHeaderName = __webpack_require__(16);
 
 var DEFAULT_CONTENT_TYPE = {
@@ -492,7 +492,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _axios = __webpack_require__(0);
+var _axios = __webpack_require__(1);
 
 var _axios2 = _interopRequireDefault(_axios);
 
@@ -507,8 +507,10 @@ var EditableTextInput = function () {
         this.element = element;
         this.endpoint = this.element.dataset.endpoint;
         this.value = this.element.value;
-        this.element.addEventListener('focus', this.onFocus.bind(this));
-        this.element.addEventListener('blur', this.onBlur.bind(this));
+        this.boundOnFocus = this.onFocus.bind(this);
+        this.boundOnBlur = this.onBlur.bind(this);
+        this.element.addEventListener('focus', this.boundOnFocus);
+        this.element.addEventListener('blur', this.boundOnBlur);
         this.subscribers = [];
 
         return this;
@@ -516,13 +518,13 @@ var EditableTextInput = function () {
 
     _createClass(EditableTextInput, [{
         key: 'onFocus',
-        value: function onFocus(event) {
+        value: function onFocus() {
             this.value = this.element.value;
             this.element.removeAttribute('readonly');
         }
     }, {
         key: 'onBlur',
-        value: function onBlur(event) {
+        value: function onBlur() {
             if (this.value !== this.element.value) {
                 this.save();
             }
@@ -536,7 +538,7 @@ var EditableTextInput = function () {
             var data = {
                 value: this.element.value
             };
-            _axios2.default.post(this.endpoint, data).then(function (response) {
+            _axios2.default.post(this.endpoint, data).then(function () {
                 _this.value = _this.element.value;
                 _this.subscribers.forEach(function (subscriber) {
                     return subscriber();
@@ -555,6 +557,13 @@ var EditableTextInput = function () {
         key: 'getValue',
         value: function getValue() {
             return this.value;
+        }
+    }, {
+        key: 'destroy',
+        value: function destroy() {
+            this.element.removeEventListener('focus', this.boundOnFocus);
+            this.element.removeEventListener('blur', this.boundOnBlur);
+            this.subscribers = [];
         }
     }]);
 
@@ -778,7 +787,7 @@ process.umask = function() { return 0; };
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(0);
 var settle = __webpack_require__(17);
 var buildURL = __webpack_require__(19);
 var parseHeaders = __webpack_require__(20);
@@ -1035,7 +1044,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _axios = __webpack_require__(0);
+var _axios = __webpack_require__(1);
 
 var _axios2 = _interopRequireDefault(_axios);
 
@@ -1050,7 +1059,8 @@ var EditableNumber = function () {
         this.element = element;
         this.endpoint = this.element.dataset.endpoint;
         this.value = this.getValue();
-        this.element.addEventListener('blur', this.onBlur.bind(this));
+        this.boundOnBlur = this.onBlur.bind(this);
+        this.element.addEventListener('blur', this.boundOnBlur);
         return this;
     }
 
@@ -1065,7 +1075,7 @@ var EditableNumber = function () {
         }
     }, {
         key: 'onBlur',
-        value: function onBlur(event) {
+        value: function onBlur() {
             if (this.value !== this.getValue()) {
                 this.save();
             }
@@ -1082,12 +1092,17 @@ var EditableNumber = function () {
             var data = {
                 value: Number(this.getValue())
             };
-            _axios2.default.post(this.endpoint, data).then(function (response) {
+            _axios2.default.post(this.endpoint, data).then(function () {
                 _this.value = _this.element.innerHTML;
             }).catch(function (err) {
                 console.error(err);
                 alert(err);
             });
+        }
+    }, {
+        key: 'destroy',
+        value: function destroy() {
+            this.element.removeEventListener('blur', this.boundOnBlur);
         }
     }]);
 
@@ -1111,7 +1126,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var recipeEl = document.getElementsByClassName('Recipe')[0];
 
-var recipe = new _EditableRecipe2.default(recipeEl);
+new _EditableRecipe2.default(recipeEl);
 
 /***/ }),
 /* 12 */
@@ -1126,7 +1141,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _axios = __webpack_require__(0);
+var _axios = __webpack_require__(1);
 
 var _axios2 = _interopRequireDefault(_axios);
 
@@ -1146,7 +1161,7 @@ var _EditableRecipeDirections = __webpack_require__(33);
 
 var _EditableRecipeDirections2 = _interopRequireDefault(_EditableRecipeDirections);
 
-var _EditableDiv = __webpack_require__(36);
+var _EditableDiv = __webpack_require__(35);
 
 var _EditableDiv2 = _interopRequireDefault(_EditableDiv);
 
@@ -1154,11 +1169,11 @@ var _EditableNumber = __webpack_require__(10);
 
 var _EditableNumber2 = _interopRequireDefault(_EditableNumber);
 
-var _EditableIngredientRow = __webpack_require__(37);
+var _EditableIngredientRow = __webpack_require__(36);
 
 var _EditableIngredientRow2 = _interopRequireDefault(_EditableIngredientRow);
 
-var _templates = __webpack_require__(41);
+var _templates = __webpack_require__(40);
 
 var _templates2 = _interopRequireDefault(_templates);
 
@@ -1215,7 +1230,7 @@ var EditableRecipe = function () {
         var ingredientRows = this.element.querySelectorAll('.RecipeIngredientRow');
         this.ingredientRows = [];
         for (var _i5 = 0; _i5 < ingredientRows.length; _i5++) {
-            this.ingredientRows.push(new _EditableIngredientRow2.default(ingredientRows[_i5]));
+            this.ingredientRows.push(new _EditableIngredientRow2.default(ingredientRows[_i5], this.onRowDestroy.bind(this)));
         }
 
         // Add Ingredient button
@@ -1332,9 +1347,36 @@ var EditableRecipe = function () {
             this.ingredientListElement.innerHTML += compiled;
             var items = this.element.querySelectorAll('.RecipeIngredientRow');
             var indx = items.length - 1;
-            var newRow = new _EditableIngredientRow2.default(items[indx]);
+            var newRow = new _EditableIngredientRow2.default(items[indx], this.onRowDestroy.bind(this));
             newRow.setData(this.data);
             this.ingredientRows.push(newRow);
+        }
+    }, {
+        key: 'onRowDestroy',
+        value: function onRowDestroy(id) {
+            var _this6 = this;
+
+            var destroyedRow = void 0,
+                destroyedRowIndex = void 0;
+            for (var i = 0; i < this.ingredientRows.length; i++) {
+                if (this.ingredientRows[i].getId() === id) {
+                    var ingredientId = this.ingredientRows[i].getId();
+                    destroyedRow = this.ingredientRows[i];
+                    destroyedRowIndex = i;
+
+                    var endpoint = '/api/recipes/' + this.recipe._id + '/ingredient/' + ingredientId;
+
+                    _axios2.default.delete(endpoint).then(function () {
+                        destroyedRow.element.remove();
+                        _this6.ingredientRows.slice(destroyedRowIndex, 1);
+                    }).catch(function (err) {
+                        console.error(err);
+                        alert(err);
+                    });
+
+                    break;
+                }
+            }
         }
     }]);
 
@@ -1350,7 +1392,7 @@ exports.default = EditableRecipe;
 "use strict";
 
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(0);
 var bind = __webpack_require__(4);
 var Axios = __webpack_require__(15);
 var defaults = __webpack_require__(2);
@@ -1437,7 +1479,7 @@ function isSlowBuffer (obj) {
 
 
 var defaults = __webpack_require__(2);
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(0);
 var InterceptorManager = __webpack_require__(24);
 var dispatchRequest = __webpack_require__(25);
 var isAbsoluteURL = __webpack_require__(27);
@@ -1529,7 +1571,7 @@ module.exports = Axios;
 "use strict";
 
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(0);
 
 module.exports = function normalizeHeaderName(headers, normalizedName) {
   utils.forEach(headers, function processHeader(value, name) {
@@ -1609,7 +1651,7 @@ module.exports = function enhanceError(error, config, code, request, response) {
 "use strict";
 
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(0);
 
 function encode(val) {
   return encodeURIComponent(val).
@@ -1684,7 +1726,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 "use strict";
 
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(0);
 
 /**
  * Parse headers into an object
@@ -1728,7 +1770,7 @@ module.exports = function parseHeaders(headers) {
 "use strict";
 
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(0);
 
 module.exports = (
   utils.isStandardBrowserEnv() ?
@@ -1846,7 +1888,7 @@ module.exports = btoa;
 "use strict";
 
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(0);
 
 module.exports = (
   utils.isStandardBrowserEnv() ?
@@ -1906,7 +1948,7 @@ module.exports = (
 "use strict";
 
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(0);
 
 function InterceptorManager() {
   this.handlers = [];
@@ -1965,7 +2007,7 @@ module.exports = InterceptorManager;
 "use strict";
 
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(0);
 var transformData = __webpack_require__(26);
 var isCancel = __webpack_require__(8);
 var defaults = __webpack_require__(2);
@@ -2051,7 +2093,7 @@ module.exports = function dispatchRequest(config) {
 "use strict";
 
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(0);
 
 /**
  * Transform the data for a request or a response
@@ -2222,11 +2264,8 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); // import axios from 'axios'
 
-var _axios = __webpack_require__(0);
-
-var _axios2 = _interopRequireDefault(_axios);
 
 var _EditableTextInput = __webpack_require__(3);
 
@@ -2254,13 +2293,13 @@ var EditableUrlInput = function () {
 
     _createClass(EditableUrlInput, [{
         key: 'onFocus',
-        value: function onFocus(event) {
+        value: function onFocus() {
             this.value = this.element.value;
             this.element.removeAttribute('readonly');
         }
     }, {
         key: 'onBlur',
-        value: function onBlur(event) {
+        value: function onBlur() {
             if (this.value !== this.element.value) {
                 this.save();
             }
@@ -2294,7 +2333,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _axios = __webpack_require__(0);
+var _axios = __webpack_require__(1);
 
 var _axios2 = _interopRequireDefault(_axios);
 
@@ -2315,12 +2354,14 @@ var EditableCheckbox = function () {
 
     _createClass(EditableCheckbox, [{
         key: 'onChange',
-        value: function onChange(event) {
+        value: function onChange() {
             var data = {
                 value: this.checkbox.checked
             };
 
-            _axios2.default.post(this.endpoint, data).then(function (response) {}).catch(function (err) {
+            _axios2.default.post(this.endpoint, data).then(function (response) {
+                console.log(response);
+            }).catch(function (err) {
                 console.error(err);
                 alert(err);
             });
@@ -2343,17 +2384,11 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); // import axios from 'axios'
+// import EditableTextArea from './EditableTextArea'
 
-var _axios = __webpack_require__(0);
 
-var _axios2 = _interopRequireDefault(_axios);
-
-var _EditableTextArea = __webpack_require__(34);
-
-var _EditableTextArea2 = _interopRequireDefault(_EditableTextArea);
-
-var _EditableRecipeDirectionsStep = __webpack_require__(35);
+var _EditableRecipeDirectionsStep = __webpack_require__(34);
 
 var _EditableRecipeDirectionsStep2 = _interopRequireDefault(_EditableRecipeDirectionsStep);
 
@@ -2386,7 +2421,7 @@ var EditableRecipeDirections = function () {
 
     _createClass(EditableRecipeDirections, [{
         key: 'onAddStep',
-        value: function onAddStep(event) {
+        value: function onAddStep() {
             var li = document.createElement('li');
             li.classList.add('RecipeDirections-Step');
             li.contentEditable = true;
@@ -2414,95 +2449,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _axios = __webpack_require__(0);
-
-var _axios2 = _interopRequireDefault(_axios);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var EditableTextArea = function () {
-    function EditableTextArea(element, endpoint) {
-        _classCallCheck(this, EditableTextArea);
-
-        this.element = element;
-        this.endpoint = endpoint ? endpoint : this.element.dataset.endpoint;
-        this.value = this.element.value;
-        this.element.addEventListener('focus', this.onFocus.bind(this));
-        this.element.addEventListener('blur', this.onBlur.bind(this));
-        this.subscribers = [];
-
-        return this;
-    }
-
-    _createClass(EditableTextArea, [{
-        key: 'onFocus',
-        value: function onFocus(event) {
-            this.value = this.element.value;
-            this.element.removeAttribute('readonly');
-        }
-    }, {
-        key: 'onBlur',
-        value: function onBlur(event) {
-            if (this.value !== this.element.value) {
-                this.save();
-            }
-            this.element.setAttribute('readonly', true);
-        }
-    }, {
-        key: 'save',
-        value: function save() {
-            var _this = this;
-
-            if (!this.endpoint || this.endpoint === '') {
-                return;
-            }
-
-            var data = {
-                value: this.element.value
-            };
-            _axios2.default.post(this.endpoint, data).then(function (response) {
-                _this.value = _this.element.value;
-                _this.subscribers.forEach(function (subscriber) {
-                    return subscriber();
-                });
-            }).catch(function (err) {
-                console.error(err);
-                alert(err);
-            });
-        }
-    }, {
-        key: 'subscribeToSaved',
-        value: function subscribeToSaved(callback) {
-            this.subscribers.push(callback);
-        }
-    }, {
-        key: 'getValue',
-        value: function getValue() {
-            return this.value;
-        }
-    }]);
-
-    return EditableTextArea;
-}();
-
-exports.default = EditableTextArea;
-
-/***/ }),
-/* 35 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _axios = __webpack_require__(0);
+var _axios = __webpack_require__(1);
 
 var _axios2 = _interopRequireDefault(_axios);
 
@@ -2523,7 +2470,7 @@ var EditableRecipeDirectionsStep = function () {
 
     _createClass(EditableRecipeDirectionsStep, [{
         key: 'onBlur',
-        value: function onBlur(event) {
+        value: function onBlur() {
             if (this.value !== this.element.innerHTML) {
                 this.save();
                 // console.log('saving', this.element.innerHTML, this.endpoint)
@@ -2541,7 +2488,7 @@ var EditableRecipeDirectionsStep = function () {
             var data = {
                 value: this.element.innerHTML
             };
-            _axios2.default.post(this.endpoint, data).then(function (response) {
+            _axios2.default.post(this.endpoint, data).then(function () {
                 _this.value = _this.element.innerHTML;
                 // this.subscribers.forEach(subscriber => subscriber())
             }).catch(function (err) {
@@ -2557,7 +2504,7 @@ var EditableRecipeDirectionsStep = function () {
 exports.default = EditableRecipeDirectionsStep;
 
 /***/ }),
-/* 36 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2569,7 +2516,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _axios = __webpack_require__(0);
+var _axios = __webpack_require__(1);
 
 var _axios2 = _interopRequireDefault(_axios);
 
@@ -2590,7 +2537,7 @@ var EditableDiv = function () {
 
     _createClass(EditableDiv, [{
         key: 'onBlur',
-        value: function onBlur(event) {
+        value: function onBlur() {
             if (this.value !== this.element.innerHTML) {
                 this.save();
             }
@@ -2607,7 +2554,7 @@ var EditableDiv = function () {
             var data = {
                 value: this.element.innerHTML
             };
-            _axios2.default.post(this.endpoint, data).then(function (response) {
+            _axios2.default.post(this.endpoint, data).then(function () {
                 _this.value = _this.element.innerHTML;
             }).catch(function (err) {
                 console.error(err);
@@ -2622,7 +2569,7 @@ var EditableDiv = function () {
 exports.default = EditableDiv;
 
 /***/ }),
-/* 37 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2632,11 +2579,8 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); // import axios from 'axios'
 
-var _axios = __webpack_require__(0);
-
-var _axios2 = _interopRequireDefault(_axios);
 
 var _EditableNumber = __webpack_require__(10);
 
@@ -2646,15 +2590,15 @@ var _EditableTextInput = __webpack_require__(3);
 
 var _EditableTextInput2 = _interopRequireDefault(_EditableTextInput);
 
-var _EditableSelect = __webpack_require__(38);
+var _EditableSelect = __webpack_require__(37);
 
 var _EditableSelect2 = _interopRequireDefault(_EditableSelect);
 
-var _EditableIngredientLabel = __webpack_require__(39);
+var _EditableIngredientLabel = __webpack_require__(38);
 
 var _EditableIngredientLabel2 = _interopRequireDefault(_EditableIngredientLabel);
 
-var _EditableIngredientAmountUnit = __webpack_require__(40);
+var _EditableIngredientAmountUnit = __webpack_require__(39);
 
 var _EditableIngredientAmountUnit2 = _interopRequireDefault(_EditableIngredientAmountUnit);
 
@@ -2663,10 +2607,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var EditableIngredientRow = function () {
-    function EditableIngredientRow(element) {
+    function EditableIngredientRow(element, destroyRow) {
         _classCallCheck(this, EditableIngredientRow);
 
         this.element = element;
+        this._id = this.element.dataset.ingredientId;
+        this.onDestroyComplete = destroyRow;
         this.initialize();
         return this;
     }
@@ -2675,10 +2621,10 @@ var EditableIngredientRow = function () {
         key: 'initialize',
         value: function initialize() {
             // Amount Value
-            new _EditableNumber2.default(this.element.querySelector('.RecipeIngredientRow-Amount'));
+            this.amountValue = new _EditableNumber2.default(this.element.querySelector('.RecipeIngredientRow-Amount'));
 
             // Amount Unit
-            this.ingredientAmountUnit = new _EditableIngredientAmountUnit2.default(this.element.querySelector('.RecipeIngredientRow-Unit'), this.getUnitIdByLabel.bind(this));
+            this.amountUnit = new _EditableIngredientAmountUnit2.default(this.element.querySelector('.RecipeIngredientRow-Unit'), this.getUnitIdByLabel.bind(this));
 
             // Ingredient Type
             this.ingredientType = new _EditableSelect2.default(this.element.querySelector('.RecipeIngredientRow-Type'));
@@ -2689,7 +2635,17 @@ var EditableIngredientRow = function () {
             this.ingredientLabel.setIngredientType(this.ingredientType.getValue());
 
             // Notes
-            new _EditableTextInput2.default(this.element.querySelector('.RecipeIngredientRow-Notes'));
+            this.notes = new _EditableTextInput2.default(this.element.querySelector('.RecipeIngredientRow-Notes'));
+
+            // Delete button
+            this.deleteButton = this.element.querySelector('.RecipeIngredientRow-Delete');
+            this.boundOnDelete = this.onDelete.bind(this);
+            this.deleteButton.addEventListener('click', this.boundOnDelete);
+        }
+    }, {
+        key: 'getId',
+        value: function getId() {
+            return this._id;
         }
     }, {
         key: 'onTypeSave',
@@ -2724,7 +2680,7 @@ var EditableIngredientRow = function () {
     }, {
         key: 'updateUnitDataList',
         value: function updateUnitDataList() {
-            this.ingredientAmountUnit.updateDataList(this.data.UnitsList);
+            this.amountUnit.updateDataList(this.data.UnitsList);
         }
     }, {
         key: 'getUnitIdByLabel',
@@ -2737,6 +2693,28 @@ var EditableIngredientRow = function () {
             }
             return null;
         }
+    }, {
+        key: 'onDelete',
+        value: function onDelete(event) {
+            event.preventDefault();
+            this.destroyComponents();
+            this.destroyListeners();
+            this.onDestroyComplete(this._id);
+        }
+    }, {
+        key: 'destroyComponents',
+        value: function destroyComponents() {
+            this.amountValue.destroy();
+            this.amountUnit.destroy();
+            this.ingredientType.destroy();
+            this.ingredientLabel.destroy();
+            this.notes.destroy();
+        }
+    }, {
+        key: 'destroyListeners',
+        value: function destroyListeners() {
+            this.deleteButton.removeEventListener('click', this.boundOnDelete);
+        }
     }]);
 
     return EditableIngredientRow;
@@ -2745,7 +2723,7 @@ var EditableIngredientRow = function () {
 exports.default = EditableIngredientRow;
 
 /***/ }),
-/* 38 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2757,7 +2735,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _axios = __webpack_require__(0);
+var _axios = __webpack_require__(1);
 
 var _axios2 = _interopRequireDefault(_axios);
 
@@ -2772,7 +2750,8 @@ var EditableSelect = function () {
         this.element = element;
         this.endpoint = this.element.dataset.endpoint;
         this.value = this.element.value;
-        this.element.addEventListener('change', this.onChange.bind(this));
+        this.boundOnChange = this.onChange.bind(this);
+        this.element.addEventListener('change', this.boundOnChange);
         this.subscribers = [];
 
         return this;
@@ -2780,7 +2759,7 @@ var EditableSelect = function () {
 
     _createClass(EditableSelect, [{
         key: 'onChange',
-        value: function onChange(event) {
+        value: function onChange() {
             if (this.value !== this.element.value) {
                 this.save();
             }
@@ -2794,7 +2773,7 @@ var EditableSelect = function () {
                 value: this.element.value
             };
 
-            _axios2.default.post(this.endpoint, data).then(function (response) {
+            _axios2.default.post(this.endpoint, data).then(function () {
                 _this.value = _this.element.value;
                 _this.subscribers.forEach(function (subscriber) {
                     return subscriber();
@@ -2814,6 +2793,12 @@ var EditableSelect = function () {
         value: function getValue() {
             return this.value;
         }
+    }, {
+        key: 'destroy',
+        value: function destroy() {
+            this.element.removeEventListener('change', this.boundOnChange);
+            this.subscribers = [];
+        }
     }]);
 
     return EditableSelect;
@@ -2822,7 +2807,7 @@ var EditableSelect = function () {
 exports.default = EditableSelect;
 
 /***/ }),
-/* 39 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2834,7 +2819,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _axios = __webpack_require__(0);
+var _axios = __webpack_require__(1);
 
 var _axios2 = _interopRequireDefault(_axios);
 
@@ -2852,7 +2837,8 @@ var EditableIngredientLabel = function () {
 
         this.labelElement = this.element.querySelector('input[name="ingredientLabel"');
         this.idElement = this.element.querySelector('input[name="ingredientId"]');
-        this.labelElement.addEventListener('change', this.onLabelChange.bind(this));
+        this.boundOnLabelChange = this.onLabelChange.bind(this);
+        this.labelElement.addEventListener('change', this.boundOnLabelChange);
 
         this.label = this.getLabel();
         return this;
@@ -2865,7 +2851,7 @@ var EditableIngredientLabel = function () {
         }
     }, {
         key: 'onLabelChange',
-        value: function onLabelChange(event) {
+        value: function onLabelChange() {
             var newLabel = this.getLabel();
             if (this.label !== newLabel) {
                 var newId = this.getIngredientIdByLabel(newLabel);
@@ -2900,12 +2886,18 @@ var EditableIngredientLabel = function () {
                 value: this.idElement.value
             };
 
-            _axios2.default.post(this.endpoint, data).then(function (response) {
+            _axios2.default.post(this.endpoint, data).then(function () {
                 _this.label = _this.getLabel();
             }).catch(function (err) {
                 console.error(err);
                 alert(err);
             });
+        }
+    }, {
+        key: 'destroy',
+        value: function destroy() {
+            if (this.input) this.input.destroy();
+            this.labelElement.removeEventListener('change', this.boundOnLabelChange);
         }
     }]);
 
@@ -2915,7 +2907,7 @@ var EditableIngredientLabel = function () {
 exports.default = EditableIngredientLabel;
 
 /***/ }),
-/* 40 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2927,7 +2919,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _axios = __webpack_require__(0);
+var _axios = __webpack_require__(1);
 
 var _axios2 = _interopRequireDefault(_axios);
 
@@ -2945,6 +2937,7 @@ var EditableIngredientAmountUnit = function () {
 
         this.labelElement = this.element.querySelector('input[name="unitLabel"');
         this.idElement = this.element.querySelector('input[name="unitId"]');
+        this.boundOnLabelChange = this.onLabelChange.bind(this);
         this.labelElement.addEventListener('change', this.onLabelChange.bind(this));
 
         this.label = this.getLabel();
@@ -2958,7 +2951,7 @@ var EditableIngredientAmountUnit = function () {
         }
     }, {
         key: 'onLabelChange',
-        value: function onLabelChange(event) {
+        value: function onLabelChange() {
             var newLabel = this.getLabel();
             if (this.label !== newLabel) {
                 var newId = this.getUnitIdByLabel(newLabel);
@@ -2988,12 +2981,18 @@ var EditableIngredientAmountUnit = function () {
                 value: this.idElement.value
             };
 
-            _axios2.default.post(this.endpoint, data).then(function (response) {
+            _axios2.default.post(this.endpoint, data).then(function () {
                 _this.label = _this.getLabel();
             }).catch(function (err) {
                 console.error(err);
                 alert(err);
             });
+        }
+    }, {
+        key: 'destroy',
+        value: function destroy() {
+            if (this.input) this.input.destroy();
+            this.labelElement.removeEventListener('change', this.onLabelChange.bind(this));
         }
     }]);
 
@@ -3003,7 +3002,7 @@ var EditableIngredientAmountUnit = function () {
 exports.default = EditableIngredientAmountUnit;
 
 /***/ }),
-/* 41 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

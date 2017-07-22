@@ -8,7 +8,8 @@ export default class EditableIngredientLabel {
 
         this.labelElement = this.element.querySelector('input[name="ingredientLabel"')
         this.idElement = this.element.querySelector('input[name="ingredientId"]')
-        this.labelElement.addEventListener('change', this.onLabelChange.bind(this))
+        this.boundOnLabelChange = this.onLabelChange.bind(this)
+        this.labelElement.addEventListener('change', this.boundOnLabelChange)
         
         this.label = this.getLabel()
         return this
@@ -18,7 +19,7 @@ export default class EditableIngredientLabel {
         return this.labelElement.value
     }
 
-    onLabelChange (event) {
+    onLabelChange () {
         const newLabel = this.getLabel()
         if (this.label !== newLabel) {
             const newId = this.getIngredientIdByLabel(newLabel)
@@ -49,7 +50,7 @@ export default class EditableIngredientLabel {
         }
 
         axios.post(this.endpoint, data)
-            .then(response => {
+            .then(() => {
                 this.label = this.getLabel()
             })
             .catch(err => {
@@ -57,4 +58,10 @@ export default class EditableIngredientLabel {
                 alert(err)
             })
     }
+
+    destroy () {
+        if (this.input) this.input.destroy()
+        this.labelElement.removeEventListener('change', this.boundOnLabelChange)
+    }
+
 }

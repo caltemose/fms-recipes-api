@@ -1,4 +1,4 @@
-import axios from 'axios'
+// import axios from 'axios'
 import EditableNumber from './EditableNumber'
 import EditableTextInput from './EditableTextInput'
 import EditableSelect from './EditableSelect'
@@ -6,18 +6,20 @@ import EditableIngredientLabel from './EditableIngredientLabel'
 import EditableIngredientAmountUnit from './EditableIngredientAmountUnit'
 
 export default class EditableIngredientRow {
-    constructor (element) {
+    constructor (element, destroyRow) {
         this.element = element
+        this._id = this.element.dataset.ingredientId
+        this.onDestroyComplete = destroyRow
         this.initialize()
         return this
     }
 
     initialize () {
         // Amount Value
-        new EditableNumber(this.element.querySelector('.RecipeIngredientRow-Amount'))
+        this.amountValue = new EditableNumber(this.element.querySelector('.RecipeIngredientRow-Amount'))
 
         // Amount Unit
-        this.ingredientAmountUnit = new EditableIngredientAmountUnit(this.element.querySelector('.RecipeIngredientRow-Unit'), this.getUnitIdByLabel.bind(this))
+        this.amountUnit = new EditableIngredientAmountUnit(this.element.querySelector('.RecipeIngredientRow-Unit'), this.getUnitIdByLabel.bind(this))
 
         // Ingredient Type
         this.ingredientType = new EditableSelect(this.element.querySelector('.RecipeIngredientRow-Type'))
@@ -28,7 +30,16 @@ export default class EditableIngredientRow {
         this.ingredientLabel.setIngredientType(this.ingredientType.getValue())
 
         // Notes
-        new EditableTextInput(this.element.querySelector('.RecipeIngredientRow-Notes'))
+        this.notes = new EditableTextInput(this.element.querySelector('.RecipeIngredientRow-Notes'))
+
+        // Delete button
+        this.deleteButton = this.element.querySelector('.RecipeIngredientRow-Delete')
+        this.boundOnDelete = this.onDelete.bind(this)
+        this.deleteButton.addEventListener('click', this.boundOnDelete)
+    }
+
+    getId () {
+        return this._id
     }
 
     onTypeSave () {
@@ -58,7 +69,7 @@ export default class EditableIngredientRow {
     }
 
     updateUnitDataList () {
-        this.ingredientAmountUnit.updateDataList(this.data.UnitsList)
+        this.amountUnit.updateDataList(this.data.UnitsList)
     }
 
     getUnitIdByLabel (label) {
@@ -71,4 +82,22 @@ export default class EditableIngredientRow {
         return null
     }
 
+    onDelete (event) {
+        event.preventDefault()
+        this.destroyComponents()
+        this.destroyListeners()
+        this.onDestroyComplete(this._id)
+    }
+
+    destroyComponents () {
+        this.amountValue.destroy()
+        this.amountUnit.destroy()
+        this.ingredientType.destroy()
+        this.ingredientLabel.destroy()
+        this.notes.destroy()
+    }
+
+    destroyListeners () {
+        this.deleteButton.removeEventListener('click', this.boundOnDelete)
+    }
 }

@@ -9,7 +9,7 @@ export default class EditableRecipeDirectionsStep {
         return this
     }
 
-    onBlur (event) {
+    onBlur () {
         if (this.value !== this.element.innerHTML) {
             this.save()
             // console.log('saving', this.element.innerHTML, this.endpoint)
@@ -25,7 +25,7 @@ export default class EditableRecipeDirectionsStep {
             value: this.element.innerHTML
         }
         axios.post(this.endpoint, data)
-            .then(response => {
+            .then(() => {
                 this.value = this.element.innerHTML
                 // this.subscribers.forEach(subscriber => subscriber())
             })

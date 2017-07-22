@@ -7,7 +7,8 @@
     "nodemon": "nodemon index.js",
     "webpack": "webpack -w",
     "sass": "node-sass src/sass/main.sass public/styles/main.css -w",
-    "start": "npm run sass & npm run nodemon & npm run webpack"
+    "start": "npm run sass & npm run nodemon & npm run webpack",
+    "eslint": "eslint src/js"
   },
   "repository": {
     "type": "git",
@@ -38,6 +39,7 @@
     "babel-loader": "^7.1.0",
     "babel-preset-env": "^1.5.2",
     "camelcase": "^4.1.0",
+    "eslint": "^4.3.0",
     "load-json-file": "^2.0.0",
     "mongodb": "^2.2.30",
     "morgan": "^1.8.2",

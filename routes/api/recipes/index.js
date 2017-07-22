@@ -38,6 +38,19 @@ router.post('/:id/ingredient', (req, res) => {
         })
 })
 
+router.delete('/:id/ingredient/:ingredientId', (req, res) => {
+    const id = req.params.id
+    const ingredientId = req.params.ingredientId
+
+    recipes.deleteIngredientFromRecipe(id, ingredientId)
+        .then(result => {
+            res.json(result)
+        })
+        .catch(err => {
+            res.json({err})
+        })
+})
+
 router.post('/:id/:property', (req, res) => {
     const id = req.params.id
     const property = req.params.property

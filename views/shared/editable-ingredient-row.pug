@@ -1,4 +1,4 @@
-li.RecipeIngredientRow(data-endpoint-root=`${endpoint}`)
+li.RecipeIngredientRow(data-endpoint-root=`${endpoint}` data-ingredient-id=ingredient._id)
     input(type="text" value=ingredient.amount.value data-endpoint=`${endpoint}/amount/value` placeholder='add amount').RecipeIngredientRow-Amount
 
     .RecipeIngredientRow-Unit(data-endpoint=`${endpoint}/amount/unit`)

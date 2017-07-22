@@ -56,7 +56,7 @@ export default class EditableRecipe {
         const ingredientRows = this.element.querySelectorAll('.RecipeIngredientRow')
         this.ingredientRows = []
         for(let i=0; i<ingredientRows.length; i++) {
-            this.ingredientRows.push(new EditableIngredientRow(ingredientRows[i]))
+            this.ingredientRows.push(new EditableIngredientRow(ingredientRows[i], this.onRowDestroy.bind(this)))
         }
 
         // Add Ingredient button
@@ -156,8 +156,33 @@ export default class EditableRecipe {
         this.ingredientListElement.innerHTML += compiled
         const items = this.element.querySelectorAll('.RecipeIngredientRow')
         const indx = items.length -1
-        const newRow = new EditableIngredientRow(items[indx])
+        const newRow = new EditableIngredientRow(items[indx], this.onRowDestroy.bind(this))
         newRow.setData(this.data)
         this.ingredientRows.push(newRow)
+    }
+
+    onRowDestroy (id) {
+        let destroyedRow, destroyedRowIndex
+        for(let i=0; i<this.ingredientRows.length; i++) {
+            if (this.ingredientRows[i].getId() === id) {
+                const ingredientId = this.ingredientRows[i].getId()
+                destroyedRow = this.ingredientRows[i]
+                destroyedRowIndex = i
+
+                const endpoint = `/api/recipes/${this.recipe._id}/ingredient/${ingredientId}`
+
+                axios.delete(endpoint)
+                    .then(() => {
+                        destroyedRow.element.remove()
+                        this.ingredientRows.slice(destroyedRowIndex, 1)
+                    })
+                    .catch(err => {
+                        console.error(err)
+                        alert(err)
+                    })
+
+                break
+            }
+        }
     }
 }

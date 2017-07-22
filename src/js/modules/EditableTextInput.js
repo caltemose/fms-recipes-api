@@ -5,19 +5,21 @@ export default class EditableTextInput {
         this.element = element
         this.endpoint = this.element.dataset.endpoint
         this.value = this.element.value
-        this.element.addEventListener('focus', this.onFocus.bind(this))
-        this.element.addEventListener('blur', this.onBlur.bind(this))
+        this.boundOnFocus = this.onFocus.bind(this)
+        this.boundOnBlur = this.onBlur.bind(this)
+        this.element.addEventListener('focus', this.boundOnFocus)
+        this.element.addEventListener('blur', this.boundOnBlur)
         this.subscribers = []
 
         return this
     }
 
-    onFocus (event) {
+    onFocus () {
         this.value = this.element.value
         this.element.removeAttribute('readonly')
     }
 
-    onBlur (event) {
+    onBlur () {
         if (this.value !== this.element.value) {
             this.save()
         }
@@ -29,7 +31,7 @@ export default class EditableTextInput {
             value: this.element.value
         }
         axios.post(this.endpoint, data)
-            .then(response => {
+            .then(() => {
                 this.value = this.element.value
                 this.subscribers.forEach(subscriber => subscriber())
             })
@@ -45,5 +47,11 @@ export default class EditableTextInput {
 
     getValue () {
         return this.value
+    }
+
+    destroy () {
+        this.element.removeEventListener('focus', this.boundOnFocus)
+        this.element.removeEventListener('blur', this.boundOnBlur)
+        this.subscribers = []
     }
 }

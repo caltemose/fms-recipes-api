@@ -9,7 +9,7 @@ export default class EditableDiv {
         return this
     }
 
-    onBlur (event) {
+    onBlur () {
         if (this.value !== this.element.innerHTML) {
             this.save()
         }
@@ -24,7 +24,7 @@ export default class EditableDiv {
             value: this.element.innerHTML
         }
         axios.post(this.endpoint, data)
-            .then(response => {
+            .then(() => {
                 this.value = this.element.innerHTML
             })
             .catch(err => {
