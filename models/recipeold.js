@@ -2,29 +2,21 @@ const mongoose = require('mongoose')
 const ObjectId = mongoose.Schema.Types.ObjectId
 
 var ingredientSchema = mongoose.Schema({
-    item: { type: ObjectId, refPath: 'ingredients.type' },
-    type: { type:String, enum: ['Recipe', 'Ingredient'], required:true },
-    label: { type:String, trim:true },
-    notes: { type:String, trim:true },
+    id: ObjectId,
+    type: String ,
+    label: String,
+    notes: String,
     amount: {
-        unit: { type: ObjectId, ref: 'Unit' },
-        value: { type:Number, required: true }
+        unit: String,
+        value: Number
     }
 })
 
-var directionSchema = mongoose.Schema({
-    step: { type: String, required: true }
-})
-
 var schema = mongoose.Schema({
-    label: { type:String, required:true, trim:true },
-    slug: { type:String, required:true },
+    label: String,
+    name: String,
     active: { type:Boolean, required:true, default:true },
     core: { type:Boolean, required:true, default:false },
-    serves: {
-        amount: Number,
-        label: String
-    },
     yield: {
         amount: Number,
         label: String
@@ -43,9 +35,8 @@ var schema = mongoose.Schema({
         total: Number
     },
     ingredients: [ ingredientSchema ],
-    directions: [ directionSchema ],
     notes: String,
     tags: Array
 })
 
-module.exports = mongoose.model('Recipe', schema)
+module.exports = mongoose.model('Recipeold', schema)

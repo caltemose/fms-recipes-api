@@ -7,6 +7,7 @@ const slug = require('slugg')
 const config = require('../config/config.js')
 const models = require('../models/')
 
+const Recipeold = mongoose.model('Recipeold')
 const Recipe = mongoose.model('Recipe')
 const Ingredient = mongoose.model('Ingredient')
 const Unit = mongoose.model('Unit')
@@ -34,7 +35,13 @@ const getIdByLabel = (arr, label) => {
 const updateRecipes = () => {
     let newRecipes = []
 
-    recipes.forEach((recipe, index) => {
+    if (!recipes.length) {
+        done(() => console.log('No recipes to update'))
+    }
+
+    for(let j=0; j<recipes.length; j++) {
+        let recipe = recipes[j]
+        let index = j
         let newRecipe = {}
 
         // we must use the _id from the prod db recipe collection
@@ -92,15 +99,21 @@ const updateRecipes = () => {
                 default:
                     ingredientsArray = ingredients
             }
-            ing.itemId = getIdByLabel(ingredientsArray, prev.label)
+            if (prev.label === undefined) console.log(recipe.label, prev.label)
+            ing.item = getIdByLabel(ingredientsArray, prev.label)
             ing.amount = {}
             ing.amount.value = Number(prev.amount.value)
-            ing.amount.unitId = getIdByLabel(units, prev.amount.unit)
+            ing.amount.unit = getIdByLabel(units, prev.amount.unit)
             ing.notes = prev.notes
             recipeIngredients.push(ing)
+            // if (i === 0) break
         }
         newRecipe.ingredients = recipeIngredients
         const doc = new Recipe(newRecipe)
+        // if (index === 0) {
+        //     done()
+        //     break
+        // }
         doc.save((err, savedDoc) => {
             assert.equal(null, err)
             console.log('saved ' + savedDoc.label)
@@ -108,7 +121,7 @@ const updateRecipes = () => {
                 done(() => {console.log('done')})
             }
         })
-    })
+    }
 }
 
 const done = (cb) => {
@@ -141,11 +154,9 @@ mongoose.connect(config.dbHost + config.db, (err) => {
     assert.equal(null, err)
     console.log('connected to', mongoose.connection.db.databaseName)
 
-    getDocs(Recipe, (docs) => {
+    getDocs(Recipeold, (docs) => {
         recipes = docs
         console.log('found', recipes.length, 'recipes')
         done(getDevData)
     })
 })
-
-
