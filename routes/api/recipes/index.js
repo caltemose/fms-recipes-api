@@ -26,6 +26,18 @@ router.get('/:id', (req, res) => {
         })
 })
 
+// add a new ingredient to a recipe
+router.post('/:id/ingredient', (req, res) => {
+    const id = req.params.id
+    recipes.addIngredientToRecipe(id)
+        .then(result => {
+            res.json(result.doc)
+        })
+        .catch(err => {
+            res.json({err})
+        })
+})
+
 router.post('/:id/:property', (req, res) => {
     const id = req.params.id
     const property = req.params.property

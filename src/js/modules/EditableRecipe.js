@@ -6,6 +6,7 @@ import EditableRecipeDirections from './EditableRecipeDirections'
 import EditableDiv from './EditableDiv'
 import EditableNumber from './EditableNumber'
 import EditableIngredientRow from './EditableIngredientRow'
+import Templates from '../templates'
 
 export default class EditableRecipe {
     constructor (element) {
@@ -48,12 +49,19 @@ export default class EditableRecipe {
             new EditableUrlInput(editableUrlInputs[i])
         }
 
+        // Ingredient list
+        this.ingredientListElement = this.element.querySelector('.RecipeIngredients')
+
         // Ingredient rows
         const ingredientRows = this.element.querySelectorAll('.RecipeIngredientRow')
         this.ingredientRows = []
         for(let i=0; i<ingredientRows.length; i++) {
             this.ingredientRows.push(new EditableIngredientRow(ingredientRows[i]))
         }
+
+        // Add Ingredient button
+        const addIngredientButton = this.element.querySelector('.RecipeIngredients-Add')
+        addIngredientButton.addEventListener('click', this.addIngredient.bind(this))
 
         this.data = {}
         this.getIngredients()
@@ -110,5 +118,46 @@ export default class EditableRecipe {
         this.ingredientRows.forEach(row => {
             row.setData(this.data)
         })
+    }
+
+    addIngredient (event) {
+        event.preventDefault()
+
+        const endpoint = `/api/recipes/${this.recipe._id}/ingredient/`
+
+        axios.post(endpoint)
+            .then(response => {
+                this.onIngredientAdded(response.data)
+            })
+            .catch(err => {
+                console.error(err)
+                alert(err)
+            })
+    }
+
+    onIngredientAdded (doc) {
+        const endpoint = `/api/recipes/${this.recipe._id}/ingredient/${doc._id}`
+
+        let ing = Object.assign({}, doc)
+        ing.amount.unit = {
+            label: '',
+            _id: ''
+        }
+        ing.item = {
+            label: '',
+            _id: ''
+        }
+        const data = {
+            ingredient: ing,
+            endpoint
+        }
+
+        const compiled = Templates.editableIngredientRow(data)
+        this.ingredientListElement.innerHTML += compiled
+        const items = this.element.querySelectorAll('.RecipeIngredientRow')
+        const indx = items.length -1
+        const newRow = new EditableIngredientRow(items[indx])
+        newRow.setData(this.data)
+        this.ingredientRows.push(newRow)
     }
 }

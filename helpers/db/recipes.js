@@ -2,6 +2,7 @@ const Promise = require('bluebird')
 const mongoose = require('mongoose')
 const Recipe = mongoose.model('Recipe')
 const slug = require('slugg')
+const ObjectId = mongoose.Types.ObjectId
 
 const SUCCESS_RESULT = { success: true }
 
@@ -32,6 +33,31 @@ module.exports = {
                 .exec((err, doc) => {
                     if (err) reject(err)
                     else resolve(doc)
+                })
+        })
+    },
+
+    addIngredientToRecipe: function addIngredientToRecipe (id) {
+        if (!id)
+            throw new Error('Recipe ID must be provided to add ingredient')
+        
+        return new Promise((resolve, reject) => {
+            Recipe
+                .findOne({ _id: id })
+                .exec((err, doc) => {
+                    if (err) reject(err)
+                    else {
+                        doc.ingredients.push({ type: "Ingredient", amount: { value: 1 }})
+                        doc.save((err, updatedDoc) => {
+                            if (err) {
+                                reject(err)
+                            } else {
+                                const newIng = updatedDoc.ingredients[updatedDoc.ingredients.length-1]
+                                console.log('newIng', newIng)
+                                resolve({ doc: newIng })
+                            }
+                        })
+                    }
                 })
         })
     },
