@@ -1,18 +1,22 @@
-li.RecipeIngredientRow
-    input(type="text" value=ingredient.amount.value data-endpoint=`${endpoint}/amount.value` readonly placeholder='add amount').RecipeIngredientRow-Amount
+li.RecipeIngredientRow(data-endpoint-root=`${endpoint}` data-ingredient-id=ingredient._id)
+    input(type="text" value=ingredient.amount.value data-endpoint=`${endpoint}/amount/value` placeholder='add amount').RecipeIngredientRow-Amount
 
-    input(type="text" value=ingredient.amount.unit data-endpoint=`${endpoint}/amount.unit` readonly placeholder='add unit').RecipeIngredientRow-Unit
+    .RecipeIngredientRow-Unit(data-endpoint=`${endpoint}/amount/unit`)
+        input(type="text" value=ingredient.amount.unit.label name="unitLabel" placeholder='add unit')
+        input(type="hidden" value=ingredient.amount.unit._id name="unitId")
 
-    .RecipeIngredientRow-Label(data-endpoint=`${endpoint}/label`)
-        input(type="text" value=ingredient.label name="ingredientLabel" placeholder="add label")
-        input(type="hidden" value=ingredient.id name="ingredientId")
+    .RecipeIngredientRow-Label(data-endpoint=`${endpoint}/item`)
+        input(type="text" value=ingredient.item.label name="ingredientLabel" placeholder="add label")
+        input(type="hidden" value=ingredient.item._id name="ingredientId")
 
     input(type="text" value=ingredient.notes data-endpoint=`${endpoint}/notes` readonly placeholder="add notes").RecipeIngredientRow-Notes
 
     select.RecipeIngredientRow-Type(data-endpoint=`${endpoint}/type`)
-        if (ingredient.type === 'recipe')
-            option(value="ingredient") Ingredient
-            option(value="recipe" selected) Recipe
+        if (ingredient.type === 'Recipe')
+            option(value="Ingredient") Ingredient
+            option(value="Recipe" selected) Recipe
         else 
-            option(value="ingredient" selected) Ingredient
-            option(value="recipe") Recipe
+            option(value="Ingredient" selected) Ingredient
+            option(value="Recipe") Recipe
+
+    button.RecipeIngredientRow-Delete -

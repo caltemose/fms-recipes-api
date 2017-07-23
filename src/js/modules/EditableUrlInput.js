@@ -1,4 +1,4 @@
-import axios from 'axios'
+// import axios from 'axios'
 import EditableTextInput from './EditableTextInput'
 
 export default class EditableUrlInput {
@@ -15,12 +15,12 @@ export default class EditableUrlInput {
         return this
     }
 
-    onFocus (event) {
+    onFocus () {
         this.value = this.element.value
         this.element.removeAttribute('readonly')
     }
 
-    onBlur (event) {
+    onBlur () {
         if (this.value !== this.element.value) {
             this.save()
         }

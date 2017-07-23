@@ -6,6 +6,7 @@ import EditableRecipeDirections from './EditableRecipeDirections'
 import EditableDiv from './EditableDiv'
 import EditableNumber from './EditableNumber'
 import EditableIngredientRow from './EditableIngredientRow'
+import Templates from '../templates'
 
 export default class EditableRecipe {
     constructor (element) {
@@ -48,29 +49,21 @@ export default class EditableRecipe {
             new EditableUrlInput(editableUrlInputs[i])
         }
 
+        // Ingredient list
+        this.ingredientListElement = this.element.querySelector('.RecipeIngredients')
+
         // Ingredient rows
         const ingredientRows = this.element.querySelectorAll('.RecipeIngredientRow')
         this.ingredientRows = []
         for(let i=0; i<ingredientRows.length; i++) {
-            this.ingredientRows.push(new EditableIngredientRow(ingredientRows[i]))
+            this.ingredientRows.push(new EditableIngredientRow(ingredientRows[i], this.onRowDestroy.bind(this)))
         }
 
+        // Add Ingredient button
+        const addIngredientButton = this.element.querySelector('.RecipeIngredients-Add')
+        addIngredientButton.addEventListener('click', this.addIngredient.bind(this))
+
         this.data = {}
-        this.getUnits()
-    }
-
-    getUnits () {
-        axios.get('/api/units')
-            .then(response => {
-                this.onUnitsReceived(response.data.units)
-            })
-            .catch(err => {
-                console.error(err)
-            })
-    }
-
-    onUnitsReceived (units) {
-        this.data.units = units
         this.getIngredients()
     }
 
@@ -86,8 +79,8 @@ export default class EditableRecipe {
     }
 
     onIngredientsReceived (ingredients) {
-        this.data.ingredients = ingredients
-        this.data.ingredientList = this.data.ingredients.map(ingredient => ingredient.label)
+        this.data.Ingredients = ingredients
+        this.data.IngredientList = this.data.Ingredients.map(ingredient => ingredient.label)
         this.getRecipes()
     }
 
@@ -103,10 +96,94 @@ export default class EditableRecipe {
     }
 
     onRecipesReceived (recipes) {
-        this.data.recipes = recipes
-        this.data.recipeList = this.data.recipes.map(recipe => recipe.label)
+        this.data.Recipes = recipes
+        this.data.RecipeList = this.data.Recipes.map(recipe => recipe.label)
+        this.getUnits()
+    }
+
+    getUnits () {
+        axios.get('/api/units')
+            .then(response => {
+                this.onUnitsReceived(response.data.units)
+            })
+            .catch(err => {
+                console.error(err)
+                alert(err)
+            })
+    }
+
+    onUnitsReceived (units) {
+        this.data.Units = units
+        this.data.UnitsList = units.map(unit => unit.label)
         this.ingredientRows.forEach(row => {
             row.setData(this.data)
         })
+    }
+
+    addIngredient (event) {
+        event.preventDefault()
+
+        const endpoint = `/api/recipes/${this.recipe._id}/ingredient/`
+
+        axios.post(endpoint)
+            .then(response => {
+                this.onIngredientAdded(response.data)
+            })
+            .catch(err => {
+                console.error(err)
+                alert(err)
+            })
+    }
+
+    onIngredientAdded (doc) {
+        const endpoint = `/api/recipes/${this.recipe._id}/ingredient/${doc._id}`
+
+        let ing = Object.assign({}, doc)
+        ing.amount.unit = {
+            label: '',
+            _id: ''
+        }
+        ing.item = {
+            label: '',
+            _id: ''
+        }
+        const data = {
+            ingredient: ing,
+            endpoint
+        }
+        const compiled = Templates.editableIngredientRow(data)
+        const compiledFrag = document.createRange().createContextualFragment(compiled)
+        this.ingredientListElement.appendChild(compiledFrag)
+        
+        const items = this.element.querySelectorAll('.RecipeIngredientRow')
+        const indx = items.length -1
+        const newRow = new EditableIngredientRow(items[indx], this.onRowDestroy.bind(this))
+        newRow.setData(this.data)
+        this.ingredientRows.push(newRow)
+    }
+
+    onRowDestroy (id) {
+        let destroyedRow, destroyedRowIndex
+        for(let i=0; i<this.ingredientRows.length; i++) {
+            if (this.ingredientRows[i].getId() === id) {
+                const ingredientId = this.ingredientRows[i].getId()
+                destroyedRow = this.ingredientRows[i]
+                destroyedRowIndex = i
+
+                const endpoint = `/api/recipes/${this.recipe._id}/ingredient/${ingredientId}`
+
+                axios.delete(endpoint)
+                    .then(() => {
+                        destroyedRow.element.remove()
+                        this.ingredientRows.slice(destroyedRowIndex, 1)
+                    })
+                    .catch(err => {
+                        console.error(err)
+                        alert(err)
+                    })
+
+                break
+            }
+        }
     }
 }

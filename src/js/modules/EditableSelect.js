@@ -5,13 +5,14 @@ export default class EditableSelect {
         this.element = element
         this.endpoint = this.element.dataset.endpoint
         this.value = this.element.value
-        this.element.addEventListener('change', this.onChange.bind(this))
+        this.boundOnChange = this.onChange.bind(this)
+        this.element.addEventListener('change', this.boundOnChange)
         this.subscribers = []
 
         return this
     }
 
-    onChange (event) {
+    onChange () {
         if (this.value !== this.element.value) {
             this.save()
         }
@@ -23,7 +24,7 @@ export default class EditableSelect {
         }
 
         axios.post(this.endpoint, data)
-            .then(response => {
+            .then(() => {
                 this.value = this.element.value
                 this.subscribers.forEach(subscriber => subscriber())
             })
@@ -39,5 +40,10 @@ export default class EditableSelect {
 
     getValue () {
         return this.value
+    }
+
+    destroy () {
+        this.element.removeEventListener('change', this.boundOnChange)
+        this.subscribers = []
     }
 }

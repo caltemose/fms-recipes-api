@@ -1,13 +1,15 @@
 const express = require('express')
 const router = express.Router()
-const mongoose = require('mongoose')
-const Unit = mongoose.model('Unit')
+const units = require('../../../helpers/db/units')
 
 router.get('/', (req, res) => {
-    Unit.find({}, {}, { sort: { label:1 }}, (err, units) => {
-        if (err) res.json({ err })
-        else res.json({ units })
-    })
+    units.getUnits()
+        .then(docs => {
+            res.json({ units: docs })
+        })
+        .catch(err => {
+            res.json({ err: err })
+        })
 })
 
 module.exports = router

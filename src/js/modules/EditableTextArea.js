@@ -12,12 +12,12 @@ export default class EditableTextArea {
         return this
     }
 
-    onFocus (event) {
+    onFocus () {
         this.value = this.element.value
         this.element.removeAttribute('readonly')
     }
 
-    onBlur (event) {
+    onBlur () {
         if (this.value !== this.element.value) {
             this.save()
         }
@@ -33,7 +33,7 @@ export default class EditableTextArea {
             value: this.element.value
         }
         axios.post(this.endpoint, data)
-            .then(response => {
+            .then(() => {
                 this.value = this.element.value
                 this.subscribers.forEach(subscriber => subscriber())
             })

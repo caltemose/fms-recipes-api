@@ -9,13 +9,15 @@ export default class EditableCheckbox {
         return this
     }
 
-    onChange (event) {
+    onChange () {
         const data = {
             value: this.checkbox.checked
         }
 
         axios.post(this.endpoint, data)
-            .then(response => {})
+            .then(response => {
+                console.log(response)
+            })
             .catch(err => {
                 console.error(err)
                 alert(err)

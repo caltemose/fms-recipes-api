@@ -3,16 +3,15 @@ import axios from 'axios'
 export default class EditableRecipeDirectionsStep {
     constructor (element, endpoint) {
         this.element = element
-        this.endpoint = endpoint
+        this.endpoint = endpoint + '/' + this.element.dataset.stepId
         this.value = this.element.innerHTML
         this.element.addEventListener('blur', this.onBlur.bind(this))
         return this
     }
 
-    onBlur (event) {
+    onBlur () {
         if (this.value !== this.element.innerHTML) {
             this.save()
-            // console.log('saving', this.element.innerHTML, this.endpoint)
         }
     }
 
@@ -25,9 +24,8 @@ export default class EditableRecipeDirectionsStep {
             value: this.element.innerHTML
         }
         axios.post(this.endpoint, data)
-            .then(response => {
+            .then(() => {
                 this.value = this.element.innerHTML
-                // this.subscribers.forEach(subscriber => subscriber())
             })
             .catch(err => {
                 console.error(err)

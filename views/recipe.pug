@@ -32,21 +32,15 @@ block content
                 +editableInputText(recipe.time.total, `${apiRoot}/time.total`, 'add')
 
 
-        h2 Yield
-
-        .RecipeYield 
-            .RecipeYield-Amount.EditableNumber(contenteditable data-endpoint=`${apiRoot}/yield.amount`) #{recipe.yield.amount} 
-
-            .RecipeYield-Label.EditableDiv(contenteditable data-endpoint=`${apiRoot}/yield.label`)= recipe.yield.label
-
-
         h2 Ingredients
 
         ul.RecipeIngredients
             if typeof(recipe.ingredients) === 'object'
-                each ingredient, index in recipe.ingredients
-                    - var endpoint = `${apiRoot}/ingredient/${index}`
+                each ingredient in recipe.ingredients
+                    - var endpoint = `${apiRoot}/ingredient/${ingredient._id}`
                     include shared/editable-ingredient-row.pug
+
+        button.RecipeIngredients-Add Add Ingredient
 
 
         h2 Directions
@@ -57,6 +51,15 @@ block content
         h2 Notes
 
         .RecipeNotes.EditableDiv(contenteditable data-endpoint=`${apiRoot}/notes`)= recipe.notes
+
+
+        if typeof(recipe.yield.amount) !== 'undefined'
+            h2 Yield
+
+            .RecipeYield 
+                .RecipeYield-Amount.EditableNumber(contenteditable data-endpoint=`${apiRoot}/yield.amount`) #{recipe.yield.amount} 
+
+                .RecipeYield-Label.EditableDiv(contenteditable data-endpoint=`${apiRoot}/yield.label`)= recipe.yield.label
 
 
         //- if (typeof(recipe.source.url) !== 'undefined' || typeof(recipe.source.name) !== 'undefined' || typeof(recipe.source.author) !== 'undefined')

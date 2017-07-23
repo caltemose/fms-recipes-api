@@ -11,7 +11,14 @@ html
         link(rel="stylesheet", href="/styles/main.css")
 
     body
-        block content
+        header
+            include components/main-nav.pug
+
+        main
+            block content
 
         script(src='/libs/awesomplete.js')
         block scripts
+
+        footer
+            include components/main-nav.pug
