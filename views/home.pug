@@ -4,11 +4,25 @@ block content
     article
         h1 Home Page
 
-        h2 Create Recipe
+        h2 Add New Elements
+
+        h3 Create Recipe
         
-        .CreateRecipeForm
-            input(type="text" id="addRecipeName" placeholder="New Recipe Name")
-            button(id="addRecipeButton") Add Recipe
+        .CreateRecipeForm.CreateForm
+            input(type="text" name="addRecipeName" placeholder="New Recipe Name")
+            button(name="addRecipeButton") Add Recipe
+        
+        h3 Create Ingredient
+
+        .CreateIngredientForm.CreateForm
+            input(type="text" name="addIngredientName" placeholder="New Ingredient Name")
+            button(name="addIngredientButton") Add Ingredient
+
+        h3 Create Unit
+
+        .CreateUnitForm.CreateForm
+            input(type="text" name="addUnitName" placeholder="New Unit Name")
+            button(name="addUnitButton") Add Unit
 
         h2.Testing Testing
 
