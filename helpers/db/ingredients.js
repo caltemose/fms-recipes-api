@@ -1,8 +1,10 @@
 const Promise = require('bluebird')
+const slug = require('slugg')
 const mongoose = require('mongoose')
 const Ingredient = mongoose.model('Ingredient')
 
 module.exports = {
+    // TODO implement filtering
     getIngredients: function getIngredients (filter) {
         return new Promise((resolve, reject) => {
             Ingredient.find({}, {}, { sort: { name:1 }}, (err, docs) => {
@@ -18,6 +20,22 @@ module.exports = {
 
         return new Promise((resolve, reject) => {
             Ingredient.findById(id, (err, doc) => {
+                if (err) reject(err)
+                else resolve(doc)
+            })
+        })
+    },
+
+    addIngredient: function addIngredient (label) {
+        if (!label)
+            throw new Error('Ingredient label not supplied.')
+
+        return new Promise((resolve, reject) => {
+            const ingredient = new Ingredient({
+                label: label,
+                slug: slug(label)
+            })
+            ingredient.save((err, doc) => {
                 if (err) reject(err)
                 else resolve(doc)
             })
