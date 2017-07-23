@@ -1,0 +1,10 @@
+extends _layout.pug
+
+block content
+    article
+        h1 Units
+        
+        ul.UnitList
+            each unit in units
+                li
+                    a(href=`/units/${unit._id}`)= unit.label

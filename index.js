@@ -1,4 +1,3 @@
-const path = require('path')
 const express = require('express')
 const logger = require('morgan')
 const bodyParser = require('body-parser')
@@ -8,7 +7,7 @@ const config = require('./config/config.js')
 const app = express()
 const port = process.env.PORT || config.port
 
-const models = require('./models/')
+require('./models/')
 
 mongoose.Promise = require('bluebird')
 mongoose.set('debug', true)
