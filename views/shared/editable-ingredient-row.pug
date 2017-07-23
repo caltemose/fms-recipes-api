@@ -12,7 +12,7 @@ li.RecipeIngredientRow(data-endpoint-root=`${endpoint}` data-ingredient-id=ingre
     input(type="text" value=ingredient.notes data-endpoint=`${endpoint}/notes` readonly placeholder="add notes").RecipeIngredientRow-Notes
 
     select.RecipeIngredientRow-Type(data-endpoint=`${endpoint}/type`)
-        if (ingredient.type === 'recipe')
+        if (ingredient.type === 'Recipe')
             option(value="Ingredient") Ingredient
             option(value="Recipe" selected) Recipe
         else 

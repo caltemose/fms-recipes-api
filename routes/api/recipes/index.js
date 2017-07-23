@@ -2,6 +2,12 @@ const express = require('express')
 const router = express.Router()
 const recipes = require('../../../helpers/db/recipes')
 
+/**
+ * Get all recipes. If a filter is provided, results will
+ * be filtered (options: core, active).
+ * 
+ * @return {Array} recipe documents
+ */
 router.get('/', (req, res) => {
     recipes.getRecipes(req.query.filter)
         .then(docs => {
@@ -12,6 +18,12 @@ router.get('/', (req, res) => {
         })
 })
 
+/**
+ * Create a recipe with the given name.
+ * 
+ * @param {String} recipeName (req.body)
+ */
+// TODO change this route to POST 
 router.put('/', (req, res) => {
     const recipeName = req.body.recipeName
 
@@ -24,6 +36,12 @@ router.put('/', (req, res) => {
         })
 })
 
+/**
+ * Get recipe by id.
+ * 
+ * @param {String} id (Mongo ObjectId) of recipe to find (url param)
+ * @return {Object} recipe document
+ */
 router.get('/:id', (req, res) => {
     const id = req.params.id
     if (!id)
@@ -38,9 +56,15 @@ router.get('/:id', (req, res) => {
         })
 })
 
-// add a new ingredient to a recipe
+/** 
+ * Add a new ingredient to a recipe.
+ * 
+ * @param {String} id (Mongo ObjectId) of recipe to edit (url param)
+ * @return {Object} updated recipe document
+ */
 router.post('/:id/ingredient', (req, res) => {
     const id = req.params.id
+
     recipes.addIngredientToRecipe(id)
         .then(result => {
             res.json(result.doc)
@@ -50,6 +74,13 @@ router.post('/:id/ingredient', (req, res) => {
         })
 })
 
+/**
+ * Delete an ingredient from a recipe.
+ * 
+ * @param {String} id (ObjectId) of recipe to upate (url param)
+ * @param {String} id (ObjectId) of ingredient to remove (url param)
+ * @return {Object} updated recipe document
+ */
 router.delete('/:id/ingredient/:ingredientId', (req, res) => {
     const id = req.params.id
     const ingredientId = req.params.ingredientId
@@ -63,6 +94,56 @@ router.delete('/:id/ingredient/:ingredientId', (req, res) => {
         })
 })
 
+/**
+ * Add a direction step to a recipe.
+ * 
+ * @param {String} id ObjectId of recipe to update. (url param)
+ * @return {String} ObjectId of new direction step
+ */
+// TODO change this to POST
+router.put('/:id/directions/', (req, res) => {
+    const id = req.params.id
+    
+    recipes.addStep(id)
+        .then(result => {
+            res.json(result)
+        })
+        .catch(err => {
+            res.json({err})
+        })
+})
+
+/**
+ * Edit a directions step.
+ * 
+ * @param {String} id ObjectId of recipe to update (url param)
+ * @param {String} stepId ObjectId of direction step to update (url param)
+ * @param {String} value text of direction step (req.body)
+ * @return {Object} updated recipe document
+ */
+// TODO change this to PUT
+router.post('/:id/directions/:stepId', (req, res) => {
+    const id = req.params.id
+    const stepId = req.params.stepId
+    const step = req.body.value
+
+    recipes.editStep(id, stepId, step)
+        .then(result => {
+            res.json(result)
+        })
+        .catch(err => {
+            res.json({err})
+        })
+})
+
+/**
+ * Edit a generic recipe property.
+ * 
+ * @param {String} id ObjectId of recipe to update
+ * @param {String} property name of recipe property to update
+ * @param {String} value value of property being updated (req.body)
+ */
+// TODO change to PUT
 router.post('/:id/:property', (req, res) => {
     const id = req.params.id
     const property = req.params.property
@@ -77,6 +158,7 @@ router.post('/:id/:property', (req, res) => {
         })
 })
 
+// TODO confirm still in use and change to PUT
 router.post('/:id/:property/:option', (req, res) => {
     const id = req.params.id
     const property = req.params.property
@@ -92,6 +174,11 @@ router.post('/:id/:property/:option', (req, res) => {
         })
 })
 
+/**
+ * Edit a recipe ingredient's amount data (unit or value).
+ * 
+ */
+// TODO change to PUT
 router.post('/:id/ingredient/:ingredientId/amount/:property', (req, res) => {
     const id = req.params.id
     const ingredientId = req.params.ingredientId
@@ -107,6 +194,7 @@ router.post('/:id/ingredient/:ingredientId/amount/:property', (req, res) => {
         })
 })
 
+// TODO change to PUT
 router.post('/:id/ingredient/:ingredientId/:property', (req, res) => {
     const id = req.params.id
     const ingredientId = req.params.ingredientId

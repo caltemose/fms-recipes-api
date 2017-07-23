@@ -63,13 +63,12 @@ module.exports = {
                 .exec((err, doc) => {
                     if (err) reject(err)
                     else {
-                        doc.ingredients.push({ type: "Ingredient", amount: { value: 1 }})
+                        doc.ingredients.push({ type: 'Ingredient', amount: { value: 1 }})
                         doc.save((err, updatedDoc) => {
                             if (err) {
                                 reject(err)
                             } else {
                                 const newIng = updatedDoc.ingredients[updatedDoc.ingredients.length-1]
-                                console.log('newIng', newIng)
                                 resolve({ doc: newIng })
                             }
                         })
@@ -101,6 +100,49 @@ module.exports = {
         })
     },
 
+    addStep: function addStep (id) {
+        if (!id)
+            throw new Error('Must provide recipe ID to add a directions step')
+
+        return new Promise((resolve, reject) => {
+            Recipe.findOne({ _id: id })
+                .exec((err, doc) => {
+                    if (err) reject(err)
+                    else {
+                        // push operation returns human index of newly added step
+                        // (ie, indexing starts at 1 instead of 0)
+                        const pushed = doc.directions.push({ step: '' })
+                        doc.save((err, updatedDoc) => {
+                            if (err) reject(err)
+                            else {
+                                const newStep = updatedDoc.directions[pushed-1]
+                                resolve({ doc: newStep })
+                            }
+                        })
+                    }
+                })
+        })
+    },
+
+    editStep: function editStep (id, stepId, step) {
+        if (!id || !stepId || step === null)
+            throw new Error('Insufficient data provided to edit recipe directions step')
+        
+        return new Promise((resolve, reject) => {
+            Recipe.findOne({ _id: id })
+                .exec((err, doc) => {
+                    if (err) reject(err)
+                    else {
+                        doc.directions.id(stepId).step = step
+                        doc.save((err, updatedDoc) => {
+                            if (err) reject(err)
+                            else resolve({ doc: updatedDoc })
+                        })
+                    }
+                })
+        })
+    },
+
     updateRecipeProperty: function updateRecipeProperty (id, property, value, option) {
         if (!id || !property || value === 'undefined' || value === null)
             throw new Error('Insufficient recipe data provided.')
@@ -119,7 +161,7 @@ module.exports = {
                 }
             }
 
-            Recipe.findByIdAndUpdate(id, { $set: update }, (err, recipe) => {
+            Recipe.findByIdAndUpdate(id, { $set: update }, (err) => {
                 if (err) reject(err)
                 else resolve(SUCCESS_RESULT)
             })

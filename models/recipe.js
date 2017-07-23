@@ -13,7 +13,7 @@ var ingredientSchema = mongoose.Schema({
 })
 
 var directionSchema = mongoose.Schema({
-    step: { type: String, required: true }
+    step: { type: String }
 })
 
 var schema = mongoose.Schema({

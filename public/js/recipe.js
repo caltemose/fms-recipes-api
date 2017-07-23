@@ -2210,9 +2210,10 @@ var EditableRecipe = function () {
                 ingredient: ing,
                 endpoint: endpoint
             };
-
             var compiled = _templates2.default.editableIngredientRow(data);
-            this.ingredientListElement.innerHTML += compiled;
+            var compiledFrag = document.createRange().createContextualFragment(compiled);
+            this.ingredientListElement.appendChild(compiledFrag);
+
             var items = this.element.querySelectorAll('.RecipeIngredientRow');
             var indx = items.length - 1;
             var newRow = new _EditableIngredientRow2.default(items[indx], this.onRowDestroy.bind(this));
@@ -2384,9 +2385,11 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); // import axios from 'axios'
-// import EditableTextArea from './EditableTextArea'
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _axios = __webpack_require__(1);
+
+var _axios2 = _interopRequireDefault(_axios);
 
 var _EditableRecipeDirectionsStep = __webpack_require__(34);
 
@@ -2413,7 +2416,7 @@ var EditableRecipeDirections = function () {
             this.steps = [];
         }
         for (var i = 0; i < this.steps.length; i++) {
-            new _EditableRecipeDirectionsStep2.default(this.steps[i], this.endpoint + '/' + i);
+            new _EditableRecipeDirectionsStep2.default(this.steps[i], this.endpoint);
         }
 
         return this;
@@ -2421,13 +2424,30 @@ var EditableRecipeDirections = function () {
 
     _createClass(EditableRecipeDirections, [{
         key: 'onAddStep',
-        value: function onAddStep() {
+        value: function onAddStep(event) {
+            var _this = this;
+
+            event.preventDefault();
+
+            _axios2.default.put(this.endpoint).then(function (response) {
+                _this.onStepAdded(response.data.doc._id);
+            }).catch(function (err) {
+                console.error(err);
+                alert(err);
+            });
+        }
+    }, {
+        key: 'onStepAdded',
+        value: function onStepAdded(id) {
             var li = document.createElement('li');
             li.classList.add('RecipeDirections-Step');
             li.contentEditable = true;
+            li.dataset.stepId = id;
             this.list.appendChild(li);
-            var numSteps = this.steps.push(li);
-            new _EditableRecipeDirectionsStep2.default(li, this.endpoint + '/' + (numSteps - 1));
+
+            this.steps.push(li);
+
+            new _EditableRecipeDirectionsStep2.default(li, this.endpoint);
         }
     }]);
 
@@ -2462,7 +2482,7 @@ var EditableRecipeDirectionsStep = function () {
         _classCallCheck(this, EditableRecipeDirectionsStep);
 
         this.element = element;
-        this.endpoint = endpoint;
+        this.endpoint = endpoint + '/' + this.element.dataset.stepId;
         this.value = this.element.innerHTML;
         this.element.addEventListener('blur', this.onBlur.bind(this));
         return this;
@@ -2473,7 +2493,6 @@ var EditableRecipeDirectionsStep = function () {
         value: function onBlur() {
             if (this.value !== this.element.innerHTML) {
                 this.save();
-                // console.log('saving', this.element.innerHTML, this.endpoint)
             }
         }
     }, {
@@ -2490,7 +2509,6 @@ var EditableRecipeDirectionsStep = function () {
             };
             _axios2.default.post(this.endpoint, data).then(function () {
                 _this.value = _this.element.innerHTML;
-                // this.subscribers.forEach(subscriber => subscriber())
             }).catch(function (err) {
                 console.error(err);
                 alert(err);
@@ -3048,7 +3066,7 @@ var Templates = function () {
         pug_interp;var pug_debug_filename, pug_debug_line;try {
       ;var locals_for_with = locals || {};(function (endpoint, ingredient) {
         ;pug_debug_line = 1;pug_debug_filename = "views/shared/editable-ingredient-row.pug";
-        pug_html = pug_html + "<li" + (" class=\"RecipeIngredientRow\"" + pug_attr("data-endpoint-root", "" + endpoint, true, false)) + ">";
+        pug_html = pug_html + "<li" + (" class=\"RecipeIngredientRow\"" + pug_attr("data-endpoint-root", "" + endpoint, true, false) + pug_attr("data-ingredient-id", ingredient._id, true, false)) + ">";
         ;pug_debug_line = 2;pug_debug_filename = "views/shared/editable-ingredient-row.pug";
         pug_html = pug_html + "<input" + (" class=\"RecipeIngredientRow-Amount\"" + " type=\"text\"" + pug_attr("value", ingredient.amount.value, true, false) + pug_attr("data-endpoint", endpoint + "/amount/value", true, false) + " placeholder=\"add amount\"") + "/>";
         ;pug_debug_line = 4;pug_debug_filename = "views/shared/editable-ingredient-row.pug";

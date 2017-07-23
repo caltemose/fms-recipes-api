@@ -151,9 +151,10 @@ export default class EditableRecipe {
             ingredient: ing,
             endpoint
         }
-
         const compiled = Templates.editableIngredientRow(data)
-        this.ingredientListElement.innerHTML += compiled
+        const compiledFrag = document.createRange().createContextualFragment(compiled)
+        this.ingredientListElement.appendChild(compiledFrag)
+        
         const items = this.element.querySelectorAll('.RecipeIngredientRow')
         const indx = items.length -1
         const newRow = new EditableIngredientRow(items[indx], this.onRowDestroy.bind(this))

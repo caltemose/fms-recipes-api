@@ -3,6 +3,6 @@ mixin editableRecipeDirections(directions, endpoint)
         ol.RecipeDirections-List
             if directions
                 each direction in directions
-                    li.RecipeDirections-Step(contenteditable)= direction
+                    li.RecipeDirections-Step(contenteditable data-step-id=direction._id)= direction.step
 
         button.RecipeDirections-Add Add Step

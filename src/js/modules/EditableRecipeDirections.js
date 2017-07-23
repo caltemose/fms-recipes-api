@@ -1,5 +1,4 @@
-// import axios from 'axios'
-// import EditableTextArea from './EditableTextArea'
+import axios from 'axios'
 import EditableRecipeDirectionsStep from './EditableRecipeDirectionsStep'
 
 export default class EditableRecipeDirections {
@@ -17,18 +16,34 @@ export default class EditableRecipeDirections {
             this.steps = []
         }
         for(let i=0; i<this.steps.length; i++) {
-            new EditableRecipeDirectionsStep(this.steps[i], this.endpoint + '/' + i)
+            new EditableRecipeDirectionsStep(this.steps[i], this.endpoint)
         }
 
         return this
     }
 
-    onAddStep () {
+    onAddStep (event) {
+        event.preventDefault()
+
+        axios.put(this.endpoint)
+            .then(response => {
+                this.onStepAdded(response.data.doc._id)
+            })
+            .catch(err => {
+                console.error(err)
+                alert(err)
+            })
+    }
+
+    onStepAdded (id) {
         const li = document.createElement('li')
         li.classList.add('RecipeDirections-Step')
         li.contentEditable = true
+        li.dataset.stepId = id
         this.list.appendChild(li)
-        const numSteps = this.steps.push(li)
-        new EditableRecipeDirectionsStep(li, this.endpoint + '/' + (numSteps -1))
+        
+        this.steps.push(li)
+        
+        new EditableRecipeDirectionsStep(li, this.endpoint)
     }
 }
