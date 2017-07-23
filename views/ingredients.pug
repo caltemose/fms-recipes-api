@@ -1,0 +1,10 @@
+extends _layout.pug
+
+block content
+    article
+        h1 Ingredients
+        
+        ul.IngredientList
+            each ingredient in ingredients
+                li
+                    a(href=`/ingredients/${ingredient._id}`)= ingredient.label

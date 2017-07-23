@@ -4,17 +4,16 @@ const mongoose = require('mongoose')
 const Ingredient = mongoose.model('Ingredient')
 
 module.exports = {
-    // TODO implement filtering
-    getIngredients: function getIngredients (filter) {
+    getIngredients: function getIngredients () {
         return new Promise((resolve, reject) => {
-            Ingredient.find({}, {}, { sort: { name:1 }}, (err, docs) => {
+            Ingredient.find({}, {}, { sort: { label:1 }}, (err, docs) => {
                 if (err) reject(err)
                 else resolve(docs)
             })
         })
     },
 
-    getIngredientsById: function getIngredientsById (id) {
+    getIngredientById: function getIngredientById (id) {
         if (!id)
             throw new Error('Ingredient ID not supplied.')
 

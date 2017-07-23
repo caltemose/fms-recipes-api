@@ -21,8 +21,7 @@ export default class CreateIngredientForm {
         axios.post('/api/ingredients', { label })
             .then((result) => {
                 const id = result.data.ingredient._id
-                console.log('id', id)
-                // window.location.href = `/ingredient/${id}`
+                window.location.href = `/ingredients/${id}`
             })
             .catch((err) => {
                 console.error(err)
