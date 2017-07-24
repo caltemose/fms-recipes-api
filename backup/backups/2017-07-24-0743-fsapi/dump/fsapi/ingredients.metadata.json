@@ -1,0 +1,1 @@
+{ "options" : { "create" : "ingredients" }, "indexes" : [ { "v" : 1, "key" : { "_id" : 1 }, "ns" : "fsapi.ingredients", "name" : "_id_" } ] }

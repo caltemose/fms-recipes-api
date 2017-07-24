@@ -1,0 +1,1 @@
+{ "options" : { "create" : "units" }, "indexes" : [ { "v" : 1, "key" : { "_id" : 1 }, "ns" : "fsapi.units", "name" : "_id_" } ] }
