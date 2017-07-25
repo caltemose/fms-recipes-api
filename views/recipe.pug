@@ -62,6 +62,17 @@ block content
                 .RecipeYield-Label.EditableDiv(contenteditable data-endpoint=`${apiRoot}/yield.label`)= recipe.yield.label
 
 
+        h2 Tags
+
+        .RecipeTags
+            ul.RecipeTagsList
+                each tag in recipe.tags
+                    li= tag.label
+            .RecipeTagsAdd.CreateForm
+                input(type="text" name="AddRecipeTag").RecipeTagsAdd-Input
+                button(name="AddRecipeTagButton").RecipeTagsAdd-Button Add
+
+
         //- if (typeof(recipe.source.url) !== 'undefined' || typeof(recipe.source.name) !== 'undefined' || typeof(recipe.source.author) !== 'undefined')
         h2 Source
 
