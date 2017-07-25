@@ -28,8 +28,9 @@ module.exports = {
     add: function add (label) {
         if (!label)
             throw new Error('Tag label not supplied.')
-
+        
         return new Promise((resolve, reject) => {
+            // TODO reject duplicate tags
             const newDoc = new Tag({
                 label: label,
                 slug: slug(label)

@@ -8,5 +8,6 @@ router.get('/', (req, res) => {
 router.use('/recipes', require('./recipes/'))
 router.use('/ingredients', require('./ingredients/'))
 router.use('/units', require('./units/'))
+router.use('/tags', require('./tags/'))
 
 module.exports = router
