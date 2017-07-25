@@ -4,17 +4,23 @@ export default class AddTagForm {
     constructor (element) {
         this.element = element
         this.input = this.element.querySelector('[name="AddRecipeTag"]')
-        this.input.addEventListener('keypress', this.handleInput.bind(this))
+        // this.input.addEventListener('keypress', this.handleInput.bind(this))
         this.button = this.element.querySelector('[name="AddRecipeTagButton"]')
         this.button.addEventListener('click', this.addNew.bind(this))
-    }
 
-    handleInput (event) {
-        const input = event.target.value
-        if (input.length > 1) {
-            // send input to database to find matching tags
-            // then display results as autocomplete
-        }
+        this.endpoint = this.element.dataset.endpoint
+        console.log(this.endpoint)
+
+        axios.get('/api/tags')
+            .then(result => {
+                this.tags = result.data.tags
+                const list = result.data.tags.map(tag => tag.label)
+                this.awesomplete = new Awesomplete(this.input, { list })
+            })
+            .catch(err => {
+                console.error(err)
+                alert(err)
+            })
     }
 
     addNew (event) {
@@ -27,7 +33,7 @@ export default class AddTagForm {
             return
         }
 
-        // axios.post('/api/units', { label })
+        // axios.post('/api/recipes/', { label })
         //     .then((result) => {
         //         const id = result.data.unit._id
         //         window.location.href = `/units/${id}`
