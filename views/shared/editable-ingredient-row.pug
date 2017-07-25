@@ -20,3 +20,6 @@ li.RecipeIngredientRow(data-endpoint-root=`${endpoint}` data-ingredient-id=ingre
             option(value="Recipe") Recipe
 
     button.RecipeIngredientRow-Delete -
+
+    if ingredient.type === 'Recipe'
+        a(href='/recipes/' + ingredient.item._id).RecipeIngredientRow-View View
