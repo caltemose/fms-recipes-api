@@ -1,6 +1,6 @@
 #!/bin/bash
 
-MONGO_DATABASE="fsapi"
+MONGO_DATABASE="fsapi-dev"
 TIMESTAMP=`date +%F-%H%M`
 BACKUPS_DIR="./backups/$TIMESTAMP/"
 ARCHIVE_PATH="$BACKUPS_DIR/dump"
