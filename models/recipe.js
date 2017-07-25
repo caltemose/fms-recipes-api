@@ -45,7 +45,7 @@ var schema = mongoose.Schema({
     ingredients: [ ingredientSchema ],
     directions: [ directionSchema ],
     notes: String,
-    tags: Array
+    tags: [{ type: ObjectId, ref: 'Tag'}]
 })
 
 module.exports = mongoose.model('Recipe', schema)
