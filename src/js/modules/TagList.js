@@ -22,7 +22,6 @@ export default class TagList {
     }
 
     activateDeleteButton (li) {
-        console.log(li)
         li
             .querySelector('.RecipeTagDelete')
             .addEventListener('click', this.boundOnDeleteTag)
