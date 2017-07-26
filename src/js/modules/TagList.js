@@ -1,23 +1,31 @@
 import axios from 'axios'
+import Templates from '../templates'
 
 export default class TagList {
     constructor (element) {
         this.element = element
-        this.tags = this.element.querySelectorAll('li')
+
         this.boundOnDeleteTag = this.onDeleteTag.bind(this)
+        this.tags = [ ...this.element.querySelectorAll('li') ]
         for(let i=0; i<this.tags.length; i++) {
-            this.tags[i]
-                .querySelector('.RecipeTagDelete')
-                .addEventListener('click', this.boundOnDeleteTag)
+            this.activateDeleteButton(this.tags[i])
         }
     }
 
     addTag (tag) {
-        // TODO update this to use a compiled pug template
-        const li = document.createElement('li')
-        li.dataset.tagId = tag._id
-        li.innerHTML = tag.label
-        this.element.appendChild(li)
+        const compiled = Templates.recipeTagItem({ tag })
+        const compiledFrag = document.createRange().createContextualFragment(compiled)
+        this.element.appendChild(compiledFrag)
+        this.tags = [ ...this.element.querySelectorAll('li') ]
+        const li = this.tags[this.tags.length-1]
+        this.activateDeleteButton(li)
+    }
+
+    activateDeleteButton (li) {
+        console.log(li)
+        li
+            .querySelector('.RecipeTagDelete')
+            .addEventListener('click', this.boundOnDeleteTag)
     }
 
     onDeleteTag (event) {
@@ -44,13 +52,3 @@ export default class TagList {
             })
     }
 }
-/*
-
-ul.RecipeTagsList(data-endpoint-root=`${apiRoot}/tags/`)
-    each tag in recipe.tags
-        li(data-tag-id=tag._id)
-            a(href="/recipes/tagged/" + tag.slug)= tag.label
-            button(data-tag-id=tag._id).RecipeTagDelete
-                span.close
-
-*/

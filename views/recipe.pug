@@ -67,10 +67,7 @@ block content
         .RecipeTags
             ul.RecipeTagsList(data-endpoint-root=`${apiRoot}/tags/`)
                 each tag in recipe.tags
-                    li(data-tag-id=tag._id)
-                        a(href="/recipes/tagged/" + tag.slug)= tag.label
-                        button(data-tag-id=tag._id).RecipeTagDelete
-                            span.close
+                    include shared/recipe-tag-item.pug
 
             .RecipeTagsAdd.CreateForm(data-endpoint=`${apiRoot}/tags`)
                 input(type="text" name="AddRecipeTag").RecipeTagsAdd-Input

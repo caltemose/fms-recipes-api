@@ -1,0 +1,4 @@
+li(data-tag-id=tag._id)
+    a(href="/recipes/tagged/" + tag.slug)= tag.label
+    button(data-tag-id=tag._id).RecipeTagDelete
+        span.close
