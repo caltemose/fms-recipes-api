@@ -136,6 +136,22 @@ router.post('/:id/directions/:stepId', (req, res) => {
         })
 })
 
+router.put('/:id/tags', (req, res) => {
+    const id = req.params.id
+    const tagLabel = req.body.label
+    console.log('tagLabel', tagLabel)
+    if (!tagLabel || tagLabel == '')
+        res.json({ err: 'You must include a tag label to add to the current recipe.'})
+
+    recipes.addTag(id, tagLabel)
+        .then((tag) => {
+            res.json({ tag })
+        })
+        .catch(err => {
+            res.json({ err })
+        })
+})
+
 /**
  * Edit a generic recipe property.
  * 
@@ -143,6 +159,7 @@ router.post('/:id/directions/:stepId', (req, res) => {
  * @param {String} property name of recipe property to update
  * @param {String} value value of property being updated (req.body)
  */
+/*
 // TODO change to PUT
 router.post('/:id/:property', (req, res) => {
     const id = req.params.id
@@ -173,6 +190,7 @@ router.post('/:id/:property/:option', (req, res) => {
             res.json({ err: err })
         })
 })
+*/
 
 /**
  * Edit a recipe ingredient's amount data (unit or value).

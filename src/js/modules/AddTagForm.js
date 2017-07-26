@@ -9,7 +9,8 @@ export default class AddTagForm {
         this.button.addEventListener('click', this.addNew.bind(this))
 
         this.endpoint = this.element.dataset.endpoint
-        console.log(this.endpoint)
+        
+        this.subscribers = []
 
         axios.get('/api/tags')
             .then(result => {
@@ -23,6 +24,10 @@ export default class AddTagForm {
             })
     }
 
+    subscribeToSaved (callback) {
+        this.subscribers.push(callback)
+    }
+
     addNew (event) {
         event.preventDefault()
 
@@ -33,14 +38,19 @@ export default class AddTagForm {
             return
         }
 
-        // axios.post('/api/recipes/', { label })
-        //     .then((result) => {
-        //         const id = result.data.unit._id
-        //         window.location.href = `/units/${id}`
-        //     })
-        //     .catch((err) => {
-        //         console.error(err)
-        //         alert(err)
-        //     })
+        axios.put(this.endpoint, { label })
+            .then((result) => {
+                // empty the tag input and focus it
+                this.input.value = ''
+                this.input.focus()
+
+                // pass the new tag data to the parent so the tag list can be updated
+                const tag = result.data.tag
+                this.subscribers.forEach(subscriber => subscriber(tag))
+            })
+            .catch((err) => {
+                console.error(err)
+                alert(err)
+            })
     }
 }

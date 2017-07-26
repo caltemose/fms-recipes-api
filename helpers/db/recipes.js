@@ -1,6 +1,7 @@
 const Promise = require('bluebird')
 const mongoose = require('mongoose')
 const Recipe = mongoose.model('Recipe')
+const Tag = mongoose.model('Tag')
 const slug = require('slugg')
 const ObjectId = mongoose.Types.ObjectId
 
@@ -29,7 +30,7 @@ module.exports = {
         return new Promise((resolve, reject) => {
             Recipe
                 .findOne({ _id: id})
-                .populate('ingredients.item ingredients.amount.unit')
+                .populate('ingredients.item ingredients.amount.unit tags')
                 .exec((err, doc) => {
                     if (err) reject(err)
                     else resolve(doc)
@@ -233,6 +234,46 @@ module.exports = {
                     resolve({recipe: updated})
                 })
             })
+        })
+    },
+
+    addTag: function addTag (recipeId, tagLabel) {
+        if (!recipeId || !tagLabel)
+            throw new Error('Insufficient data to add tag to recipe.')
+
+        return new Promise((resolve, reject) => {
+            // first check to see if tag exists and create it if it doesn't
+            Tag.findOne({ label: tagLabel })
+                .exec((err, tag) => {
+                    if (err) reject(err)
+                    if (!tag) {
+                        reject('Adding new tags currently not supported.')
+                        // // create tag
+                        // const newTag = new Tag({
+                        //     label: tagLabel,
+                        //     slug: slug(tagLabel)
+                        // })
+                        // newTag.save((err, updatedTag) => {
+
+                        // })
+                    } else {
+                        // add tag to recipe
+                        Recipe
+                            .findById(recipeId)
+                            .exec((err, recipe) => {
+                                if (err) reject(err)
+                                if (recipe) {
+                                    console.log('tag._id', tag._id)
+                                    recipe.tags.push(tag._id)
+                                    console.log(recipe.tags)
+                                    recipe.save((err, updatedRecipe) => {
+                                        if (err) reject(err)
+                                        resolve(tag)
+                                    })
+                                }
+                            })
+                    }
+                })
         })
     }
 }

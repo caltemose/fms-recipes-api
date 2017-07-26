@@ -67,7 +67,8 @@ block content
         .RecipeTags
             ul.RecipeTagsList
                 each tag in recipe.tags
-                    li= tag.label
+                    li(data-tag-id=tag._id)= tag.label
+
             .RecipeTagsAdd.CreateForm(data-endpoint=`${apiRoot}/tags`)
                 input(type="text" name="AddRecipeTag").RecipeTagsAdd-Input
                 button(name="AddRecipeTagButton").RecipeTagsAdd-Button Add

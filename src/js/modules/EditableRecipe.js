@@ -6,7 +6,7 @@ import EditableRecipeDirections from './EditableRecipeDirections'
 import EditableDiv from './EditableDiv'
 import EditableNumber from './EditableNumber'
 import EditableIngredientRow from './EditableIngredientRow'
-import AddTagForm from './AddTagForm'
+import RecipeTags from './RecipeTags'
 import Templates from '../templates'
 
 export default class EditableRecipe {
@@ -64,9 +64,9 @@ export default class EditableRecipe {
         const addIngredientButton = this.element.querySelector('.RecipeIngredients-Add')
         addIngredientButton.addEventListener('click', this.addIngredient.bind(this))
 
-        // Add Tag form
-        const addTagForm = this.element.querySelector('.RecipeTagsAdd')
-        this.addTagForm = new AddTagForm(addTagForm)
+        // Recipe Tags listing + add tag form
+        const recipeTags = this.element.querySelector('.RecipeTags')
+        this.recipeTags = new RecipeTags(recipeTags)
 
         this.data = {}
         this.getIngredients()
