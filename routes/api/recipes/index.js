@@ -136,10 +136,17 @@ router.post('/:id/directions/:stepId', (req, res) => {
         })
 })
 
+/**
+ * Add a tag to a recipe.
+ * 
+ * @param {String} id ObjectId of recipe to update
+ * @param {String} label for new tag
+ * @return {Object} new tag object
+ */
 router.put('/:id/tags', (req, res) => {
     const id = req.params.id
     const tagLabel = req.body.label
-    console.log('tagLabel', tagLabel)
+
     if (!tagLabel || tagLabel == '')
         res.json({ err: 'You must include a tag label to add to the current recipe.'})
 
@@ -152,6 +159,13 @@ router.put('/:id/tags', (req, res) => {
         })
 })
 
+/**
+ * Delete tag from recipe.
+ * 
+ * @param {String} id ObjectId of recipe to update
+ * @param {String} tagId ObjectId of tag (subdocument) to delete
+ * @return {Object} with success = t/f
+ */
 router.delete('/:id/tags/:tagId', (req, res) => {
     const id = req.params.id
     const tagId = req.params.tagId
@@ -172,7 +186,7 @@ router.delete('/:id/tags/:tagId', (req, res) => {
  * @param {String} property name of recipe property to update
  * @param {String} value value of property being updated (req.body)
  */
-/*
+
 // TODO change to PUT
 router.post('/:id/:property', (req, res) => {
     const id = req.params.id
@@ -203,7 +217,7 @@ router.post('/:id/:property/:option', (req, res) => {
             res.json({ err: err })
         })
 })
-*/
+
 
 /**
  * Edit a recipe ingredient's amount data (unit or value).
