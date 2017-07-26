@@ -152,6 +152,19 @@ router.put('/:id/tags', (req, res) => {
         })
 })
 
+router.delete('/:id/tags/:tagId', (req, res) => {
+    const id = req.params.id
+    const tagId = req.params.tagId
+
+    recipes.deleteTag(id, tagId)
+        .then(result => {
+            res.json({ success: true })
+        })
+        .catch(err => {
+            res.json({ err })
+        })
+})
+
 /**
  * Edit a generic recipe property.
  * 

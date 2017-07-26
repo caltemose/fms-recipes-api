@@ -3,3 +3,35 @@ main
 
 .Testing
     margin-top: 2.5em
+
+
+.close
+    position: relative
+    display: inline-block
+    width: 12px
+    height: 12px
+    overflow: hidden
+    pointer-events: none
+
+    &::before, &::after
+        content: ''
+        position: absolute
+        height: 2px
+        width: 100%
+        top: 50%
+        left: 0
+        margin-top: -1px
+        background: #fff
+    &::before
+        transform: rotate(45deg)
+    &::after
+        transform: rotate(-45deg)
+
+    &.heavy
+        &::before, &::after
+            height: 12px
+            margin-top: -6px
+
+    &.rounded
+        &::before, &::after
+            border-radius: 5px

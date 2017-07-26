@@ -247,15 +247,26 @@ module.exports = {
                 .exec((err, tag) => {
                     if (err) reject(err)
                     if (!tag) {
-                        reject('Adding new tags currently not supported.')
-                        // // create tag
-                        // const newTag = new Tag({
-                        //     label: tagLabel,
-                        //     slug: slug(tagLabel)
-                        // })
-                        // newTag.save((err, updatedTag) => {
-
-                        // })
+                        // create tag
+                        const newTag = new Tag({
+                            label: tagLabel,
+                            slug: slug(tagLabel)
+                        })
+                        newTag.save((err, updatedTag) => {
+                            if (err) reject(err)
+                            Recipe
+                                .findById(recipeId)
+                                .exec((err, recipe) => {
+                                    if (err) reject(err)
+                                    if (recipe) {
+                                        recipe.tags.push(updatedTag._id)
+                                        recipe.save((err, updatedRecipe) => {
+                                            if (err) reject(err)
+                                            resolve(updatedTag)
+                                        })
+                                    }
+                                })
+                        })
                     } else {
                         // add tag to recipe
                         Recipe
@@ -263,9 +274,7 @@ module.exports = {
                             .exec((err, recipe) => {
                                 if (err) reject(err)
                                 if (recipe) {
-                                    console.log('tag._id', tag._id)
                                     recipe.tags.push(tag._id)
-                                    console.log(recipe.tags)
                                     recipe.save((err, updatedRecipe) => {
                                         if (err) reject(err)
                                         resolve(tag)
@@ -275,7 +284,30 @@ module.exports = {
                     }
                 })
         })
+    },
+
+    deleteTag: function deleteTag (recipeId, tagId) {
+        if (!recipeId || !tagId)
+            throw new Error('Insufficient data to delete tag from recipe.')
+
+        return new Promise((resolve, reject) => {
+            Recipe
+                .findById(recipeId)
+                .exec((err, recipe) => {
+                    if (err) reject(err)
+                    if (recipe) {
+                        for(let i=0; i<recipe.tags.length; i++) {
+                            if (recipe.tags[i].toString() === tagId) {
+                                recipe.tags.splice(i, 1)
+                                break
+                            }
+                        }
+                        recipe.save((err, updatedRecipe) => {
+                            if (err) reject(err)
+                            resolve(updatedRecipe)
+                        })
+                    }
+                })
+        })
     }
 }
-
-
