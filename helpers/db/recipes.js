@@ -144,22 +144,17 @@ module.exports = {
         })
     },
 
-    updateRecipeProperty: function updateRecipeProperty (id, property, value, option) {
+    updateRecipeProperty: function updateRecipeProperty (id, property, value) {
         if (!id || !property || value === 'undefined' || value === null)
             throw new Error('Insufficient recipe data provided.')
 
         return new Promise((resolve, reject) => {
             let update = {}
-            
-            if (property === 'directions') {
-                // TODO update directions saving to use subdocuments properly
-                update[property + '.' + option] = value
-            } else {
-                update[property] = value
 
-                if (property === 'label') {
-                    update.slug = slug(value)
-                }
+            update[property] = value
+
+            if (property === 'label') {
+                update.slug = slug(value)
             }
 
             Recipe.findByIdAndUpdate(id, { $set: update }, (err) => {
@@ -186,25 +181,6 @@ module.exports = {
                     ing[property] = value
                 }
 
-                doc.save((err, updated) => {
-                    if (err) reject(err)
-                    resolve({recipe: updated})
-                })
-            })
-        })
-    },
-
-    // TODO this function may not be needed once recipe saving refactoring is updated
-    updateRecipeIngredientLabel: function updateRecipeIngredientLabel (recipeId, index, id, label) {
-        if (!recipeId || !index || !id || !label)
-            throw new Error('Insufficient recipe ingredient data provided.')
-
-        return new Promise((resolve, reject) => {
-            Recipe.findById(recipeId, (err, doc) => {
-                if (err) reject(err)
-                if (!doc) reject('No document found with given id')
-                doc.ingredients[index].id = ObjectId(id)
-                doc.ingredients[index].label = label
                 doc.save((err, updated) => {
                     if (err) reject(err)
                     resolve({recipe: updated})

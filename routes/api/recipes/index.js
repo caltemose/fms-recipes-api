@@ -141,7 +141,7 @@ router.put('/:id/directions/:stepId', (req, res) => {
  * @param {String} label for new tag
  * @return {Object} new tag object
  */
-router.put('/:id/tags', (req, res) => {
+router.post('/:id/tags', (req, res) => {
     const id = req.params.id
     const tagLabel = req.body.label
 

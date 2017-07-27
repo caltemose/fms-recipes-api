@@ -13,12 +13,6 @@ This is not a comprehensive todo list. It is a list of noted TODOs in the code. 
 
 - reject duplicate tags from being added to tags collection
 
-**/routes/api/recipes/index.js**
-
-- change POST `/api/recipes/:id/:property` to PUT
-- change POST `/api/recipes/:id/ingredient/:ingredientId/amount/:property` to PUT
-- change POST `/api/recipes/:id/ingredient/:ingredientId/:property` to PUT
-
 **/src/js/modules/CreateRecipeForm.js**
 
 - convert axios request to POST

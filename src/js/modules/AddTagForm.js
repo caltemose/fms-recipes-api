@@ -38,7 +38,7 @@ export default class AddTagForm {
             return
         }
 
-        axios.put(this.endpoint, { label })
+        axios.post(this.endpoint, { label })
             .then((result) => {
                 // empty the tag input and focus it
                 this.input.value = ''
