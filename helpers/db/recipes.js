@@ -272,11 +272,11 @@ module.exports = {
             Tag.findOne({ slug }).exec((err, tag) => {
                 if (err) reject(err)
                 if (!tag) {
-                    resolve({ err: `The tag "${slug}" does not exist.`})
+                    resolve({ err: `The tag "${slug}" does not exist.`, tag: { slug }})
                 } else {
                     Recipe.find({ tags: tag._id }).exec((err, recipes) => {
                         if (err) reject(err)
-                        resolve(recipes)
+                        resolve({ recipes, tag })
                     })
                 }
             })

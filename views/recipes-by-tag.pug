@@ -2,12 +2,19 @@ extends _layout.pug
 
 block content
     article
-        h1 Recipes By Tag
+        if tag.label
+            - var title = tag.label
+        else
+            - var title = tag.slug
+        h1 Recipes By Tag: #{title}
         
         if err
             p The specified tag does not exist.
         else
-            ul.RecipeList
-                each recipe in recipes
-                    li
-                        a(href=`/recipes/${recipe._id}`)= recipe.label
+            if recipes.length
+                ul.RecipeList
+                    each recipe in recipes
+                        li
+                            a(href=`/recipes/${recipe._id}`)= recipe.label
+            else
+                p No recipes contain this tag.

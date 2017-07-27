@@ -31,10 +31,7 @@ router.get('/tagged/:tag', (req, res) => {
 
     recipes.getRecipesByTagSlug(slug)
         .then(results => {
-            let data
-            if (results.err) data = { err: results.err }
-            else data = { recipes: results }
-            res.render('recipes-by-tag', data)
+            res.render('recipes-by-tag', results)
         })
         .catch(err => {
             res.json('recipes-by-tag', { err })
