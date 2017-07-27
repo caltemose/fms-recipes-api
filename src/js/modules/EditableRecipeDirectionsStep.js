@@ -23,7 +23,7 @@ export default class EditableRecipeDirectionsStep {
         const data = {
             value: this.element.innerHTML
         }
-        axios.post(this.endpoint, data)
+        axios.put(this.endpoint, data)
             .then(() => {
                 this.value = this.element.innerHTML
             })

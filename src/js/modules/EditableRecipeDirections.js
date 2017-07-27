@@ -11,7 +11,7 @@ export default class EditableRecipeDirections {
         this.addStep.addEventListener('click', this.onAddStep.bind(this))
 
         // Editable Direction Steps (list items)
-        this.steps = [].slice.call(this.list.querySelectorAll('.RecipeDirections-Step'))
+        this.steps = [ ...this.list.querySelectorAll('.RecipeDirections-Step') ]
         if (this.steps.length < 1) {
             this.steps = []
         }
@@ -25,7 +25,7 @@ export default class EditableRecipeDirections {
     onAddStep (event) {
         event.preventDefault()
 
-        axios.put(this.endpoint)
+        axios.post(this.endpoint)
             .then(response => {
                 this.onStepAdded(response.data.doc._id)
             })
@@ -36,6 +36,7 @@ export default class EditableRecipeDirections {
     }
 
     onStepAdded (id) {
+        // TODO add direction step should use compiled template
         const li = document.createElement('li')
         li.classList.add('RecipeDirections-Step')
         li.contentEditable = true

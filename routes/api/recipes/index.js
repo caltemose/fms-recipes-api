@@ -100,8 +100,7 @@ router.delete('/:id/ingredient/:ingredientId', (req, res) => {
  * @param {String} id ObjectId of recipe to update. (url param)
  * @return {String} ObjectId of new direction step
  */
-// TODO change this to POST
-router.put('/:id/directions/', (req, res) => {
+router.post('/:id/directions/', (req, res) => {
     const id = req.params.id
     
     recipes.addStep(id)
@@ -121,8 +120,7 @@ router.put('/:id/directions/', (req, res) => {
  * @param {String} value text of direction step (req.body)
  * @return {Object} updated recipe document
  */
-// TODO change this to PUT
-router.post('/:id/directions/:stepId', (req, res) => {
+router.put('/:id/directions/:stepId', (req, res) => {
     const id = req.params.id
     const stepId = req.params.stepId
     const step = req.body.value
