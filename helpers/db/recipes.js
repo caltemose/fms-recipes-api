@@ -262,6 +262,25 @@ module.exports = {
                     }
                 })
         })
+    },
+
+    getRecipesByTagSlug: function getRecipesByTagSlug (slug) {
+        if (!slug)
+            throw new Error('Tag slug not provided.')
+
+        return new Promise((resolve, reject) => {
+            Tag.findOne({ slug }).exec((err, tag) => {
+                if (err) reject(err)
+                if (!tag) {
+                    resolve({ err: `The tag "${slug}" does not exist.`})
+                } else {
+                    Recipe.find({ tags: tag._id }).exec((err, recipes) => {
+                        if (err) reject(err)
+                        resolve(recipes)
+                    })
+                }
+            })
+        })
     }
 }
 

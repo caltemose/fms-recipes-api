@@ -8,7 +8,7 @@ router.get('/', (req, res) => {
             res.render('recipes', { recipes: docs })
         })
         .catch(err => {
-            res.render('recipes', { err: err })
+            res.render('recipes', { err })
         })
 })
 
@@ -22,7 +22,22 @@ router.get('/:id', (req, res) => {
             res.render('recipe', { recipe: doc })
         })
         .catch(err => {
-            res.json('recipe', { err: err })
+            res.json('recipe', { err })
+        })
+})
+
+router.get('/tagged/:tag', (req, res) => {
+    const slug = req.params.tag
+
+    recipes.getRecipesByTagSlug(slug)
+        .then(results => {
+            let data
+            if (results.err) data = { err: results.err }
+            else data = { recipes: results }
+            res.render('recipes-by-tag', data)
+        })
+        .catch(err => {
+            res.json('recipes-by-tag', { err })
         })
 })
 
