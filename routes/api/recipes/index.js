@@ -200,23 +200,6 @@ router.post('/:id/:property', (req, res) => {
         })
 })
 
-// TODO confirm still in use and change to PUT
-router.post('/:id/:property/:option', (req, res) => {
-    const id = req.params.id
-    const property = req.params.property
-    const option = req.params.option
-    const value = req.body.value
-
-    recipes.updateRecipeProperty(id, property, value, option)
-        .then(() => {
-            res.json({ success: true })
-        })
-        .catch(err => {
-            res.json({ err: err })
-        })
-})
-
-
 /**
  * Edit a recipe ingredient's amount data (unit or value).
  * 
