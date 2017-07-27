@@ -228,35 +228,12 @@ module.exports = {
                             label: tagLabel,
                             slug: slug(tagLabel)
                         })
-                        newTag.save((err, updatedTag) => {
+                        newTag.save((err, newTagDoc) => {
                             if (err) reject(err)
-                            Recipe
-                                .findById(recipeId)
-                                .exec((err, recipe) => {
-                                    if (err) reject(err)
-                                    if (recipe) {
-                                        recipe.tags.push(updatedTag._id)
-                                        recipe.save((err, updatedRecipe) => {
-                                            if (err) reject(err)
-                                            resolve(updatedTag)
-                                        })
-                                    }
-                                })
+                            _addTagToRecipe(resolve, reject, recipeId, newTagDoc)
                         })
                     } else {
-                        // add tag to recipe
-                        Recipe
-                            .findById(recipeId)
-                            .exec((err, recipe) => {
-                                if (err) reject(err)
-                                if (recipe) {
-                                    recipe.tags.push(tag._id)
-                                    recipe.save((err, updatedRecipe) => {
-                                        if (err) reject(err)
-                                        resolve(tag)
-                                    })
-                                }
-                            })
+                        _addTagToRecipe(resolve, reject, recipeId, tag)
                     }
                 })
         })
@@ -286,4 +263,19 @@ module.exports = {
                 })
         })
     }
+}
+
+const _addTagToRecipe = (resolve, reject, recipeId, tag) => {
+    Recipe
+        .findById(recipeId)
+        .exec((err, recipe) => {
+            if (err) reject(err)
+            if (recipe) {
+                recipe.tags.push(tag._id)
+                recipe.save((err, updatedRecipe) => {
+                    if (err) reject(err)
+                    resolve(tag)
+                })
+            }
+        })
 }
