@@ -11,15 +11,14 @@ export default class CreateRecipeForm {
     addNewRecipe (event) {
         event.preventDefault()
 
-        const recipeName = this.input.value
+        const value = this.input.value
 
-        if (!recipeName || recipeName.length < 2) {
+        if (!value || value.length < 2) {
             alert('Cannot add recipe with empty name or name fewer than 2 characters')
             return
         }
 
-        // TODO convert to POST
-        axios.put('/api/recipes', { recipeName })
+        axios.post('/api/recipes', { value })
             .then((result) => {
                 const id = result.data.recipe._id
                 window.location.href = `/recipes/${id}`

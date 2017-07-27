@@ -21,13 +21,13 @@ router.get('/', (req, res) => {
 /**
  * Create a recipe with the given name.
  * 
- * @param {String} recipeName (req.body)
+ * @param {String} value recipe name (req.body)
+ * @return {Object} new recipe document
  */
-// TODO change this route to POST 
-router.put('/', (req, res) => {
-    const recipeName = req.body.recipeName
+router.post('/', (req, res) => {
+    const value = req.body.value
 
-    recipes.addRecipe(recipeName)
+    recipes.addRecipe(value)
         .then(recipe => {
             res.json({ recipe })
         })
