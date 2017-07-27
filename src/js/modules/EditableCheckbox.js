@@ -14,7 +14,7 @@ export default class EditableCheckbox {
             value: this.checkbox.checked
         }
 
-        axios.post(this.endpoint, data)
+        axios.put(this.endpoint, data)
             .then(response => {
                 console.log(response)
             })

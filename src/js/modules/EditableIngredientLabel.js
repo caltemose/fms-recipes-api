@@ -49,7 +49,7 @@ export default class EditableIngredientLabel {
             value: this.idElement.value
         }
 
-        axios.post(this.endpoint, data)
+        axios.put(this.endpoint, data)
             .then(() => {
                 this.label = this.getLabel()
             })

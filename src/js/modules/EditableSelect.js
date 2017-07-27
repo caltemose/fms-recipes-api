@@ -23,7 +23,7 @@ export default class EditableSelect {
             value: this.element.value
         }
 
-        axios.post(this.endpoint, data)
+        axios.put(this.endpoint, data)
             .then(() => {
                 this.value = this.element.value
                 this.subscribers.forEach(subscriber => subscriber())

@@ -32,7 +32,7 @@ export default class EditableNumber {
         const data = {
             value: Number(this.getValue())
         }
-        axios.post(this.endpoint, data)
+        axios.put(this.endpoint, data)
             .then(() => {
                 this.value = this.element.innerHTML
             })

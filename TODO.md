@@ -16,7 +16,6 @@ This is not a comprehensive todo list. It is a list of noted TODOs in the code. 
 **/routes/api/recipes/index.js**
 
 - change POST `/api/recipes/:id/:property` to PUT
-- confirm still used POST `/api/recipes/:id/:property/:option` and change to PUT
 - change POST `/api/recipes/:id/ingredient/:ingredientId/amount/:property` to PUT
 - change POST `/api/recipes/:id/ingredient/:ingredientId/:property` to PUT
 

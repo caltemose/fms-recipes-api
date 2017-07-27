@@ -184,9 +184,7 @@ router.delete('/:id/tags/:tagId', (req, res) => {
  * @param {String} property name of recipe property to update
  * @param {String} value value of property being updated (req.body)
  */
-
-// TODO change to PUT
-router.post('/:id/:property', (req, res) => {
+router.put('/:id/:property', (req, res) => {
     const id = req.params.id
     const property = req.params.property
     const value = req.body.value
@@ -204,8 +202,7 @@ router.post('/:id/:property', (req, res) => {
  * Edit a recipe ingredient's amount data (unit or value).
  * 
  */
-// TODO change to PUT
-router.post('/:id/ingredient/:ingredientId/amount/:property', (req, res) => {
+router.put('/:id/ingredient/:ingredientId/amount/:property', (req, res) => {
     const id = req.params.id
     const ingredientId = req.params.ingredientId
     const property = req.params.property // 'unit' || 'value'
@@ -220,8 +217,7 @@ router.post('/:id/ingredient/:ingredientId/amount/:property', (req, res) => {
         })
 })
 
-// TODO change to PUT
-router.post('/:id/ingredient/:ingredientId/:property', (req, res) => {
+router.put('/:id/ingredient/:ingredientId/:property', (req, res) => {
     const id = req.params.id
     const ingredientId = req.params.ingredientId
     const property = req.params.property
