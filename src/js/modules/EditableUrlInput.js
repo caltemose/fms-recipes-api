@@ -7,8 +7,8 @@ export default class EditableUrlInput {
         this.endpoint = this.element.dataset.endpoint
         this.url = this.element.dataset.url
         this.anchor = this.element.querySelector('a')
+
         const urlInput = this.element.querySelector('input')
-        
         this.urlInput = new EditableTextInput(urlInput)
         this.urlInput.subscribeToSaved(this.onInputSave.bind(this))
 

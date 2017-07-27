@@ -167,6 +167,7 @@ export default class EditableRecipe {
         this.ingredientRows.push(newRow)
     }
 
+    // TODO rename onIngredientDestroy
     onRowDestroy (id) {
         let destroyedRow, destroyedRowIndex
         for(let i=0; i<this.ingredientRows.length; i++) {
