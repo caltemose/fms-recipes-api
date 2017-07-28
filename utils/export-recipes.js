@@ -6,6 +6,8 @@ mongoose.Promise = require('bluebird')
 
 require('../models/')
 
+const baseUrl = '/Users/chad/Data/Projects/Personal/recipes/recipes/data/'
+
 const config = require('../config/config.js')
 const recipesDb = require('../helpers/db/recipes')
 
@@ -18,7 +20,7 @@ const done = (cb) => {
 }
 
 const writeRecipeToFile = (recipe, last) => {
-    let fileout = `../exports/recipes/${recipe.slug}.json`
+    let fileout = `${baseUrl}/recipes/${recipe.slug}.json`
     fileout = path.resolve(__dirname, fileout)
     fs.writeFile(fileout, JSON.stringify(recipe, null, 2), (err) => {
         if (err) {

@@ -1,0 +1,1 @@
+{ "indexes" : [ { "v" : 1, "key" : { "_id" : 1 }, "ns" : "fsapi-dev.tags", "name" : "_id_" }, { "v" : 1, "key" : { "label" : 1 }, "unique" : true, "ns" : "fsapi-dev.tags", "name" : "label_1", "background" : true } ] }
