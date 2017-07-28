@@ -8,6 +8,7 @@ require('../models/')
 
 const config = require('../config/config.js')
 const recipesDb = require('../helpers/db/recipes')
+const tagsDb = require('../helpers/db/tags.js')
 
 const done = (cb) => {
     mongoose.disconnect( () => {
@@ -17,25 +18,29 @@ const done = (cb) => {
     })
 }
 
-const writeRecipeToFile = (recipe, last) => {
-    let fileout = `../exports/recipes/${recipe.slug}.json`
+const writeToFile = (tag, recipes, last) => {
+    let fileout = `../exports/tags/${tag.slug}.json`
     fileout = path.resolve(__dirname, fileout)
-    fs.writeFile(fileout, JSON.stringify(recipe, null, 2), (err) => {
+    const data = {
+        recipes: recipes.map(recipe => { return { label: recipe.label, _id: recipe._id }}),
+        tag
+    }
+    fs.writeFile(fileout, JSON.stringify(data, null, 2), (err) => {
         if (err) {
             done(console.log(err))
             throw err
         }
-        console.log(recipe.slug, 'written to:', fileout)
+        console.log(tag.slug, 'written to:', fileout)
         if (last) done(console.log('done writing files.'))
     })
 }
 
-const exportRecipes = recipes => {
-    recipes.forEach((recipe, index) => {
-        const last = index === recipes.length -1
-        recipesDb.getRecipeById(recipe._id)
-            .then(recipe => {
-                writeRecipeToFile(recipe, last)
+const exportTagLists = tags => {
+    tags.forEach((tag, index) => {
+        const last = index === tags.length -1
+        recipesDb.getRecipesByTagId(tag._id)
+            .then(results => {
+                writeToFile(tag, results.recipes, last)
             })
             .catch(err => {
                 done(console.error(err))
@@ -46,9 +51,9 @@ const exportRecipes = recipes => {
 mongoose.connect(config.dbHost + config.devDb, (err) => {
     assert.equal(null, err)
     console.log('connected to', mongoose.connection.db.databaseName)
-    recipesDb.getRecipes()
+    tagsDb.getAll()
         .then(docs => {
-            exportRecipes(docs)
+            exportTagLists(docs)
         })
         .catch(err => {
             done(console.error(err))

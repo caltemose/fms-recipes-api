@@ -281,6 +281,18 @@ module.exports = {
                 }
             })
         })
+    },
+
+    getRecipesByTagId: function getRecipesByTagId (id) {
+        if (!id)
+            throw new Error('Tag ID not provided.')
+
+        return new Promise((resolve, reject) => {
+            Recipe.find({ tags: id }).exec((err, recipes) => {
+                if (err) reject(err)
+                resolve({ recipes, tagId: id })
+            })
+        })
     }
 }
 
