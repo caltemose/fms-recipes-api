@@ -32,7 +32,19 @@ const writeRecipeToFile = (recipe, last) => {
     })
 }
 
+const writeRecipeIndex = recipes => {
+    let fileout = `${baseUrl}/recipes/index.json`
+    fileout = path.resolve(__dirname, fileout)
+    fs.writeFile(fileout, JSON.stringify({ recipes }, null, 2), (err) => {
+        if (err) {
+            throw new Error(err)
+        }
+    })
+}
+
 const exportRecipes = recipes => {
+    writeRecipeIndex(recipes)
+
     recipes.forEach((recipe, index) => {
         const last = index === recipes.length -1
         recipesDb.getRecipeById(recipe._id)

@@ -37,7 +37,19 @@ const writeToFile = (tag, recipes, last) => {
     })
 }
 
+const writeTagIndex = tags => {
+    let fileout = `${baseUrl}/tags/index.json`
+    fileout = path.resolve(__dirname, fileout)
+    fs.writeFile(fileout, JSON.stringify({ tags }, null, 2), (err) => {
+        if (err) {
+            throw new Error(err)
+        }
+    })
+}
+
 const exportTagLists = tags => {
+    writeTagIndex(tags)
+
     tags.forEach((tag, index) => {
         const last = index === tags.length -1
         recipesDb.getRecipesByTagId(tag._id)
