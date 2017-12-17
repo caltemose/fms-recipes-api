@@ -2,12 +2,20 @@ li.RecipeIngredientRow(data-endpoint-root=`${endpoint}` data-ingredient-id=ingre
     input(type="text" value=ingredient.amount.value data-endpoint=`${endpoint}/amount/value` placeholder='add amount').RecipeIngredientRow-Amount
 
     .RecipeIngredientRow-Unit(data-endpoint=`${endpoint}/amount/unit`)
-        input(type="text" value=ingredient.amount.unit.label name="unitLabel" placeholder='add unit')
-        input(type="hidden" value=ingredient.amount.unit._id name="unitId")
+        if ingredient.amount.unit
+            input(type="text" value=ingredient.amount.unit.label name="unitLabel" placeholder='add unit')
+            input(type="hidden" value=ingredient.amount.unit._id name="unitId")
+        else
+            input(type="text" name="unitLabel" placeholder='add unit')
+            input(type="hidden" name="unitId")
 
     .RecipeIngredientRow-Label(data-endpoint=`${endpoint}/item`)
-        input(type="text" value=ingredient.item.label name="ingredientLabel" placeholder="add label")
-        input(type="hidden" value=ingredient.item._id name="ingredientId")
+        if ingredient.item
+            input(type="text" value=ingredient.item.label name="ingredientLabel" placeholder="add label")
+            input(type="hidden" value=ingredient.item._id name="ingredientId")
+        else
+            input(type="text" name="ingredientLabel" placeholder="add label")
+            input(type="hidden" name="ingredientId")
 
     input(type="text" value=ingredient.notes data-endpoint=`${endpoint}/notes` readonly placeholder="add notes").RecipeIngredientRow-Notes
 
