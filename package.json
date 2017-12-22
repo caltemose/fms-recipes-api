@@ -7,7 +7,8 @@
     "nodemon": "nodemon index.js",
     "webpack": "webpack -w",
     "sass": "node-sass src/sass/main.sass public/styles/main.css -w",
-    "start": "npm run sass & npm run nodemon & npm run webpack",
+    "start": "npm run sass & NODE_ENV=dev npm run nodemon & npm run webpack",
+    "start-live": "npm run sass & NODE_ENV=prod npm run nodemon & npm run webpack",
     "eslint": "eslint src/js"
   },
   "repository": {
