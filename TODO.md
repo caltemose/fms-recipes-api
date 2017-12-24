@@ -14,13 +14,9 @@ This is not a comprehensive todo list. It is a list of noted TODOs in the code a
 
 - reject duplicate tags from being added to tags collection
 
-**/src/sass/_recipe.sass**
-
-- reorganize into subfiles
-
 **/src/sass/**
 
-- improve organization, add subfolders
+- improve organization, add subfolders, normalize naming
 
 
 ## Low Priority
