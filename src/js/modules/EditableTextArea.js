@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-export default class EditableTextArea {
+export default class EditableTextarea {
     constructor (element, endpoint) {
         this.element = element
         this.endpoint = endpoint ? endpoint : this.element.dataset.endpoint
@@ -32,7 +32,7 @@ export default class EditableTextArea {
         const data = {
             value: this.element.value
         }
-        axios.post(this.endpoint, data)
+        axios.put(this.endpoint, data)
             .then(() => {
                 this.value = this.element.value
                 this.subscribers.forEach(subscriber => subscriber())

@@ -1,5 +1,6 @@
 extends _layout.pug
 include components/editable-input-text.pug
+include components/editable-textarea.pug
 include components/editable-url-input.pug
 include components/editable-checkbox.pug
 include components/editable-recipe-directions.pug
@@ -50,7 +51,9 @@ block content
 
         h2 Notes
 
-        .RecipeNotes.EditableDiv(contenteditable data-endpoint=`${apiRoot}/notes`)= recipe.notes
+        //- .RecipeNotes.EditableDiv(contenteditable data-endpoint=`${apiRoot}/notes`)= recipe.notes
+        .RecipeNotes
+            +editableTextarea(recipe.notes, `${apiRoot}/notes`)
 
 
         if typeof(recipe.yield.amount) !== 'undefined'

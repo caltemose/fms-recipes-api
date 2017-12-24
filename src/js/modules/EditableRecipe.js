@@ -1,5 +1,6 @@
 import axios from 'axios'
 import EditableTextInput from './EditableTextInput'
+import EditableTextarea from './EditableTextarea'
 import EditableUrlInput from './EditableUrlInput'
 import EditableCheckbox from './EditableCheckbox'
 import EditableRecipeDirections from './EditableRecipeDirections'
@@ -32,7 +33,11 @@ export default class EditableRecipe {
         const directions = this.element.querySelector('.RecipeDirections')
         new EditableRecipeDirections(directions)
 
-        // Notes, Yield Label
+        // Notes
+        const notes = this.element.querySelector('.EditableTextarea')
+        new EditableTextarea(notes)
+
+        // Yield Label
         const editableDivs = this.element.querySelectorAll('.EditableDiv')
         for(let i=0; i<editableDivs.length; i++) {
             new EditableDiv(editableDivs[i])
