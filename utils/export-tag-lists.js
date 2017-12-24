@@ -6,8 +6,6 @@ mongoose.Promise = require('bluebird')
 
 require('../models/')
 
-const baseUrl = '/Users/chad/Data/Projects/Personal/recipes/recipes/data/'
-
 const config = require('../config/config.js')
 const recipesDb = require('../helpers/db/recipes')
 const tagsDb = require('../helpers/db/tags.js')
@@ -21,7 +19,7 @@ const done = (cb) => {
 }
 
 const writeToFile = (tag, recipes, last) => {
-    let fileout = `${baseUrl}/tags/${tag.slug}.json`
+    let fileout = `${config.externalBaseUrl}/tags/${tag.slug}.json`
     fileout = path.resolve(__dirname, fileout)
     const data = {
         recipes: recipes.map(recipe => { return { label: recipe.label, _id: recipe._id }}),
@@ -38,7 +36,7 @@ const writeToFile = (tag, recipes, last) => {
 }
 
 const writeTagIndex = tags => {
-    let fileout = `${baseUrl}/tags/index.json`
+    let fileout = `${config.externalBaseUrl}/tags/index.json`
     fileout = path.resolve(__dirname, fileout)
     fs.writeFile(fileout, JSON.stringify({ tags }, null, 2), (err) => {
         if (err) {

@@ -10,7 +10,7 @@
     "start": "npm run sass & NODE_ENV=dev npm run nodemon & npm run webpack",
     "start-live": "npm run sass & NODE_ENV=prod npm run nodemon & npm run webpack",
     "eslint": "eslint src/js",
-    "export": "node ./utils/export-recipes.js & node ./utils/export-tag-lists.js"
+    "export": "node ./utils/cleanup-export-folder.js && node ./utils/export-recipes.js && node ./utils/export-tag-lists.js"
   },
   "repository": {
     "type": "git",
@@ -41,6 +41,7 @@
     "babel-loader": "^7.1.0",
     "babel-preset-env": "^1.5.2",
     "camelcase": "^4.1.0",
+    "delete": "^1.1.0",
     "eslint": "^4.3.0",
     "load-json-file": "^2.0.0",
     "mongodb": "^2.2.30",
