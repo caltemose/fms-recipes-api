@@ -5,7 +5,8 @@ const path = require('path')
 module.exports = {
     entry: {
         recipe: './src/js/pages/recipe.js',
-        home: './src/js/pages/home.js'
+        home: './src/js/pages/home.js',
+        global: './src/js/pages/global.js'
     },
     externals: {
         awesomplete: 'Awesomplete'
