@@ -8,7 +8,6 @@ This is not a comprehensive todo list. It is a list of noted TODOs in the code a
 **/helpers/db/recipes.js**
 
 - updateRecipeProperty() saving directions should use subdocuments **(might be done)**
-- updateRecipeIngredientLabel() is this still needed?
 
 **/helpers/db/tags.js**
 
