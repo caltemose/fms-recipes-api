@@ -23,8 +23,13 @@ export default class EditableIngredientAmountUnit {
         const newLabel = this.getLabel()
         if (this.label !== newLabel) {
             const newId = this.getUnitIdByLabel(newLabel)
-            this.idElement.value = newId
-            this.save()
+            // save only if the label has a maching id (e.g. it's in the database)
+            if (newId !== null) {
+                this.idElement.value = newId
+                this.save()
+            } else {
+                alert('unsaved: unknown unit label')
+            }
         }
     }
 

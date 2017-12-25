@@ -23,8 +23,13 @@ export default class EditableIngredientLabel {
         const newLabel = this.getLabel()
         if (this.label !== newLabel) {
             const newId = this.getIngredientIdByLabel(newLabel)
-            this.idElement.value = newId
-            this.save()
+            // only save if label has a matching id
+            if (newId !== null) {
+                this.idElement.value = newId
+                this.save()
+            } else {
+                alert('unsaved: ingredient label not known.')
+            }
         }
     }
 
