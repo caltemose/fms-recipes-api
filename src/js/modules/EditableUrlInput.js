@@ -18,7 +18,6 @@ export default class EditableUrlInput {
     onInputSave (err) {
         if (err) console.error(err)
         else {
-            console.log('url saved', this.urlInput.getValue())
             this.anchor.setAttribute('href', this.urlInput.getValue())
         }
     }
