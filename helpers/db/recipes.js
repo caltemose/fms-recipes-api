@@ -274,7 +274,7 @@ module.exports = {
                 if (!tag) {
                     resolve({ err: `The tag "${slug}" does not exist.`, tag: { slug }})
                 } else {
-                    Recipe.find({ tags: tag._id }).exec((err, recipes) => {
+                    Recipe.find({ tags: tag._id }).sort({ label: 1 }).exec((err, recipes) => {
                         if (err) reject(err)
                         resolve({ recipes, tag })
                     })
