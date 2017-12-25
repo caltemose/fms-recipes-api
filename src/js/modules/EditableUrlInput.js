@@ -15,18 +15,6 @@ export default class EditableUrlInput {
         return this
     }
 
-    onFocus () {
-        this.value = this.element.value
-        this.element.removeAttribute('readonly')
-    }
-
-    onBlur () {
-        if (this.value !== this.element.value) {
-            this.save()
-        }
-        this.element.setAttribute('readonly', true)
-    }
-
     onInputSave (err) {
         if (err) console.error(err)
         else {
