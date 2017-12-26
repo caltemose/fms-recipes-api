@@ -48,3 +48,13 @@ Arrays of recipes:
 
 **Recipes:** Array of objects containing recipe _id and order/weight integer.
 
+## Recipes to Consider Adding
+
+- Ricotta pie
+- Kale Salad with Feta + Chickpeas
+- Thai coconut soup
+- Shrimp 'n' Grits
+- Eggplant Involtini
+- Simple Rice Salad
+
+
