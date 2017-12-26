@@ -20,6 +20,31 @@ Data dumped from MongoDB lives in `/backup` where there is also a script to expo
 
 ## Online
 
-The data exported from this project is consumed by a separate project at [https://github.com/caltemose/recipes](https://github.com/caltemose/recipes). The final results of that project can be viewed at [https://caltemose.github.io/recipes](https://caltemose.github.io/recipes).
+The data exported from this project is consumed by a separate project here: [https://github.com/caltemose/recipes](https://github.com/caltemose/recipes). The final results of that project can be viewed here: [https://caltemose.github.io/recipes](https://caltemose.github.io/recipes).
 
 Because the export utilities in `/utils/` use the development database (currently), the separate front-end project consumes the development database data.
+
+## Ideas/Scratch
+
+- `support` tag used to filter out recipes like seasonings, broth, et. al., that aren't meals, sides or desserts
+- `in-fashion` tag for dashboard/recipes used the most right now or 
+- season tags to show what's used most now
+- dashboard for primary/common daily view
+- recipe form finesse (autofocus new ingredient row, new step)
+
+### Collections
+
+Arrays of recipes:
+
+```
+{
+    _id,
+    label,
+    slug,
+    description,
+    recipes: []
+}
+```
+
+**Recipes:** Array of objects containing recipe _id and order/weight integer.
+
