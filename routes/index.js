@@ -5,6 +5,7 @@ router.get('/', (req, res) => {
     res.render('home')
 })
 
+router.use('/collections', require('./collections/'))
 router.use('/recipes', require('./recipes/'))
 router.use('/ingredients', require('./ingredients/'))
 router.use('/units', require('./units/'))

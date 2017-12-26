@@ -1,0 +1,13 @@
+extends _layout.pug
+
+block content
+    article
+        h1 Collections
+        
+        if collections
+            ul.RecipeList
+                each collection in collections
+                    li
+                        a(href=`/collections/${collection._id}`)= collection.label
+        else
+            p No collections yet.
