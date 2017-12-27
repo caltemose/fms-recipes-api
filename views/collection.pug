@@ -1,0 +1,16 @@
+extends _layout.pug
+include components/editable-input-text.pug
+include components/editable-textarea.pug
+
+block content
+    - var apiRoot = `/api/collections/${collection._id}`
+
+    article.Collection(data-collection-id=collection._id)
+        h1.CollectionTitle.RecipeTitle
+            +editableInputText(collection.label, `${apiRoot}/label`)
+        
+        .CollectionDescription.RecipeNotes
+            +editableTextarea(collection.description, `${apiRoot}/description`)
+
+block scripts
+    script(src="/js/collection.js")

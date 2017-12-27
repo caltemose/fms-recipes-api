@@ -3,8 +3,9 @@ const router = express.Router()
 const collections = require('../../helpers/db/collections')
 
 router.get('/', (req, res) => {
-    collections.getCollections(req.query.filter)
+    collections.getCollections()
         .then(docs => {
+            console.log('collections', docs)
             res.render('collections', { collections: docs })
         })
         .catch(err => {
@@ -17,13 +18,13 @@ router.get('/:id', (req, res) => {
     if (!id)
         res.json({err: 'Collection ID not supplied.'})
 
-    /* recipes.getRecipeById(id)
+    collections.getCollectionById(id)
         .then(doc => {
-            res.render('recipe', { recipe: doc })
+            res.render('collection', { collection: doc })
         })
         .catch(err => {
-            res.json('recipe', { err })
-        }) */
+            res.json('collection', { err })
+        })
 })
 
 module.exports = router
