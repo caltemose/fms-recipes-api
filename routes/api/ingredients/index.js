@@ -27,7 +27,7 @@ router.post('/', (req, res) => {
 
     ingredients.addIngredient(label)
         .then(doc => {
-            res.json({ ingredient: doc })
+            res.json({ doc })
         })
         .catch(err => {
             res.json({ err })

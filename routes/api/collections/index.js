@@ -27,8 +27,8 @@ router.post('/', (req, res) => {
     const label = req.body.label
 
     collections.addCollection(label)
-        .then(collection => {
-            res.json({ collection })
+        .then(doc => {
+            res.json({ doc })
         })
         .catch(err => {
             res.json({ err })

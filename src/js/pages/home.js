@@ -1,9 +1,6 @@
-import CreateRecipeForm from '../modules/CreateRecipeForm'
-import CreateIngredientForm from '../modules/CreateIngredientForm'
-import CreateUnitForm from '../modules/CreateUnitForm'
-import CreateCollectionForm from '../modules/CreateCollectionForm'
+import CreateForm from '../modules/CreateForm'
 
-new CreateRecipeForm(document.querySelector('.CreateRecipeForm'))
-new CreateIngredientForm(document.querySelector('.CreateIngredientForm'))
-new CreateUnitForm(document.querySelector('.CreateUnitForm'))
-new CreateCollectionForm(document.querySelector('.CreateCollectionForm'))
+const createForms = document.querySelectorAll('.CreateForm')
+for(let i=0; i<createForms.length; i++) {
+    new CreateForm(createForms[i])
+}
