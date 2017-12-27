@@ -1,4 +1,5 @@
 extends _layout.pug
+include ./components/create-form.pug
 
 block content
     article
@@ -8,27 +9,23 @@ block content
 
         h3 Create Recipe
         
-        .CreateRecipeForm.CreateForm
-            input(type="text" name="addRecipeName" placeholder="New Recipe Name")
-            button(name="addRecipeButton") Add Recipe
-        
-        h3 Create Ingredient
-
-        .CreateIngredientForm.CreateForm
-            input(type="text" name="addIngredientName" placeholder="New Ingredient Name")
-            button(name="addIngredientButton") Add Ingredient
-
-        h3 Create Unit
-
-        .CreateUnitForm.CreateForm
-            input(type="text" name="addUnitName" placeholder="New Unit Name")
-            button(name="addUnitButton") Add Unit
+        .CreateForm(data-endpoint="/api/recipes" data-alert-name="recipe" data-redirect="/recipes/")
+            +createForm("New recipe name", "Add Recipe")
 
         h3 Create Collection
 
-        .CreateCollectionForm.CreateForm
-            input(type="text" name="addCollectionName" placeholder="New Collection Name")
-            button(name="addCollectionButton") Add Collection
+        .CreateForm(data-endpoint="/api/collections" data-alert-name="collection" data-redirect="/collections/")
+            +createForm("New collection name", "Add Collection")
+
+        h3 Create Ingredient
+
+        .CreateForm(data-endpoint="/api/ingredients" data-alert-name="ingredient" data-redirect="/ingredients/")
+            +createForm("New ingredient name", "Add Ingredient")
+
+        h3 Create Unit
+
+        .CreateForm(data-endpoint="/api/units" data-alert-name="unit" data-redirect="/units/")
+            +createForm("New unit name", "Add Unit")
 
 
         h2.Testing Testing
