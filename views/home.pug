@@ -24,6 +24,13 @@ block content
             input(type="text" name="addUnitName" placeholder="New Unit Name")
             button(name="addUnitButton") Add Unit
 
+        h3 Create Collection
+
+        .CreateCollectionForm.CreateForm
+            input(type="text" name="addCollectionName" placeholder="New Collection Name")
+            button(name="addCollectionButton") Add Collection
+
+
         h2.Testing Testing
 
         h3 Views
@@ -37,6 +44,8 @@ block content
                 a(href="/ingredients") /ingredients
             li
                 a(href="/units") /units
+            li
+                a(href="/collections") /collections
         
         h3 API
 
@@ -51,6 +60,8 @@ block content
                 a(href="/api/ingredients") /api/ingredients
             li
                 a(href="/api/units") /api/units
+            li
+                a(href="/api/collections") /api/collections
 
 
 block scripts

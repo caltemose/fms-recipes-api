@@ -4,6 +4,7 @@ const path = require('path')
 
 module.exports = {
     entry: {
+        collection: './src/js/pages/collection.js',
         recipe: './src/js/pages/recipe.js',
         home: './src/js/pages/home.js',
         global: './src/js/pages/global.js'
