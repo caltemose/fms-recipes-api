@@ -25,10 +25,18 @@ module.exports = {
         return new Promise((resolve, reject) => {
             Collection
                 .findOne({ _id: id})
-                /* .populate('ingredients.item ingredients.amount.unit tags') */
+                .populate('recipes.item')
                 .exec((err, doc) => {
                     if (err) reject(err)
-                    else resolve(doc)
+                    else {
+                        // manually sort recipes in collection because of Mongoose bug with populate sort
+                        // https://github.com/Automattic/mongoose/issues/2202
+
+                        doc.recipes.sort((a, b) => {
+                            return a.order > b.order
+                        })
+                        resolve(doc)
+                    }
                 })
         })
     },
@@ -82,4 +90,25 @@ module.exports = {
         })
     },
 
+    addRecipe: function addRecipe (id, recipeId, order) {
+        if (!id || !recipeId || !order)
+            throw new Error('collection id, recipe id and order must be provided.')
+        
+        return new Promise((resolve, reject) => {
+            Collection
+                .findOne({ _id: id })
+                .exec((err, doc) => {
+                    if (err) reject(err)
+                    else {
+                        doc.recipes.push({ item: recipeId, order })
+                        doc.save((err) => {
+                            if (err) reject(err)
+                            else {
+                                resolve({ success: true })
+                            }
+                        })
+                    }
+                })
+        })
+    }
 }

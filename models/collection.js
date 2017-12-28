@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const ObjectId = mongoose.Schema.Types.ObjectId
 
 var recipeSchema = mongoose.Schema({
-    item: ObjectId,
+    item: { type: ObjectId, ref: 'Recipe' },
     order: Number
 })
 

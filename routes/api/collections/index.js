@@ -73,4 +73,21 @@ router.put('/:id/description', (req, res) => {
         })
 })
 
+router.put('/:id/recipes', (req, res) => {
+    const id = req.params.id
+    const recipeId = req.body.recipeId
+    const order = req.body.order
+
+    if (!recipeId || !order)
+        throw new Error('recipe id and order must be supplied.')
+
+    collections.addRecipe(id, recipeId, order)
+        .then(() => {
+            res.json({ success: true })
+        })
+        .catch(err => {
+            res.json({ err: err })
+        })
+})
+
 module.exports = router

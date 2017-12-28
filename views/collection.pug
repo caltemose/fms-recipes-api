@@ -14,9 +14,14 @@ block content
 
         h2 Recipes
 
-        .CreateForm
+        ul.CollectionRecipes
+            each recipe in collection.recipes
+                li(data-id=recipe.item._id)= recipe.item.label
+
+        .CreateForm(data-id=collection._id data-recipe-endpoint="/api/recipes" data-collection-endpoint=`${apiRoot}/recipes/` data-list-selector=".CollectionRecipes")
             input(type="text" name="recipeToAdd" placeholder="recipe name")
-            button()
+            //- input(type="hidden" name="recipeId")
+            button Add Recipe
 
 block scripts
     script(src="/js/collection.js")
