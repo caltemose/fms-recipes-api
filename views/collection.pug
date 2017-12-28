@@ -12,5 +12,11 @@ block content
         .CollectionDescription.RecipeNotes
             +editableTextarea(collection.description, `${apiRoot}/description`)
 
+        h2 Recipes
+
+        .CreateForm
+            input(type="text" name="recipeToAdd" placeholder="recipe name")
+            button()
+
 block scripts
     script(src="/js/collection.js")
