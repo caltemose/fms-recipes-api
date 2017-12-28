@@ -25,11 +25,11 @@ router.get('/', (req, res) => {
  * @return {Object} new recipe document
  */
 router.post('/', (req, res) => {
-    const value = req.body.value
+    const label = req.body.label
 
-    recipes.addRecipe(value)
-        .then(recipe => {
-            res.json({ recipe })
+    recipes.addRecipe(label)
+        .then(doc => {
+            res.json({ doc })
         })
         .catch(err => {
             res.json({ err })

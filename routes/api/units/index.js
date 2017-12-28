@@ -28,7 +28,7 @@ router.post('/', (req, res) => {
 
     units.addUnit(label)
         .then(doc => {
-            res.json({ unit: doc })
+            res.json({ doc })
         })
         .catch(err => {
             res.json({ err })
