@@ -110,5 +110,25 @@ module.exports = {
                     }
                 })
         })
+    },
+
+    updateRecipes: function updateRecipes (id, recipes) {
+        if (!id || !recipes)
+            throw new Error('collection id and recipes array must be provided.')
+
+        return new Promise((resolve, reject) => {
+            Collection
+                .findOne({ _id: id })
+                .exec((err, doc) => {
+                    if (err) reject(err)
+                    else {
+                        doc.recipes = recipes
+                        doc.save((err) => {
+                            if (err) reject(err)
+                            else resolve({ success: true })
+                        })
+                    }
+                })
+        })
     }
 }

@@ -44,7 +44,7 @@ export default class AddRecipeForm {
 
         // add recipe to collection.recipes
         const collectionEndpoint = this.element.dataset.collectionEndpoint
-        axios.put(collectionEndpoint, { id: this.id, recipeId, order })
+        axios.post(collectionEndpoint, { id: this.id, recipeId, order })
             .then(() => {
                 this.input.value = ''
                 this.input.focus()
