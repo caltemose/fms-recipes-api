@@ -10,7 +10,7 @@
     "start": "npm run sass & NODE_ENV=dev npm run nodemon & npm run webpack",
     "start-live": "npm run sass & NODE_ENV=prod npm run nodemon & npm run webpack",
     "eslint": "eslint src/js",
-    "export": "node ./utils/cleanup-export-folder.js && node ./utils/export-recipes.js && node ./utils/export-tag-lists.js",
+    "export": "node ./utils/cleanup-export-folder.js && node ./utils/export-recipes.js && node ./utils/export-tag-lists.js && node ./utils/export-collections.js",
     "pug": "node ./compile-pug.js"
   },
   "repository": {
