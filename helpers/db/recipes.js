@@ -16,6 +16,9 @@ module.exports = {
             else if (filter === 'core') query = {core:1}
             else if (filter === '!core') query = {core:0}
 
+            // currently using whole30 id since 'support' doesn't exist yet
+            // query.tags = { $ne: ObjectId('5977849de3f0716170504979') } // id of support tag
+
             Recipe.find(query, 'slug label core', { sort: { label:1 }}, (err, docs) => {
                 if (err) reject(err)
                 else resolve(docs)
