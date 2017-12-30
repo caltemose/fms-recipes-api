@@ -25,7 +25,7 @@ module.exports = {
         return new Promise((resolve, reject) => {
             Collection
                 .findOne({ _id: id})
-                .populate('recipes.item')
+                .populate('recipes.item', 'label slug')
                 .exec((err, doc) => {
                     if (err) reject(err)
                     else {
