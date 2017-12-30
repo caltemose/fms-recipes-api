@@ -24,29 +24,13 @@ The data exported from this project is consumed by a separate project here: [htt
 
 Because the export utilities in `/utils/` use the development database (currently), the separate front-end project consumes the development database data.
 
-## Ideas/Scratch
+## Ideas/Notes
 
 - `support` tag used to filter out recipes like seasonings, broth, et. al., that aren't meals, sides or desserts
 - `in-fashion` tag for dashboard/recipes used the most right now or 
 - season tags to show what's used most now
 - dashboard for primary/common daily view
 - recipe form finesse (autofocus new ingredient row, new step)
-
-### Collections
-
-Arrays of recipes:
-
-```
-{
-    _id,
-    label,
-    slug,
-    description,
-    recipes: []
-}
-```
-
-**Recipes:** Array of objects containing recipe _id and order/weight integer.
 
 ## Recipes to Consider Adding
 
