@@ -40,5 +40,7 @@ Because the export utilities in `/utils/` use the development database (currentl
 - Shrimp 'n' Grits
 - Eggplant Involtini
 - Simple Rice Salad
+- Ciabatta
+- Shepard's Pie
 
 
