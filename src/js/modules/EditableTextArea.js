@@ -14,14 +14,14 @@ export default class EditableTextarea {
 
     onFocus () {
         this.value = this.element.value
-        this.element.removeAttribute('readonly')
+        // this.element.removeAttribute('readonly')
     }
 
     onBlur () {
         if (this.value !== this.element.value) {
             this.save()
         }
-        this.element.setAttribute('readonly', true)
+        // this.element.setAttribute('readonly', true)
     }
 
     save () {

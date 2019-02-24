@@ -34,13 +34,13 @@ Because the export utilities in `/utils/` use the development database (currentl
 
 ## Recipes to Consider Adding
 
-- Ricotta pie
-- Kale Salad with Feta + Chickpeas
-- Thai coconut soup
+- ~~Ricotta pie~~
+- ~~Kale Salad with Feta + Chickpeas~~
+- ~~Thai coconut soup~~
 - Shrimp 'n' Grits
 - Eggplant Involtini
-- Simple Rice Salad
-- Ciabatta
-- Shepard's Pie
+- ~~Simple Rice Salad~~
+- ~~Ciabatta~~
+- Shepherd's Pie
 
 

@@ -51,18 +51,26 @@ block content
 
         h2 Notes
 
-        //- .RecipeNotes.EditableDiv(contenteditable data-endpoint=`${apiRoot}/notes`)= recipe.notes
         .RecipeNotes
             +editableTextarea(recipe.notes, `${apiRoot}/notes`)
 
+        h2 Yield
 
-        if typeof(recipe.yield.amount) !== 'undefined'
-            h2 Yield
+        .RecipeYield 
+            .RecipeYield-Amount
+                +editableInputText(recipe.yield.amount, `${apiRoot}/yield.amount`, 'n')
 
-            .RecipeYield 
-                .RecipeYield-Amount.EditableNumber(contenteditable data-endpoint=`${apiRoot}/yield.amount`) #{recipe.yield.amount} 
+            .RecipeYield-Label
+                +editableInputText(recipe.yield.label, `${apiRoot}/yield.label`, 'label')
+        
+        h2 Serves
+        
+        .RecipeServes
+            .RecipeServes-Amount
+                +editableInputText(recipe.serves.amount, `${apiRoot}/serves.amount`, 'amount')
 
-                .RecipeYield-Label.EditableDiv(contenteditable data-endpoint=`${apiRoot}/yield.label`)= recipe.yield.label
+            //- .RecipeYield-Label
+                +editableInputText(recipe.serves.label, `${apiRoot}/serves.label`, 'label')
 
 
         h2 Tags
@@ -74,10 +82,9 @@ block content
 
             .RecipeTagsAdd.CreateForm(data-endpoint=`${apiRoot}/tags`)
                 input(type="text" name="AddRecipeTag").RecipeTagsAdd-Input
-                button(name="AddRecipeTagButton").RecipeTagsAdd-Button Add
+                button(name="AddRecipeTagButton").RecipeTagsAdd-Button Add Tag
 
 
-        //- if (typeof(recipe.source.url) !== 'undefined' || typeof(recipe.source.name) !== 'undefined' || typeof(recipe.source.author) !== 'undefined')
         h2 Source
 
         .RecipeSource
