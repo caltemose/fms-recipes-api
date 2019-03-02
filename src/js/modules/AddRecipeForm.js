@@ -52,8 +52,11 @@ export default class AddRecipeForm {
                 // add recipe to DOM element
                 let li = document.createElement('li')
                 li.setAttribute('data-id', recipeId)
+                let anchor = document.createElement('a')
                 let text = document.createTextNode(recipeLabel)
-                li.appendChild(text)
+                anchor.appendChild(text)
+                anchor.setAttribute('href', `/recipes/${recipeId}`)
+                li.appendChild(anchor)
                 this.list.appendChild(li)
             })
             .catch((err) => {

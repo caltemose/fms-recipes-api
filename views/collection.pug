@@ -16,7 +16,8 @@ block content
 
         ul.CollectionRecipes
             each recipe in collection.recipes
-                li(data-id=recipe.item._id)= recipe.item.label
+                li(data-id=recipe.item._id)
+                    a(href=`/recipes/${recipe.item._id}`)= recipe.item.label
 
         .CreateForm(data-id=collection._id data-recipe-endpoint="/api/recipes" data-collection-endpoint=`${apiRoot}/recipes/` data-list-selector=".CollectionRecipes")
             input(type="text" name="recipeToAdd" placeholder="recipe name")
