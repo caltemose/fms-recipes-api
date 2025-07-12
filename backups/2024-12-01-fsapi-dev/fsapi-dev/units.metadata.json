@@ -1,0 +1,1 @@
+{"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_","ns":"fsapi-dev.units"},{"v":{"$numberInt":"2"},"unique":true,"key":{"label":{"$numberInt":"1"}},"name":"label_1","ns":"fsapi-dev.units","background":true}],"uuid":"427ef43a24a544479fab975e10324e9d","collectionName":"units"}

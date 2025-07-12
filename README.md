@@ -26,7 +26,7 @@ Because the export utilities in `/utils/` use the development database (currentl
 
 ## Ideas/Notes
 
-- `support` tag used to filter out recipes like seasonings, broth, et. al., that aren't meals, sides or desserts
+- `support` tag used to filter out recipes like seasonings, broth, et. al., that aren't meals, sides or desserts (just reuse `core` property on recipe as `support` instead of `core`)
 - `in-fashion` tag for dashboard/recipes used the most right now or 
 - season tags to show what's used most now
 - dashboard for primary/common daily view
@@ -34,13 +34,8 @@ Because the export utilities in `/utils/` use the development database (currentl
 
 ## Recipes to Consider Adding
 
-- ~~Ricotta pie~~
-- ~~Kale Salad with Feta + Chickpeas~~
-- ~~Thai coconut soup~~
 - Shrimp 'n' Grits
 - Eggplant Involtini
-- ~~Simple Rice Salad~~
-- ~~Ciabatta~~
 - Shepherd's Pie
 
 

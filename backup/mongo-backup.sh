@@ -1,8 +1,8 @@
 #!/bin/bash
 
-MONGO_DATABASE="fsapi-dev"
+MONGO_DATABASE="fsapi"
 TIMESTAMP=`date +%F-%H%M`
-BACKUPS_DIR="./backups/$TIMESTAMP/"
+BACKUPS_DIR="./backups/$TIMESTAMP"
 ARCHIVE_PATH="$BACKUPS_DIR/dump"
 
 mongodump --db $MONGO_DATABASE

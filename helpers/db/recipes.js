@@ -11,7 +11,9 @@ module.exports = {
     getRecipes: function getRecipes (filter) {
         return new Promise((resolve, reject) => {
             let query = {}
-            if (!filter || filter === 'active') query = {active:1}
+            // note that 'core' is now being used to denote support recipes
+            // generally not made by themselves
+            if (!filter || filter === 'active') query = {active:1, core:0}
             else if (filter === '!active') query = {active:0}
             else if (filter === 'core') query = {core:1}
             else if (filter === '!core') query = {core:0}

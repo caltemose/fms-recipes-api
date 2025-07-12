@@ -22,7 +22,7 @@ const writeToFile = (tag, recipes, last) => {
     let fileout = `${config.externalBaseUrl}/tags/${tag.slug}.json`
     fileout = path.resolve(__dirname, fileout)
     const data = {
-        recipes: recipes.map(recipe => { return { label: recipe.label, _id: recipe._id }}),
+        recipes: recipes.map(recipe => { return { label: recipe.label, _id: recipe._id, slug: recipe.slug }}),
         tag
     }
     fs.writeFile(fileout, JSON.stringify(data, null, 2), (err) => {
